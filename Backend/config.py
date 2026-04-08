@@ -29,24 +29,28 @@ OTP_EXPIRES_MINUTES = int(os.getenv('OTP_EXPIRES_MINUTES', '2'))
 OTP_LENGTH = 6
 
 # ==================== ADMIN CREDENTIALS ====================
-# Admin credentials with plain text passwords (for initial setup)
-ADMINS_DATA = [
-    {
-        'username': 'meet_gojariya',
-        'email': 'meetgojariya214@gmail.com',
-        'password': 'meet@2747',
-        'role': 'admin'
-    },
-    {
-        'username': 'krish_tarpara',
-        'email': 'tarparakrish0903@gmail.com',
-        'password': 'krish@0918',
-        'role': 'admin'
-    },
-    {
-        'username': 'meet_senjaliya',
-        'email': 'meetsenjaliya@gmail.com',
-        'password': 'meets@123',
-        'role': 'admin'
-    }
-]
+def _load_admins_data():
+    """Load admin credentials from environment variables."""
+    return [
+        {
+            'username': os.getenv('ADMIN_1_USERNAME', 'admin_one'),
+            'email': os.getenv('ADMIN_1_EMAIL', 'admin1@example.com'),
+            'password': os.getenv('ADMIN_1_PASSWORD', ''),
+            'role': os.getenv('ADMIN_1_ROLE', 'admin')
+        },
+        {
+            'username': os.getenv('ADMIN_2_USERNAME', 'admin_two'),
+            'email': os.getenv('ADMIN_2_EMAIL', 'admin2@example.com'),
+            'password': os.getenv('ADMIN_2_PASSWORD', ''),
+            'role': os.getenv('ADMIN_2_ROLE', 'admin')
+        },
+        {
+            'username': os.getenv('ADMIN_3_USERNAME', 'admin_three'),
+            'email': os.getenv('ADMIN_3_EMAIL', 'admin3@example.com'),
+            'password': os.getenv('ADMIN_3_PASSWORD', ''),
+            'role': os.getenv('ADMIN_3_ROLE', 'admin')
+        }
+    ]
+
+
+ADMINS_DATA = _load_admins_data()
