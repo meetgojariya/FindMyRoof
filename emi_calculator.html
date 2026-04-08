@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Loan EMI Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="icon" href="Photos/logo3.png">
+    <style>
+        /* Navbar Styles */
+        .custom-nav {
+            background: linear-gradient(90deg, #0d6efd 0%, #0b5ed7 100%) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1050;
+            padding: 12px 0 !important;
+            min-height: 60px;
+        }
+
+        @media (min-width: 1140px) {
+            .custom-nav {
+                padding-left: calc((100% - 1100px) / 2) !important;
+                padding-right: calc((100% - 1100px) / 2) !important;
+            }
+        }
+
+        @media (max-width: 1139px) {
+            .custom-nav {
+                padding-left: 20px !important;
+                padding-right: 20px !important;
+            }
+        }
+
+        .custom-nav .btn.btn-light {
+            background-color: #ffffff;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            padding: 8px 18px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+            transition: all 0.2s ease;
+        }
+
+        .custom-nav .btn.btn-light:hover {
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+            transform: scale(1.02);
+        }
+
+        .custom-nav .btn.btn-light:focus,
+        .custom-nav .btn.btn-light:active {
+            background-color: #ffffff !important;
+            border: 2px solid rgba(255, 255, 255, 0.3) !important;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15) !important;
+            outline: none !important;
+        }
+
+        .navbar-brand {
+            color: #212529 !important;
+            font-weight: 700;
+            line-height: 1.2;
+            font-size: 1.25rem;
+            padding: 0 !important;
+            margin: 0 !important;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none !important;
+        }
+
+        .navbar-brand:hover {
+            color: #212529 !important;
+            text-decoration: none !important;
+        }
+
+        .navbar-brand img {
+            height: 30px;
+            width: 30px;
+        }
+
+        .navbar .nav-link {
+            color: #ffffff !important;
+            font-size: 1.1rem;
+            font-weight: 500;
+            line-height: 1;
+            padding: 8px 15px;
+        }
+
+        .navbar .nav-link.active,
+        .navbar .nav-link:hover {
+            color: #0d6efd !important;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f6fa;
+            padding-top: 70px;
+        }
+
+        header {
+            background: #0f4aa8;
+            color: #fff;
+            padding: 0px 12px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 16px auto;
+            background: #fff;
+            padding: 10px;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                padding: 30px;
+            }
+        }
+
+        .calculator {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (min-width: 768px) {
+            .calculator {
+                flex-direction: row;
+            }
+        }
+
+        .inputs {
+            flex: 1;
+            padding-right: 0;
+        }
+
+        @media (min-width: 768px) {
+            .inputs {
+                padding-right: 30px;
+            }
+        }
+
+        .vertical-line {
+            width: 1px;
+            background: #ddd;
+            margin: 0 25px;
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .vertical-line {
+                display: block;
+            }
+        }
+
+        .result {
+            flex: 1;
+            text-align: center;
+        }
+
+        .field {
+            margin-bottom: 22px;
+            padding-top: 5px;
+            position: relative;
+        }
+
+        .field.divider {
+            border-bottom: 1px solid #e6e6e6;
+            padding-bottom: 10px;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        select,
+        input[type=number],
+        input[type=date] {
+            width: 100%;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            padding: 10px 4px;
+            font-size: 16px;
+            background: transparent;
+            outline: none;
+            color: #666;
+            box-sizing: border-box;
+        }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            opacity: 0;
+        }
+
+        input[type="date"]:focus::-webkit-calendar-picker-indicator {
+            opacity: 1;
+            cursor: pointer;
+        }
+
+        /* Updated slider styles - Blue fill from start to thumb */
+        input[type=range] {
+            width: 100%;
+            height: 4px;
+            -webkit-appearance: none;
+            appearance: none;
+            border-radius: 2px;
+            background: #ddd;
+            /* Grey background for the track */
+            outline: none;
+        }
+
+        /* Webkit browsers (Chrome, Safari, Edge) */
+        input[type=range]::-webkit-slider-thumb {
+            width: 18px;
+            height: 18px;
+            background: #2f6fed;
+            border-radius: 50%;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        /* Firefox */
+        input[type=range]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            background: #2f6fed;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+
+        input[type=range]::-moz-range-track {
+            width: 100%;
+            height: 4px;
+            background: #ddd;
+            border-radius: 2px;
+        }
+
+        /* Progress fill for Firefox */
+        input[type=range]::-moz-range-progress {
+            height: 4px;
+            background: #2f6fed;
+            border-radius: 2px;
+        }
+
+        /* IE/Edge */
+        input[type=range]::-ms-track {
+            width: 100%;
+            height: 4px;
+            background: transparent;
+            border-color: transparent;
+            color: transparent;
+        }
+
+        input[type=range]::-ms-fill-lower {
+            background: #2f6fed;
+            border-radius: 2px;
+        }
+
+        input[type=range]::-ms-fill-upper {
+            background: #ddd;
+            border-radius: 2px;
+        }
+
+        input[type=range]::-ms-thumb {
+            width: 18px;
+            height: 18px;
+            background: #2f6fed;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+
+        .range-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        .range-value {
+            margin-top: 10px;
+            font-weight: 600;
+            color: #666;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: text;
+            transition: background-color 0.2s;
+            min-height: 30px;
+            display: inline-block;
+            border: none;
+            outline: none;
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+
+        .range-value:hover {
+            background-color: #f0f2f5;
+        }
+
+        .range-value.editing {
+            background-color: #fff;
+        }
+
+        .range-value[contenteditable="true"]:focus {
+            background-color: #fff;
+            outline: none;
+        }
+
+        /* Hide the browser's default input popup for contenteditable */
+        .range-value[contenteditable="true"] {
+            -webkit-user-modify: read-write-plaintext-only;
+        }
+
+        .alert-message {
+            font-size: 12px;
+            color: #e74c3c;
+            margin-top: 5px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+            right: 0;
+            padding: 2px 4px;
+            background: white;
+            z-index: 1;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .emi {
+            font-size: 30px;
+            font-weight: 700;
+            color: black;
+            margin-bottom: 15px;
+        }
+
+        .chart-wrap {
+            width: 220px;
+            height: 220px;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        @media (max-width: 767px) {
+            .chart-wrap {
+                width: 200px;
+                height: 200px;
+            }
+        }
+
+        .breakup {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .item {
+            font-size: 14px;
+            color: #555;
+            min-width: 100px;
+        }
+
+        @media (max-width: 767px) {
+            .item {
+                min-width: 90px;
+            }
+        }
+
+        .amount {
+            font-weight: 700;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+        .add-prepay {
+            color: #5b5bd6;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            padding-top: 20px;
+        }
+
+        .delete {
+            color: #5b5bd6;
+            cursor: pointer;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        .calculate-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: #2f6fed;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 20px 0;
+            transition: background 0.3s;
+        }
+
+        @media (min-width: 768px) {
+            .calculate-btn {
+                display: none;
+            }
+        }
+
+        .calculate-btn:hover {
+            background: #1e5fd9;
+        }
+
+        /* ===== Amortization Table ===== */
+        .table-wrap {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        .amort-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            margin-top: 20px;
+            min-width: 500px;
+        }
+
+        .amort-table thead th {
+            text-align: left;
+            font-size: 14px;
+            font-weight: 600;
+            color: #555;
+            padding: 12px;
+            border-bottom: 2px solid #e6e6e6;
+            background-color: #f0f2f5;
+        }
+
+        @media (max-width: 767px) {
+            .amort-table thead th {
+                font-size: 13px;
+                padding: 10px;
+            }
+        }
+
+        .amort-table tbody td {
+            padding: 12px;
+            font-size: 14px;
+            color: #333;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        @media (max-width: 767px) {
+            .amort-table tbody td {
+                font-size: 13px;
+                padding: 10px;
+            }
+        }
+
+        .amort-table tbody tr.year-row {
+            background: #f0f2f5;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .amort-table tbody tr.year-row:hover {
+            background: #e8ecff;
+        }
+
+        .amort-table tbody tr.year-row:nth-child(odd) {
+            background: #f8f9fa;
+        }
+
+        .amort-table tbody tr.year-row:nth-child(even) {
+            background: #f0f2f5;
+        }
+
+        .amort-table tbody tr.year-row td:first-child {
+            font-weight: 600;
+            color: #2f6fed;
+        }
+
+        .amort-table tbody tr.month-row {
+            background: #ffffff;
+        }
+
+        .amort-table tbody tr.month-row.prepayment-month {
+            background: #f9f9f9 !important;
+        }
+
+        .amort-table tbody tr.month-row:nth-child(odd) {
+            background: #f9fafc;
+        }
+
+        .amort-table tbody tr.month-row:nth-child(even) {
+            background: #ffffff;
+        }
+
+        .amort-table tbody tr.month-row td {
+            padding-left: 30px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        @media (max-width: 767px) {
+            .amort-table tbody tr.month-row td {
+                padding-left: 20px;
+                font-size: 12px;
+            }
+        }
+
+        .amort-table tbody tr.month-row td:first-child {
+            color: #777;
+            font-weight: 500;
+        }
+
+        .year-link {
+            color: #2f6fed;
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .year-link:hover {
+            text-decoration: underline;
+            color: #1e5fd9;
+        }
+
+        /* Prepayment info styling */
+        .prepayment-info {
+            color: #27ae60;
+            font-weight: 600;
+            font-size: 11px;
+            display: block;
+            margin-top: 3px;
+        }
+
+        /* Mobile specific styles */
+        @media (max-width: 767px) {
+            .desktop-only {
+                display: none;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .mobile-only {
+                display: none;
+            }
+        }
+
+        /* ================= FOOTER ================= */
+        footer {
+            background: #212529;
+            color: #fff;
+        }
+
+        footer .container {
+            background: transparent !important;
+            max-width: 1140px !important;
+            margin: 0 auto !important;
+            padding: 0 15px !important;
+        }
+
+        .footer-link {
+            color: #bdbdbd;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .footer-link:hover {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            body {
+                overflow-x: hidden;
+            }
+
+            .navbar {
+                padding: 0.5rem 0;
+            }
+
+            .calculator {
+                padding: 1.5rem;
+            }
+
+            .field label {
+                font-size: 0.9rem;
+            }
+
+            .range-value {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark custom-nav fixed-top">
+        <button class="btn btn-light">
+            <a href="index.html" class="navbar-brand fw-bold">
+                <img height="30px" width="30px" src="Photos/logo3.png" alt="logo"> FindMyRoof
+            </a>
+        </button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#simpleNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="simpleNav">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html"><i class="bi bi-house-door me-2"></i>Home</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="calculator">
+            <div class="inputs">
+                <!-- Input Fields -->
+                <div class="field divider">
+                    <label>Loan Amount (₹)</label>
+                    <input type="range" id="loan" min="100000" max="50000000" step="100000" value="5000000">
+                    <div class="range-labels"><span>1L</span><span>5Cr</span></div>
+                    <div class="range-value" id="loanVal" contenteditable="true">₹50,00,000</div>
+                    <div class="alert-message" id="loanAlert"></div>
+                </div>
+                <div class="field divider">
+                    <label>Tenure (Years)</label>
+                    <input type="range" id="tenure" min="2" max="30" step="1" value="10">
+                    <div class="range-labels"><span>2</span><span>30</span></div>
+                    <div class="range-value" id="tenureVal" contenteditable="true">10</div>
+                    <div class="alert-message" id="tenureAlert"></div>
+                </div>
+                <div class="field divider">
+                    <label>Interest Rate (%)</label>
+                    <input type="range" id="rate" min="7" max="15" step="0.1" value="9">
+                    <div class="range-labels"><span>7%</span><span>15%</span></div>
+                    <div class="range-value" id="rateVal" contenteditable="true">9</div>
+                    <div class="alert-message" id="rateAlert"></div>
+                </div>
+                <div class="add-prepay" onclick="showPrepay()">+ Add Pre-Payment</div>
+                <div id="prepayBox" style="display:none">
+                    <div class="field">
+                        <label>Amount (₹)</label>
+                        <input type="number" id="prepayAmount" value="50000">
+                    </div>
+                    <div class="field">
+                        <label>Frequency</label>
+                        <select id="prepayFrequency">
+                            <option>Every Month</option>
+                            <option>Every 3 Month</option>
+                            <option>Every 6 Month</option>
+                            <option>Every Year</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Pre-Payment Start Date</label>
+                        <input type="date" id="prepayStartDate" value="">
+                    </div>
+                    <div class="delete" onclick="removePrepay()">🗑 Delete Pre-Payment</div>
+                </div>
+                <!-- Mobile Calculate Button -->
+                <button class="calculate-btn" onclick="showResults()">Calculate EMI</button>
+            </div>
+            <div class="vertical-line"></div>
+            <!-- Desktop Results Section (Always visible on desktop) -->
+            <div class="result desktop-only" id="desktopResult">
+                <h3>Your EMI Per Month</h3>
+                <div class="emi" id="emi">₹ 63,338</div>
+                <div class="chart-wrap">
+                    <canvas id="pieChart"></canvas>
+                </div>
+                <div class="breakup">
+                    <div class="item">
+                        <div><span class="dot" style="background:#2f6fed"></span>Total Interest</div>
+                        <div class="amount" id="interestVal"></div>
+                    </div>
+                    <div class="item">
+                        <div><span class="dot" style="background:#e74c3c"></span>Processing Fee</div>
+                        <div class="amount" id="processingFeeVal"></div>
+                    </div>
+                    <div class="item">
+                        <div><span class="dot" style="background:#1f2a6d"></span>Loan Amount</div>
+                        <div class="amount" id="principalVal"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Results Section (Hidden until Calculate button is clicked) -->
+        <div id="mobileResult" class="mobile-only" style="display: none;">
+            <div class="result">
+                <h3>Your EMI Per Month</h3>
+                <div class="emi" id="emiMobile">₹ 63,338</div>
+                <div class="chart-wrap">
+                    <canvas id="pieChartMobile"></canvas>
+                </div>
+                <div class="breakup">
+                    <div class="item">
+                        <div><span class="dot" style="background:#2f6fed"></span>Total Interest</div>
+                        <div class="amount" id="interestValMobile"></div>
+                    </div>
+                    <div class="item">
+                        <div><span class="dot" style="background:#e74c3c"></span>Processing Fee</div>
+                        <div class="amount" id="processingFeeValMobile"></div>
+                    </div>
+                    <div class="item">
+                        <div><span class="dot" style="background:#1f2a6d"></span>Loan Amount</div>
+                        <div class="amount" id="principalValMobile"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Amortization Table Container -->
+    <div id="amortizationContainer" class="container desktop-only" style="margin-top:30px;">
+        <h3 style="margin-bottom:16px">Loan Amortization Table</h3>
+        <div class="table-wrap">
+            <table class="amort-table">
+                <thead>
+                    <tr>
+                        <th>Year</th>
+                        <th>Principal(₹)</th>
+                        <th>Interest(₹)</th>
+                        <th>Balance(₹)</th>
+                        <th>Paid(%)</th>
+                    </tr>
+                </thead>
+                <tbody id="amortTableBody">
+                    <tr>
+                        <td colspan="5" style="text-align:center;color:#777">Adjust values to generate amortization
+                            schedule</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Mobile Amortization Table Container (Hidden initially) -->
+    <div id="mobileAmortizationContainer" class="container mobile-only" style="margin-top:30px; display: none;">
+        <h3 style="margin-bottom:16px">Loan Amortization Schedule</h3>
+        <div class="table-wrap">
+            <table class="amort-table">
+                <thead>
+                    <tr>
+                        <th>Year</th>
+                        <th>Principal Paid (₹)</th>
+                        <th>Interest Paid (₹)</th>
+                        <th>Balance (₹)</th>
+                        <th>Paid (%)</th>
+                    </tr>
+                </thead>
+                <tbody id="mobileAmortTableBody">
+                    <tr>
+                        <td colspan="5" style="text-align:center;color:#777">Click "Calculate EMI" to see amortization
+                            schedule</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        // DOM Elements
+        const loan = document.getElementById("loan");
+        const rate = document.getElementById("rate");
+        const tenure = document.getElementById("tenure");
+        const loanVal = document.getElementById("loanVal");
+        const rateVal = document.getElementById("rateVal");
+        const tenureVal = document.getElementById("tenureVal");
+        const loanAlert = document.getElementById("loanAlert");
+        const rateAlert = document.getElementById("rateAlert");
+        const tenureAlert = document.getElementById("tenureAlert");
+        const prepayAmount = document.getElementById("prepayAmount");
+        const prepayFrequency = document.getElementById("prepayFrequency");
+        const prepayStartDate = document.getElementById("prepayStartDate");
+        const mobileResult = document.getElementById("mobileResult");
+        const mobileAmortizationContainer = document.getElementById("mobileAmortizationContainer");
+
+        // Chart instances
+        let chart = null;
+        let chartMobile = null;
+        const currentDate = new Date();
+
+        // Format number to Indian currency
+        function format(n) {
+            if (isNaN(n) || !isFinite(n)) return "₹ 0";
+            return "₹ " + Math.round(n).toLocaleString("en-IN");
+        }
+
+        // Parse Indian currency string to number
+        function parseCurrency(str) {
+            return parseFloat(str.replace(/[^0-9.-]+/g, ""));
+        }
+
+        // Show alert message
+        function showAlert(alertElement, message, isError = true) {
+            alertElement.textContent = message;
+            alertElement.style.color = isError ? "#e74c3c" : "#27ae60";
+            alertElement.style.display = "block";
+
+            // Auto-hide after 3 seconds for success messages
+            if (!isError) {
+                setTimeout(() => {
+                    alertElement.style.display = "none";
+                }, 3000);
+            }
+        }
+
+        // Hide alert message
+        function hideAlert(alertElement) {
+            alertElement.style.display = "none";
+        }
+
+        // Set slider fill color for Webkit browsers
+        function setFill(slider) {
+            const percent = ((slider.value - slider.min) * 100) / (slider.max - slider.min);
+            // For Webkit browsers (Chrome, Safari, Edge)
+            slider.style.background = `linear-gradient(to right, #2f6fed ${percent}%, #ddd ${percent}%)`;
+            // Firefox and IE/Edge handle it via CSS pseudo-elements
+        }
+
+        // Get processing fee (0.5% of loan amount) - FIXED
+        function getProcessingFee(loanAmount) {
+            // Calculate 0.5% of loan amount
+            const fee = loanAmount * 0.005;
+            return Math.round(fee); // Round to nearest integer
+        }
+
+        // Format loan amount for display
+        function formatLoanAmount(value) {
+            return "₹" + parseInt(value).toLocaleString("en-IN");
+        }
+
+        // Format interest rate for display (without % symbol)
+        // Show integer values without .0, show decimals only when needed
+        function formatRate(value, showPercent = false) {
+            const num = parseFloat(value);
+            // If it's an integer (no decimal), show as integer
+            if (num % 1 === 0) {
+                return showPercent ? num + "%" : num.toString();
+            } else {
+                // If it has decimals, show with 1 decimal place
+                return showPercent ? num.toFixed(1) + "%" : num.toFixed(1);
+            }
+        }
+
+        // Update ALL results including mobile - FIXED PROCESSING FEE
+        function updateAllResults() {
+            // Get values
+            const P = Number(loan.value);
+            const r = Number(rate.value) / 12 / 100;
+            const n = Number(tenure.value) * 12;
+
+            // Calculate EMI
+            let emi = 0, interest = 0;
+            if (P > 0 && r > 0 && n > 0) {
+                emi = P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+                interest = emi * n - P;
+            }
+
+            // Calculate processing fee (0.5% of loan amount)
+            const processingFee = getProcessingFee(P);
+
+            // Update input displays
+            updateRangeValue(loan, loanVal);
+            updateRangeValue(rate, rateVal);
+            updateRangeValue(tenure, tenureVal);
+
+            // Update desktop results
+            document.getElementById("emi").textContent = format(Math.round(emi));
+            document.getElementById("interestVal").textContent = format(Math.round(interest));
+            document.getElementById("principalVal").textContent = format(P);
+            document.getElementById("processingFeeVal").textContent = format(processingFee);
+
+            // ALWAYS update mobile results (they'll be shown when needed)
+            document.getElementById("emiMobile").textContent = format(Math.round(emi));
+            document.getElementById("interestValMobile").textContent = format(Math.round(interest));
+            document.getElementById("principalValMobile").textContent = format(P);
+            document.getElementById("processingFeeValMobile").textContent = format(processingFee);
+
+            // Update mobile chart if it exists
+            if (chartMobile) {
+                updateChart(true, P, interest, processingFee);
+            }
+
+            // Update desktop chart
+            updateChart(false, P, interest, processingFee);
+
+            // Update slider fills
+            setFill(loan);
+            setFill(rate);
+            setFill(tenure);
+
+            // Update amortization table on desktop
+            renderAmortizationTable(false);
+        }
+
+        // Update range value display
+        function updateRangeValue(slider, displayElement) {
+            if (slider.id === "loan") {
+                displayElement.textContent = formatLoanAmount(slider.value);
+            } else if (slider.id === "rate") {
+                // Use the new formatRate function to show integers without .0
+                displayElement.textContent = formatRate(slider.value, false);
+            } else {
+                displayElement.textContent = slider.value;
+            }
+        }
+
+        // Handle direct input for loan amount
+        function handleLoanInput(valueStr) {
+            hideAlert(loanAlert);
+            const num = parseCurrency(valueStr);
+
+            if (isNaN(num)) {
+                showAlert(loanAlert, "Please enter a valid number");
+                loanVal.textContent = formatLoanAmount(loan.value);
+                return;
+            }
+
+            if (num < 100000) {
+                showAlert(loanAlert, "Minimum loan amount is ₹1,00,000 (1 Lakh)");
+                loanVal.textContent = formatLoanAmount(loan.value);
+                return;
+            }
+
+            if (num > 50000000) {
+                showAlert(loanAlert, "Maximum loan amount is ₹5,00,00,000 (5 Crore)");
+                loanVal.textContent = formatLoanAmount(loan.value);
+                return;
+            }
+
+            // Set to nearest step
+            loan.value = Math.round(num / 100000) * 100000;
+            updateRangeValue(loan, loanVal);
+            showAlert(loanAlert, "Loan amount updated successfully!", false);
+            updateAllResults();
+        }
+
+        // Handle direct input for interest rate
+        function handleRateInput(valueStr) {
+            hideAlert(rateAlert);
+            let num = parseFloat(valueStr);
+
+            if (isNaN(num)) {
+                showAlert(rateAlert, "Please enter a valid interest rate");
+                updateRangeValue(rate, rateVal);
+                return;
+            }
+
+            if (num < 7) {
+                showAlert(rateAlert, "Minimum interest rate is 7%");
+                updateRangeValue(rate, rateVal);
+                return;
+            }
+
+            if (num > 15) {
+                showAlert(rateAlert, "Maximum interest rate is 15%");
+                updateRangeValue(rate, rateVal);
+                return;
+            }
+
+            // Set to nearest step (0.1)
+            rate.value = Math.round(num * 10) / 10;
+            updateRangeValue(rate, rateVal);
+            showAlert(rateAlert, "Interest rate updated successfully!", false);
+            updateAllResults();
+        }
+
+        // Handle direct input for tenure
+        function handleTenureInput(valueStr) {
+            hideAlert(tenureAlert);
+            const num = parseInt(valueStr);
+
+            if (isNaN(num)) {
+                showAlert(tenureAlert, "Please enter a valid number of years");
+                tenureVal.textContent = tenure.value;
+                return;
+            }
+
+            if (num < 2) {
+                showAlert(tenureAlert, "Minimum tenure is 2 years");
+                tenureVal.textContent = tenure.value;
+                return;
+            }
+
+            if (num > 30) {
+                showAlert(tenureAlert, "Maximum tenure is 30 years");
+                tenureVal.textContent = tenure.value;
+                return;
+            }
+
+            tenure.value = num;
+            updateRangeValue(tenure, tenureVal);
+            showAlert(tenureAlert, "Tenure updated successfully!", false);
+            updateAllResults();
+        }
+
+        // Main calculation function (alias for updateAllResults)
+        function calculate() {
+            updateAllResults();
+        }
+
+        // Update pie charts - FIXED FOR MOBILE
+        function updateChart(isMobile, p, i, f) {
+            const ctx = isMobile ? document.getElementById("pieChartMobile") : document.getElementById("pieChart");
+
+            // If chart canvas doesn't exist yet (mobile section hidden), don't try to create chart
+            if (!ctx) return;
+
+            const currentChart = isMobile ? chartMobile : chart;
+
+            if (currentChart) {
+                currentChart.destroy();
+            }
+
+            // Force canvas to be visible and have proper dimensions
+            if (isMobile && ctx.parentElement) {
+                ctx.parentElement.style.display = 'block';
+                ctx.style.display = 'block';
+                ctx.width = 200;
+                ctx.height = 200;
+            }
+
+            const newChart = new Chart(ctx, {
+                type: "pie",
+                data: {
+                    labels: ["Total Interest", "Processing Fee", "Loan Amount"],
+                    datasets: [{
+                        data: [i, f, p],
+                        backgroundColor: ["#2f6fed", "#e74c3c", "#1f2a6d"]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
+                }
+            });
+
+            if (isMobile) {
+                chartMobile = newChart;
+            } else {
+                chart = newChart;
+            }
+        }
+
+        // Show results on mobile - FIXED VERSION with proper chart creation
+        function showResults() {
+            // First, ensure all calculations are up to date
+            updateAllResults();
+
+            // Get current values for chart
+            const P = Number(loan.value);
+            const r = Number(rate.value) / 12 / 100;
+            const n = Number(tenure.value) * 12;
+
+            // Calculate EMI for chart
+            let emi = 0, interest = 0;
+            if (P > 0 && r > 0 && n > 0) {
+                emi = P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+                interest = emi * n - P;
+            }
+            const processingFee = getProcessingFee(P);
+
+            // Show mobile results section FIRST
+            mobileResult.style.display = "block";
+
+            // Small delay to ensure DOM is updated and canvas is visible
+            setTimeout(() => {
+                // Create/update mobile chart AFTER the section is visible
+                updateChart(true, P, interest, processingFee);
+
+                // Show mobile amortization table
+                mobileAmortizationContainer.style.display = "block";
+
+                // Render amortization table for mobile
+                renderAmortizationTable(true);
+
+                // Scroll to results
+                mobileResult.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 50);
+        }
+
+        // Generate amortization table WITH PREPAYMENT DISPLAY
+        function renderAmortizationTable(isMobile) {
+            const bodyId = isMobile ? "mobileAmortTableBody" : "amortTableBody";
+            const body = document.getElementById(bodyId);
+            body.innerHTML = "";
+
+            const P = Number(loan.value);
+            const r = Number(rate.value) / 12 / 100;
+            const n = Number(tenure.value) * 12;
+
+            // Validate inputs
+            if (P <= 0 || r <= 0 || n <= 0) {
+                body.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#777">Please enter valid loan parameters</td></tr>';
+                return;
+            }
+
+            // Calculate EMI
+            const emi = P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+
+            // Prepare data
+            let balance = P;
+            let cumulativePrincipal = 0;
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            let yearlyData = {};
+
+            for (let m = 0; m < n && balance > 0; m++) {
+                const monthlyInterest = balance * r;
+                let monthlyPrincipal = emi - monthlyInterest;
+                let prepaymentMade = false;
+                let prepaymentAmount = 0;
+
+                // Apply prepayment if configured
+                if (document.getElementById("prepayBox").style.display !== "none") {
+                    // Check prepayment frequency
+                    const prepayFreq = prepayFrequency.value;
+                    let shouldPrepay = false;
+
+                    switch (prepayFreq) {
+                        case "Every Month":
+                            shouldPrepay = true;
+                            break;
+                        case "Every 3 Month":
+                            shouldPrepay = (m % 3 === 0);
+                            break;
+                        case "Every 6 Month":
+                            shouldPrepay = (m % 6 === 0);
+                            break;
+                        case "Every Year":
+                            shouldPrepay = (m % 12 === 0);
+                            break;
+                    }
+
+                    if (shouldPrepay) {
+                        prepaymentAmount = Number(prepayAmount.value);
+                        monthlyPrincipal += prepaymentAmount;
+                        prepaymentMade = true;
+                    }
+                }
+
+                // Cap principal at remaining balance
+                monthlyPrincipal = Math.min(monthlyPrincipal, balance);
+
+                // Update balance
+                balance -= monthlyPrincipal;
+                cumulativePrincipal += monthlyPrincipal;
+
+                // Calculate year and month
+                const monthIndex = (currentDate.getMonth() + m) % 12;
+                const year = currentDate.getFullYear() + Math.floor((currentDate.getMonth() + m) / 12);
+                const monthName = monthNames[monthIndex];
+
+                // Initialize or update year data
+                if (!yearlyData[year]) {
+                    yearlyData[year] = {
+                        year: year,
+                        principal: 0,
+                        interest: 0,
+                        prepaymentTotal: 0, // Track prepayments for the year
+                        balance: balance,
+                        paidPercent: Math.min((cumulativePrincipal / P) * 100, 100),
+                        months: []
+                    };
+                }
+
+                yearlyData[year].principal += monthlyPrincipal;
+                yearlyData[year].interest += monthlyInterest;
+                yearlyData[year].balance = balance;
+                yearlyData[year].paidPercent = Math.min((cumulativePrincipal / P) * 100, 100);
+
+                // Track prepayment totals for the year
+                if (prepaymentMade) {
+                    yearlyData[year].prepaymentTotal += prepaymentAmount;
+                }
+
+                yearlyData[year].months.push({
+                    month: monthName,
+                    principal: monthlyPrincipal,
+                    interest: monthlyInterest,
+                    balance: balance,
+                    paidPercent: Math.min((cumulativePrincipal / P) * 100, 100),
+                    prepaymentMade: prepaymentMade,
+                    prepaymentAmount: prepaymentAmount
+                });
+            }
+
+            // Convert to array and render
+            const amortizationData = Object.values(yearlyData);
+
+            if (amortizationData.length === 0) {
+                body.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#777">No amortization data available</td></tr>';
+                return;
+            }
+
+            // Render table rows
+            amortizationData.forEach((yearData, index) => {
+                // Create prepayment info display for yearly row - IN BALANCE COLUMN
+                let prepaymentDisplay = "";
+                if (yearData.prepaymentTotal > 0) {
+                    prepaymentDisplay = `<span class="prepayment-info">(+${format(yearData.prepaymentTotal)} prepayment)</span>`;
+                }
+
+                // Year row
+                const yearRow = document.createElement("tr");
+                yearRow.className = "year-row";
+                yearRow.setAttribute("data-year", yearData.year);
+                yearRow.style.backgroundColor = index % 2 === 0 ? "#f8f9fa" : "#f0f2f5";
+                yearRow.innerHTML = `
+                    <td><span class="year-link" onclick="toggleYear(${yearData.year}, ${isMobile})">${yearData.year}</span></td>
+                    <td>${format(yearData.principal)}</td>
+                    <td>${format(yearData.interest)}</td>
+                    <td>${format(yearData.balance)}${prepaymentDisplay}</td>
+                    <td>${yearData.paidPercent.toFixed(2)}%</td>
+                `;
+                body.appendChild(yearRow);
+
+                // Month rows (hidden by default)
+                yearData.months.forEach((monthData, monthIndex) => {
+                    const monthRow = document.createElement("tr");
+                    monthRow.className = "month-row";
+                    monthRow.setAttribute("data-year", yearData.year);
+                    monthRow.style.display = "none";
+
+                    // Add special class for prepayment months
+                    if (monthData.prepaymentMade) {
+                        monthRow.className += " prepayment-month";
+                    } else {
+                        monthRow.style.backgroundColor = monthIndex % 2 === 0 ? "#f9fafc" : "#ffffff";
+                    }
+
+                    // Add prepayment info to balance column
+                    const prepaymentInfo = monthData.prepaymentMade ?
+                        `<span class="prepayment-info">(+${format(monthData.prepaymentAmount)} prepayment)</span>` : '';
+
+                    monthRow.innerHTML = `
+                        <td>${monthData.month}</td>
+                        <td>${format(monthData.principal)}</td>
+                        <td>${format(monthData.interest)}</td>
+                        <td>${format(monthData.balance)}${prepaymentInfo}</td>
+                        <td>${monthData.paidPercent.toFixed(2)}%</td>
+                    `;
+                    body.appendChild(monthRow);
+                });
+            });
+        }
+
+        // Toggle year expansion
+        function toggleYear(year, isMobile) {
+            const bodyId = isMobile ? "mobileAmortTableBody" : "amortTableBody";
+            const monthRows = document.querySelectorAll(`#${bodyId} tr.month-row[data-year="${year}"]`);
+            if (monthRows.length === 0) return;
+
+            const isExpanded = monthRows[0].style.display === "table-row";
+            monthRows.forEach(row => {
+                row.style.display = isExpanded ? "none" : "table-row";
+            });
+        }
+
+        // Show prepayment section
+        function showPrepay() {
+            document.getElementById("prepayBox").style.display = "block";
+            prepayAmount.value = 50000;
+            prepayStartDate.value = "2026-02-03";
+            updateAllResults();
+        }
+
+        // Remove prepayment
+        function removePrepay() {
+            document.getElementById("prepayBox").style.display = "none";
+            prepayAmount.value = 0;
+            updateAllResults();
+        }
+
+        // Place cursor at the end of text
+        function placeCursorAtEnd(element) {
+            if (typeof window.getSelection != "undefined" && typeof document.createRange != "undefined") {
+                const range = document.createRange();
+                const sel = window.getSelection();
+                range.selectNodeContents(element);
+                range.collapse(false); // false means collapse to end
+                sel.removeAllRanges();
+                sel.addRange(range);
+            } else if (typeof document.body.createTextRange != "undefined") {
+                const textRange = document.body.createTextRange();
+                textRange.moveToElementText(element);
+                textRange.collapse(false);
+                textRange.select();
+            }
+        }
+
+        // Event Listeners for editable values
+        loanVal.addEventListener("focus", function () {
+            this.classList.add("editing");
+            hideAlert(loanAlert);
+            // Place cursor at the end instead of selecting all
+            setTimeout(() => {
+                placeCursorAtEnd(this);
+            }, 0);
+        });
+
+        loanVal.addEventListener("blur", function () {
+            this.classList.remove("editing");
+            handleLoanInput(this.textContent);
+        });
+
+        loanVal.addEventListener("keypress", function (e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                this.blur();
+            }
+        });
+
+        rateVal.addEventListener("focus", function () {
+            this.classList.add("editing");
+            hideAlert(rateAlert);
+            // Place cursor at the end instead of selecting all
+            setTimeout(() => {
+                placeCursorAtEnd(this);
+            }, 0);
+        });
+
+        rateVal.addEventListener("blur", function () {
+            this.classList.remove("editing");
+            handleRateInput(this.textContent);
+        });
+
+        rateVal.addEventListener("keypress", function (e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                this.blur();
+            }
+        });
+
+        tenureVal.addEventListener("focus", function () {
+            this.classList.add("editing");
+            hideAlert(tenureAlert);
+            // Place cursor at the end instead of selecting all
+            setTimeout(() => {
+                placeCursorAtEnd(this);
+            }, 0);
+        });
+
+        tenureVal.addEventListener("blur", function () {
+            this.classList.remove("editing");
+            handleTenureInput(this.textContent);
+        });
+
+        tenureVal.addEventListener("keypress", function (e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                this.blur();
+            }
+        });
+
+        // Event Listeners for sliders
+        loan.oninput = function () {
+            updateRangeValue(loan, loanVal);
+            hideAlert(loanAlert);
+            updateAllResults();
+            setFill(loan); // Update slider fill
+        };
+
+        rate.oninput = function () {
+            updateRangeValue(rate, rateVal);
+            hideAlert(rateAlert);
+            updateAllResults();
+            setFill(rate); // Update slider fill
+        };
+
+        tenure.oninput = function () {
+            updateRangeValue(tenure, tenureVal);
+            hideAlert(tenureAlert);
+            updateAllResults();
+            setFill(tenure); // Update slider fill
+        };
+
+        prepayAmount.oninput = updateAllResults;
+        prepayFrequency.onchange = updateAllResults;
+        prepayStartDate.onchange = updateAllResults;
+
+        // Initialize on load
+        window.addEventListener('load', function () {
+            // Set initial prepayment date
+            const today = new Date();
+            const todayStr = today.toISOString().split('T')[0];
+            prepayStartDate.value = todayStr;
+
+            // Set fixed date for demo (Feb 3, 2026)
+            prepayStartDate.value = "2026-02-03";
+
+            // Initialize slider fills
+            setFill(loan);
+            setFill(rate);
+            setFill(tenure);
+
+            // Calculate initial values
+            updateAllResults();
+
+            // Render initial amortization table
+            renderAmortizationTable(false);
+        });
+    </script>
+
+    <footer class="bg-dark text-light pt-5 pb-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <h5 class="fw-bold"><img height="50px" src="Photos/logo3.png" alt=""> FindMyRoof</h5>
+                    <p class="small">A smart real estate platform to buy, rent, and list properties with verified
+                        details across India.</p>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-semibold">Quick Links</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2">
+                        <li><a href="index.html" class="footer-link">Home</a></li>
+                        <li><a href="price_estimator.html" class="footer-link">Price Estimator</a></li>
+                        <li><a href="about.html" class="footer-link">About Us</a></li>
+                        <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+                        <li><a href="post_property.html" class="footer-link">Post Property</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-semibold">Property Types</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2">
+                        <li><a href="properties.html?property_type=Flat" class="footer-link">Flats & Apartments</a></li>
+                        <li><a href="properties.html?property_type=Villa" class="footer-link">Villas</a></li>
+                        <li><a href="properties.html?property_type=Plot" class="footer-link">Plots & Land</a></li>
+                        <li><a href="properties.html?category=Commercial" class="footer-link">Commercial Properties</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-semibold">Contact</h6>
+                    <p class="small mb-1">📧 <a href="mailto:findmyroof1@gmail.com" class="footer-link">findmyroof1@gmail.com</a></p>
+                    <p class="small mb-1">📞 +91 98765 43210</p>
+                    <p class="small">📍 Ahmedabad, India</p>
+                </div>
+            </div>
+            <hr class="border-secondary opacity-25">
+            <div class="text-center text-secondary small">© 2026 FindMyRoof. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

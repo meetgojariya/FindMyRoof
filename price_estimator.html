@@ -1,0 +1,703 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Estimator - FindMyRoof</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="icon" href="Photos/logo3.png">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fb;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: black !important;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #0d6efd !important;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            color: #fff;
+            padding: 120px 0 80px;
+        }
+
+        .hero h1 {
+            font-weight: 700;
+        }
+
+        .pill {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+            padding: 10px 16px;
+            font-size: 0.95rem;
+        }
+
+        .card-shadow {
+            border: none;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            border-radius: 14px;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .form-control,
+        .form-select {
+            border-radius: 10px;
+            border: 1px solid #e1e5ee;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+        }
+
+        .result-value {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .range-chip {
+            display: inline-block;
+            background: #e7f1ff;
+            color: #0b5ed7;
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-weight: 600;
+        }
+
+        .tip {
+            border-left: 4px solid #0d6efd;
+            padding-left: 12px;
+        }
+
+        footer {
+            background: #212529;
+            color: #fff;
+            padding: 50px 0 20px;
+        }
+
+        .footer-link {
+            color: #bdbdbd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-link:hover {
+            color: #0d6efd;
+        }
+    </style>
+
+    <style>
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            body {
+                overflow-x: hidden;
+            }
+
+            .navbar {
+                padding: 0.5rem 0;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .form-group label {
+                font-size: 0.9rem;
+            }
+
+            .btn-primary {
+                padding: 0.75rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-white shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img height="40" width="40" src="Photos/logo3.png" alt="logo"> FindMyRoof
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-house-door me-2"></i>Home</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="row align-items-center g-4">
+                <div class="col-12">
+                    <div class="pill mb-3 d-inline-flex align-items-center gap-2">
+                        <i class="bi bi-magic"></i>
+                        Smart price guidance
+                    </div>
+                    <h1 class="display-5">Estimate your property price in seconds.</h1>
+                    <p class="lead">Get an instant ballpark based on city, size, BHK and amenities. Fine-tune
+                        assumptions and share the result with buyers or tenants.</p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-shield-check fs-4"></i>
+                            <span>Uses local base rates</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-graph-up-arrow fs-4"></i>
+                            <span>Transparent adjustments</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Form & Results -->
+    <main class="container my-5">
+        <div class="row g-4">
+            <div class="col-lg-7">
+                <div class="card card-shadow">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="mb-0">Enter property details</h5>
+                        </div>
+                        <form id="predictForm" class="row g-3">
+                            <div class="col-md-6">
+                                <label for="city" class="form-label">City</label>
+                                <input id="city" class="form-control" value="Ahmedabad" readonly>
+                                <small class="text-muted">We currently estimate only for Ahmedabad and its
+                                    localities.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="locality" class="form-label">Area / Locality in Ahmedabad</label>
+                                <select id="locality" class="form-select">
+                                    <option value="Ambawadi">Ambawadi</option>
+                                    <option value="Ambli">Ambli</option>
+                                    <option value="Asarwa">Asarwa</option>
+                                    <option value="Ayojan Nagar">Ayojan Nagar</option>
+                                    <option value="Bapunagar">Bapunagar</option>
+                                    <option value="Bavla">Bavla</option>
+                                    <option value="Bhadaj">Bhadaj</option>
+                                    <option value="Bodakdev">Bodakdev</option>
+                                    <option value="Bopal">Bopal</option>
+                                    <option value="Chandkheda">Chandkheda</option>
+                                    <option value="Chandlodia">Chandlodia</option>
+                                    <option value="Chharodi">Chharodi</option>
+                                    <option value="Dudeshwar">Dudeshwar</option>
+                                    <option value="Ellisbridge">Ellisbridge</option>
+                                    <option value="Ghatlodiya">Ghatlodiya</option>
+                                    <option value="Ghodasar">Ghodasar</option>
+                                    <option value="GIDC Naroda">GIDC Naroda</option>
+                                    <option value="GIDC Vatwa">GIDC Vatwa</option>
+                                    <option value="Gokuldham">Gokuldham</option>
+                                    <option value="Gota">Gota</option>
+                                    <option value="Gulbai Tekra">Gulbai Tekra</option>
+                                    <option value="Gurukul">Gurukul</option>
+                                    <option value="India Colony">India Colony</option>
+                                    <option value="Isanpur">Isanpur</option>
+                                    <option value="Iscon Ambli Road">Iscon Ambli Road</option>
+                                    <option value="Jivrajpark">Jivrajpark</option>
+                                    <option value="Jodhpur">Jodhpur</option>
+                                    <option value="Juhapura">Juhapura</option>
+                                    <option value="Kankaria">Kankaria</option>
+                                    <option value="Kathwada">Kathwada</option>
+                                    <option value="Khodiar Nagar">Khodiar Nagar</option>
+                                    <option value="Maninagar">Maninagar</option>
+                                    <option value="Makarba">Makarba</option>
+                                    <option value="Meghani Nagar">Meghani Nagar</option>
+                                    <option value="Memnagar">Memnagar</option>
+                                    <option value="Motera">Motera</option>
+                                    <option value="Naranpura">Naranpura</option>
+                                    <option value="Naroda">Naroda</option>
+                                    <option value="Navrangpura">Navrangpura</option>
+                                    <option value="New Maninagar">New Maninagar</option>
+                                    <option value="New Ranip">New Ranip</option>
+                                    <option value="Nikol">Nikol</option>
+                                    <option value="Odhav">Odhav</option>
+                                    <option value="Ognaj">Ognaj</option>
+                                    <option value="Old Wadaj">Old Wadaj</option>
+                                    <option value="Paldi">Paldi</option>
+                                    <option value="Prahlad Nagar">Prahlad Nagar</option>
+                                    <option value="Ranip">Ranip</option>
+                                    <option value="Sabarmati">Sabarmati</option>
+                                    <option value="Sanand">Sanand</option>
+                                    <option value="Sanathal">Sanathal</option>
+                                    <option value="Sarkhej">Sarkhej</option>
+                                    <option value="Satellite">Satellite</option>
+                                    <option value="Satellite Society">Satellite Society</option>
+                                    <option value="Science City">Science City</option>
+                                    <option value="Science Park">Science Park</option>
+                                    <option value="Shantigram">Shantigram</option>
+                                    <option value="Shantipura">Shantipura</option>
+                                    <option value="Shastri Nagar">Shastri Nagar</option>
+                                    <option value="Shela">Shela</option>
+                                    <option value="Shilaj">Shilaj</option>
+                                    <option value="Shyamal">Shyamal</option>
+                                    <option value="Sindhubhavan">Sindhubhavan</option>
+                                    <option value="Sivanand Nagar">Sivanand Nagar</option>
+                                    <option value="Sola">Sola</option>
+                                    <option value="South Bopal">South Bopal</option>
+                                    <option value="Thakkarbapa Nagar">Thakkarbapa Nagar</option>
+                                    <option value="Thaltej">Thaltej</option>
+                                    <option value="Vastral">Vastral</option>
+                                    <option value="Vastrapur">Vastrapur</option>
+                                    <option value="Vatva">Vatva</option>
+                                    <option value="Vaishno Devi Circle">Vaishno Devi Circle</option>
+                                    <option value="Vejalpur">Vejalpur</option>
+
+                                </select>
+                                <small class="text-muted" id="localityRateHint"></small>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="area" class="form-label">Built-up area (sq.ft.)</label>
+                                <input type="number" id="area" class="form-control" min="200" max="20000" step="10"
+                                    placeholder="Enter built-up area" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="bhk" class="form-label">Bedrooms</label>
+                                <select id="bhk" class="form-select">
+                                    <option value="1">1</option>
+                                    <option value="2" selected>2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5+</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="bath" class="form-label">Bathrooms</label>
+                                <select id="bath" class="form-select">
+                                    <option value="1">1</option>
+                                    <option value="2" selected>2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4+</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="type" class="form-label">Property type</label>
+                                <select id="type" class="form-select">
+                                    <option value="apartment" selected>Apartment / Flat</option>
+                                    <option value="villa">Villa / Bungalow</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="furnish" class="form-label">Furnishing</label>
+                                <select id="furnish" class="form-select">
+                                    <option value="bare">Bare shell</option>
+                                    <option value="semi" selected>Semi furnished</option>
+                                    <option value="full">Fully furnished</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="age" class="form-label">Property age</label>
+                                <select id="age" class="form-select">
+                                    <option value="new" selected>0-3 years</option>
+                                    <option value="mid">4-9 years</option>
+                                    <option value="old">10+ years</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="parking" class="form-label">Parking</label>
+                                <select id="parking" class="form-select">
+                                    <option value="0">No parking</option>
+                                    <option value="1" selected>1 slot</option>
+                                    <option value="2">2+ slots</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Balcony</label>
+                                <div class="d-flex gap-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="balcony" id="balconyYes"
+                                            value="yes" checked>
+                                        <label class="form-check-label" for="balconyYes">Yes</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="balcony" id="balconyNo"
+                                            value="no">
+                                        <label class="form-check-label" for="balconyNo">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Lifestyle add-ons</label>
+                                <div class="d-flex flex-wrap gap-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="club" id="club">
+                                        <label class="form-check-label" for="club">Club house</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="pool" id="pool">
+                                        <label class="form-check-label" for="pool">Pool</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="security" id="security"
+                                            checked>
+                                        <label class="form-check-label" for="security">24x7 security</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 d-flex gap-3">
+                                <button type="submit" class="btn btn-primary px-4">Predict Price</button>
+                                <button type="button" id="resetBtn" class="btn btn-outline-secondary">Reset</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="card card-shadow mb-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="mb-0">Estimated price</h6>
+                            <span class="badge bg-success-subtle text-success border border-success-subtle">Live</span>
+                        </div>
+                        <div class="result-value" id="resultValue">₹0</div>
+                        <div class="text-muted">Indicative market value</div>
+                        <hr>
+                        <div class="range-chip mb-2" id="rangeValue">--</div>
+                        <div class="text-muted small">Range includes location and amenity adjustments.</div>
+                        <div class="mt-3 text-muted small">Price per sq.ft: <strong id="psfValue">--</strong></div>
+                        <p class="mt-3 mb-0" id="insightText">Fill the form to see insights.</p>
+                    </div>
+                </div>
+                <div class="card card-shadow">
+                    <div class="card-body">
+                        <h6 class="mb-3">How we adjust</h6>
+                        <div class="tip mb-3">
+                            <strong>Area based rate</strong><br>
+                            Uses recent median per-sq.ft. trends across Ahmedabad neighborhoods.
+                        </div>
+                        <div class="tip mb-3">
+                            <strong>Property type & condition</strong><br>
+                            Villas/commercial get a premium; older stock gets a gentle markdown.
+                        </div>
+                        <div class="tip mb-0">
+                            <strong>Amenities</strong><br>
+                            Parking, balcony, security and clubhouse add incremental uplift.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feature Callouts -->
+        <section class="my-5">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 card-shadow">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="rounded-circle bg-primary bg-opacity-10 p-3"><i
+                                        class="bi bi-compass text-primary"></i></div>
+                                <h6 class="mb-0">Locality ready</h6>
+                            </div>
+                            <p class="mb-0 text-muted">Add locality notes to refine rate per sq.ft. when you talk to
+                                buyers.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 card-shadow">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="rounded-circle bg-primary bg-opacity-10 p-3"><i
+                                        class="bi bi-cash-stack text-primary"></i></div>
+                                <h6 class="mb-0">Works for sale</h6>
+                            </div>
+                            <p class="mb-0 text-muted">Switch BHK and furnishing to get a quick sale price feel.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 card-shadow">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="rounded-circle bg-primary bg-opacity-10 p-3"><i
+                                        class="bi bi-send-check text-primary"></i></div>
+                                <h6 class="mb-0">Share-ready</h6>
+                            </div>
+                            <p class="mb-0 text-muted">Use the estimate in emails or brochures with a clear disclaimer.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light pt-5 pb-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <h5 class="fw-bold"><img height="50px" src="Photos/logo3.png" alt=""> FindMyRoof</h5>
+                    <p class="small">A smart real estate platform to buy, rent, and list properties with verified
+                        details across India.</p>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-semibold">Quick Links</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2">
+                        <li><a href="index.html" class="footer-link">Home</a></li>
+                        <li><a href="price_estimator.html" class="footer-link">Price Estimator</a></li>
+                        <li><a href="about.html" class="footer-link">About Us</a></li>
+                        <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+                        <li><a href="post_property.html" class="footer-link">Post Property</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-semibold">Property Types</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2">
+                        <li><a href="properties.html?property_type=Flat" class="footer-link">Flats & Apartments</a></li>
+                        <li><a href="properties.html?property_type=Villa" class="footer-link">Villas</a></li>
+                        <li><a href="properties.html?property_type=Plot" class="footer-link">Plots & Land</a></li>
+                        <li><a href="properties.html?category=Commercial" class="footer-link">Commercial Properties</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-semibold">Contact</h6>
+                    <p class="small mb-1">📧 <a href="mailto:findmyroof1@gmail.com" class="footer-link">findmyroof1@gmail.com</a></p>
+                    <p class="small mb-1">📞 +91 98765 43210</p>
+                    <p class="small">📍 Ahmedabad, India</p>
+                </div>
+            </div>
+            <hr class="border-secondary opacity-25">
+            <div class="text-center text-secondary small">© 2026 FindMyRoof. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <!-- Price Estimator Script -->
+    <script>
+        const BASE_RATES = {
+            Ahmedabad: 5200
+        };
+
+        const LOCALITY_RATES = {
+            "Ambawadi": 8051,
+            "Ambli": 9474,
+            "Asarwa": 6667,
+            "Ayojan Nagar": 6961,
+            "Bapunagar": 3952,
+            "Bavla": 3091,
+            "Bhadaj": 6445,
+            "Bodakdev": 9553,
+            "Bopal": 5734,
+            "Chandkheda": 4923,
+            "Chandlodia": 5759,
+            "Chharodi": 5820,
+            "Dudeshwar": 11257,
+            "Ellisbridge": 7951,
+            "Ghatlodiya": 5878,
+            "Ghodasar": 4917,
+            "GIDC Naroda": 4397,
+            "GIDC Vatwa": 5992,
+            "Gokuldham": 33271,
+            "Gota": 5672,
+            "Gulbai Tekra": 7266,
+            "Gurukul": 8635,
+            "India Colony": 3689,
+            "Isanpur": 4123,
+            "Iscon Ambli Road": 10488,
+            "Jivrajpark": 9593,
+            "Jodhpur": 8299,
+            "Juhapura": 5885,
+            "Kankaria": 6093,
+            "Kathwada": 4580,
+            "Khodiar Nagar": 2285,
+            "Maninagar": 5376,
+            "Makarba": 6265,
+            "Meghani Nagar": 3633,
+            "Memnagar": 6745,
+            "Motera": 5275,
+            "Naranpura": 7175,
+            "Naroda": 3909,
+            "Navrangpura": 7642,
+            "New Maninagar": 3618,
+            "New Ranip": 4566,
+            "Nikol": 4770,
+            "Odhav": 4088,
+            "Ognaj": 5273,
+            "Old Wadaj": 5724,
+            "Paldi": 6845,
+            "Prahlad Nagar": 8340,
+            "Ranip": 4817,
+            "Sabarmati": 5751,
+            "Sanand": 4019,
+            "Sanathal": 4188,
+            "Sarkhej": 5520,
+            "Satellite": 8138,
+            "Satellite Society": 7464,
+            "Science City": 8138,
+            "Science Park": 7842,
+            "Shantigram": 7018,
+            "Shantipura": 4135,
+            "Shastri Nagar": 10791,
+            "Shela": 5490,
+            "Shilaj": 6128,
+            "Shyamal": 6867,
+            "Sivanand Nagar": 5022,
+            "Sola": 6966,
+            "South Bopal": 5653,
+            "Thakkarbapa Nagar": 3622,
+            "Thaltej": 8346,
+            "Vastral": 3737,
+            "Vastrapur": 8231,
+            "Vatva": 3252,
+            "Vaishno Devi Circle": 5237,
+            "Vejalpur": 4844
+        };
+
+        const currencyFmt = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+
+        function calculateEstimate(data) {
+            let rate = LOCALITY_RATES[data.locality] || BASE_RATES[data.city] || BASE_RATES.Ahmedabad;
+
+            switch (data.type) {
+                case 'villa': rate *= 1.25; break;
+                default: break;
+            }
+
+            rate *= 1 + Math.max(data.bhk - 1, 0) * 0.04;
+            rate *= 1 + Math.max(data.bath - 1, 0) * 0.03;
+
+            if (data.furnish === 'semi') rate *= 1.05;
+            if (data.furnish === 'full') rate *= 1.1;
+
+            if (data.age === 'new') rate *= 1.05;
+            if (data.age === 'mid') rate *= 0.98;
+            if (data.age === 'old') rate *= 0.9;
+
+            if (data.parking === '1') rate *= 1.02;
+            if (data.parking === '2') rate *= 1.04;
+
+            if (data.balcony === 'yes') rate *= 1.01;
+            if (data.amenities.club) rate *= 1.02;
+            if (data.amenities.pool) rate *= 1.02;
+            if (data.amenities.security) rate *= 1.01;
+
+            const basePrice = rate * data.area;
+            const low = basePrice * 0.95;
+            const high = basePrice * 1.08;
+
+            return { price: basePrice, low, high, rate };
+        }
+
+        function readForm() {
+            const area = Number(document.getElementById('area').value) || 0;
+            return {
+                city: document.getElementById('city').value,
+                locality: localitySelect.value,
+                area,
+                bhk: Number(document.getElementById('bhk').value),
+                bath: Number(document.getElementById('bath').value),
+                type: document.getElementById('type').value,
+                furnish: document.getElementById('furnish').value,
+                age: document.getElementById('age').value,
+                parking: document.getElementById('parking').value,
+                balcony: document.querySelector('input[name="balcony"]:checked')?.value || 'yes',
+                amenities: {
+                    club: document.getElementById('club').checked,
+                    pool: document.getElementById('pool').checked,
+                    security: document.getElementById('security').checked
+                }
+            };
+        }
+
+        function updateUI(result, data) {
+            const resultValue = document.getElementById('resultValue');
+            const rangeValue = document.getElementById('rangeValue');
+            const psfValue = document.getElementById('psfValue');
+            const insightText = document.getElementById('insightText');
+
+            resultValue.textContent = currencyFmt.format(result.price);
+            rangeValue.textContent = `${currencyFmt.format(result.low)} - ${currencyFmt.format(result.high)}`;
+            psfValue.textContent = `${currencyFmt.format(result.rate)} / sq.ft`;
+
+            const localityText = data.locality ? ` around ${data.locality}` : '';
+            insightText.textContent = `Assuming ${data.bhk} BHK ${data.type} in ${data.city}${localityText} with ${data.furnish} furnishing.`;
+        }
+
+        const localityRateHint = document.getElementById('localityRateHint');
+        const localitySelect = document.getElementById('locality');
+
+        function updateLocalityHint() {
+            // Intentionally suppress showing base rate to the user
+            localityRateHint.textContent = '';
+        }
+
+        document.getElementById('predictForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const data = readForm();
+            if (!data.area || data.area <= 0) {
+                document.getElementById('resultValue').textContent = '₹0';
+                document.getElementById('rangeValue').textContent = '--';
+                document.getElementById('psfValue').textContent = '--';
+                document.getElementById('insightText').textContent = 'Area not selected. Add built-up area to see the estimate.';
+                return;
+            }
+
+            const result = calculateEstimate(data);
+            updateUI(result, data);
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            document.getElementById('predictForm').reset();
+            localitySelect.selectedIndex = 0;
+            document.getElementById('area').value = '';
+            document.getElementById('bhk').value = 2;
+            document.getElementById('bath').value = 2;
+            document.getElementById('type').value = 'apartment';
+            document.getElementById('furnish').value = 'semi';
+            document.getElementById('age').value = 'new';
+            document.getElementById('parking').value = '1';
+            document.getElementById('balconyYes').checked = true;
+            document.getElementById('club').checked = false;
+            document.getElementById('pool').checked = false;
+            document.getElementById('security').checked = true;
+            document.getElementById('resultValue').textContent = '₹0';
+            document.getElementById('rangeValue').textContent = '--';
+            document.getElementById('psfValue').textContent = '--';
+            document.getElementById('insightText').textContent = 'Fill the form to see insights.';
+            updateLocalityHint();
+        });
+
+        localitySelect.addEventListener('change', updateLocalityHint);
+
+        // Initial run
+        (function initialEstimate() {
+            updateLocalityHint();
+            const data = readForm();
+            if (!data.area || data.area <= 0) {
+                document.getElementById('resultValue').textContent = '₹0';
+                document.getElementById('rangeValue').textContent = '--';
+                document.getElementById('psfValue').textContent = '--';
+                document.getElementById('insightText').textContent = 'Area not selected. Add built-up area to see the estimate.';
+                return;
+            }
+            const result = calculateEstimate(data);
+            updateUI(result, data);
+        })();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,2304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindMyRoof</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="icon" href="Photos/logo3.png">
+
+    <script>
+        window.API_BASE = "http://localhost:5000";
+    </script>
+
+    <style>
+        /* ==================== GLOBAL STYLES ==================== */
+        body {
+            margin: 0;
+            background-color: #f8f9fa;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        /* ==================== NAVIGATION BAR ==================== */
+        .transparent-nav {
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(6px);
+            z-index: 1030;
+            transition: background 0.3s;
+        }
+
+        .navbar .nav-link {
+            color: #fff !important;
+            font-size: 0.95rem;
+        }
+
+        .navbar-brand {
+            padding: 0;
+            line-height: 1;
+            color: #212529;
+        }
+
+        .navbar-brand img {
+            height: 32px;
+            width: auto;
+        }
+
+        .navbar .dropdown-menu {
+            background: rgba(0, 0, 0, 0.85);
+            border: none;
+        }
+
+        .navbar .dropdown-item {
+            color: #fff;
+        }
+
+        .navbar .dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .custom-nav.scrolled {
+            background: #0d6efd;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 8px 0;
+        }
+
+        /* Hover dropdown */
+        .navbar .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        /* ---------- CAROUSEL ---------- */
+        .hero-img {
+            height: 500px;
+            object-fit: cover;
+            pointer-events: none;
+        }
+
+        .carousel-caption {
+            z-index: 10;
+            bottom: 0;
+            padding-bottom: 3rem;
+        }
+
+        .custom-caption {
+            bottom: 12%;
+            transform: translateY(0);
+        }
+
+        /* ---------- SEARCH BOX ---------- */
+        .search-wrapper {
+            background: rgba(0, 0, 0, 0.55);
+            padding: 20px;
+            border-radius: 14px;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .nav-tabs .nav-link {
+            color: #ccc;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .nav-tabs .nav-link.active {
+            background: transparent;
+            color: #fff;
+            font-weight: 600;
+            border-bottom: 2px solid #28a745;
+        }
+
+        .nav-tabs {
+            border-bottom: none;
+        }
+
+        /* Commercial radio options */
+        .commercial-radio-group {
+            display: none;
+            gap: 15px;
+            align-items: center;
+            background: white;
+            padding: 0 15px;
+            border-right: 1px solid #dee2e6;
+        }
+
+        .commercial-radio-group.show {
+            display: flex;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .radio-option input[type="radio"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: #28a745;
+        }
+
+        .radio-option label {
+            color: #212529;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        .input-group-text {
+            border-radius: 30px 0 0 30px;
+            border: none;
+        }
+
+        .input-group .form-control {
+            border-radius: 0;
+            border: none;
+            height: 50px;
+        }
+
+        .input-group .form-control.with-radio {
+            border-right: 1px solid #dee2e6;
+        }
+
+        .input-group .btn {
+            border-radius: 0 30px 30px 0;
+            height: 50px;
+            font-weight: 600;
+        }
+
+
+        /* ================= CONTENT SECTION ================= */
+        .section-wrapper {
+            padding: 40px 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 0 10px;
+        }
+
+        .section-title-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3436;
+            margin: 0;
+        }
+
+        #section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        #section-desc {
+            max-width: 700px;
+        }
+
+        .text-muted.small {
+            font-size: 0.9rem;
+        }
+
+        /* Discover Button */
+        .btn-discover {
+            color: #0d6efd;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid #0d6efd;
+            padding: 6px 20px;
+            border-radius: 25px;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-discover:hover {
+            background: #0d6efd;
+            color: white;
+        }
+
+        /* Carousel Wrapper */
+        .carousel-wrapper {
+            position: relative;
+            padding: 0 10px;
+        }
+
+        .horizontal-scroll-container {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 10px 5px 30px 5px;
+            scroll-behavior: smooth;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .horizontal-scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scroll-btn {
+            position: absolute;
+            top: 45%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #2d3436;
+        }
+
+        .scroll-btn:hover {
+            background: #f8f9fa;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .scroll-btn.left {
+            left: -20px;
+        }
+
+        .scroll-btn.right {
+            right: -20px;
+        }
+
+        /* ================= PROPERTY CARDS ================= */
+        .property-card-wrapper {
+            min-width: 280px;
+            max-width: 280px;
+            flex-shrink: 0;
+        }
+
+        .property-card {
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .property-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-img-top {
+            height: 180px;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .card-body {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #2d3436;
+        }
+
+        .card-loc {
+            font-size: 0.9rem;
+            color: #636e72;
+            margin-bottom: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .property-price {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #000;
+        }
+
+        .card-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2d3436;
+        }
+
+        .card-meta {
+            font-size: 0.8rem;
+            color: #b2bec3;
+            margin-top: auto;
+            display: flex;
+            gap: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f1f1f1;
+        }
+
+        /* ==================== AGENT CARDS ==================== */
+        .agent-card-wrapper {
+            min-width: 280px;
+            max-width: 280px;
+            flex-shrink: 0;
+        }
+
+        .agent-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            background: white;
+            padding: 15px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s;
+        }
+
+        .agent-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .agent-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .agent-initial {
+            width: 40px;
+            height: 40px;
+            background: #ffc107;
+            color: white;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .agent-name {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #212529;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .agent-stats {
+            display: flex;
+            gap: 15px;
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-bottom: 12px;
+        }
+
+        .agent-stat strong {
+            color: #212529;
+        }
+
+        .agent-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .agent-tag {
+            background: #f1f3f5;
+            color: #495057;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+        }
+
+        .btn-contact {
+            margin-top: auto;
+            border: 1px solid #6c5ce7;
+            color: #6c5ce7;
+            background: white;
+            border-radius: 8px;
+            padding: 8px;
+            width: 100%;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .btn-contact:hover {
+            background: #6c5ce7;
+            color: white;
+        }
+
+        /* ================= EMPTY STATE ================= */
+        .empty-state {
+            text-align: center;
+            color: #6c757d;
+            padding: 60px 0;
+        }
+
+        /* ================= FOOTER ================= */
+        footer {
+            background: #212529;
+            color: #fff;
+        }
+
+        .footer-link {
+            color: #bdbdbd;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .footer-link:hover {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        /* ================= RESPONSIVE ================= */
+        @media (max-width: 768px) {
+            .custom-caption {
+                bottom: 5%;
+            }
+
+            .search-wrapper {
+                padding: 15px;
+            }
+
+            .nav-tabs {
+                flex-wrap: nowrap;
+                overflow-x: hidden;
+                justify-content: flex-start;
+            }
+
+            .radio-option label {
+                font-size: 0.85rem;
+            }
+
+            .radio-option input[type="radio"] {
+                width: 14px;
+                height: 14px;
+            }
+
+            .commercial-radio-group {
+                gap: 10px;
+                padding: 0 10px;
+            }
+
+            .navbar {
+                padding: 0.5rem 0;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .scroll-btn {
+                display: flex; /* Show scroll buttons on mobile */
+                width: 36px;
+                height: 36px;
+                background: white;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+                z-index: 100;
+            }
+
+            .scroll-btn.left {
+                left: 10px;
+            }
+
+            .scroll-btn.right {
+                right: 10px;
+            }
+
+            .horizontal-scroll-container {
+                padding: 10px 15px 20px 15px;
+                gap: 0;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .property-card-wrapper,
+            .agent-card-wrapper {
+                min-width: calc(100vw - 30px);
+                max-width: calc(100vw - 30px);
+                scroll-snap-align: center;
+                flex-shrink: 0;
+            }
+
+            .carousel-wrapper {
+                padding: 0;
+                overflow: hidden;
+            }
+
+            body {
+                overflow-x: hidden;
+            }
+
+            .container {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            .section-wrapper {
+                overflow: hidden;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .commercial-radio-group {
+                gap: 8px;
+                padding: 0 8px;
+            }
+
+            .nav-tabs .nav-link {
+                font-size: 0.85rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            .radio-option label {
+                font-size: 0.75rem;
+            }
+
+            .radio-option input[type="radio"] {
+                width: 12px;
+                height: 12px;
+            }
+
+            .input-group .form-control {
+                font-size: 0.85rem;
+            }
+
+            .hero-img {
+                height: 350px;
+            }
+
+            .property-card-wrapper,
+            .agent-card-wrapper {
+                min-width: calc(100vw - 30px);
+                max-width: calc(100vw - 30px);
+                scroll-snap-align: center;
+            }
+
+            .horizontal-scroll-container {
+                padding: 10px 15px 20px 15px;
+                gap: 0;
+            }
+
+            .navbar-brand img {
+                height: 28px;
+            }
+
+            .section-wrapper {
+                padding: 30px 0;
+            }
+        }
+
+        .offcanvas-end {
+            --bs-offcanvas-width: 320px;
+        }
+
+        .profile-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #6c5ce7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 22px;
+        }
+
+        /* .upgrade {
+            color: #6c5ce7;
+            font-weight: 500;
+            font-size: 14px;
+        } */
+
+        .activity-card {
+            border: 1px solid #ddd;
+            border-radius: 14px;
+            padding: 10px 6px;
+            height: 90px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 13px;
+            line-height: 1.2;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .activity-card:hover {
+            border-color: #6c5ce7;
+            box-shadow: 0 2px 8px rgba(108, 92, 231, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .activity-card.active {
+            border: 2px solid #6c5ce7;
+            background-color: #f5f3ff;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .menu-item:hover {
+            background-color: #f8f9fa;
+            padding-left: 5px;
+        }
+
+        .menu-item i {
+            font-size: 18px;
+            color: #6c5ce7;
+        }
+
+        .badge-new {
+            background: #ff3b3b;
+            font-size: 10px;
+        }
+
+        .toggle-eye-btn {
+            border: 0;
+            background: transparent;
+            color: #6c757d;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 0;
+        }
+
+        .toggle-eye-btn .bi {
+            font-size: 1.1rem;
+        }
+
+        /* Auth Modal Specifics */
+        .auth-box {
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            border: none;
+            background: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #0d6efd 0%, #0b5ed7 50%, #0a58ca 100%);
+        }
+
+        #authModal .modal-content {
+            border: none;
+        }
+
+        #authModal #authTitle {
+            font-weight: 700;
+            color: #212529;
+            font-size: 1.75rem;
+            margin-top: 10px;
+        }
+
+        #authModal .form-label {
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        #authModal .form-control {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        #authModal .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+            background-color: #ffffff;
+        }
+
+        #authModal .form-control.pe-5 {
+            padding-right: 45px;
+        }
+
+        #authModal .btn-primary {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.3px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+        }
+
+        #authModal .btn-primary:hover {
+            background: linear-gradient(135deg, #0b5ed7 0%, #0a58ca 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(13, 110, 253, 0.4);
+        }
+
+        #authModal .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        #authModal #switchLink {
+            color: #0d6efd;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        #authModal #switchLink:hover {
+            color: #0b5ed7;
+            text-decoration: underline;
+        }
+
+        #authModal #switchText {
+            color: #6c757d;
+            font-size: 0.95rem;
+        }
+
+        #authModal .toggle-eye-btn {
+            background: transparent;
+            border: none;
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        #authModal .toggle-eye-btn:hover {
+            color: #0d6efd;
+            background: rgba(13, 110, 253, 0.1);
+        }
+
+        #authModal .alert {
+            border-radius: 8px;
+            font-size: 0.9rem;
+            padding: 10px 12px;
+        }
+
+        #authModal .modal-dialog {
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #authModal .form-control::placeholder {
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+
+        #authModal input[type="email"],
+        #authModal input[type="text"],
+        #authModal input[type="password"] {
+            color: #212529;
+        }
+
+        /* Property Detail Modal */
+        .property-detail-modal .modal-dialog {
+            max-width: 900px;
+        }
+
+        .property-detail-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .detail-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            background: #e3f2fd;
+            color: #1976d2;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .detail-section {
+            margin-bottom: 20px;
+        }
+
+        .detail-section h6 {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #2d3436;
+        }
+
+        .amenity-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+    </style>
+
+    <script>
+        // --- 1. GLOBAL VARIABLES & UTILITIES ---
+        const propertyCache = new Map();
+        let propertyModal;
+
+        const IMAGE_BY_TYPE = {
+            buy: "https://images.unsplash.com/photo-1505691938895-1758d7feb511",
+            rent: "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e",
+            commercial: "https://images.unsplash.com/photo-1503389152951-9f343605f61e",
+            plots: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85"
+        };
+
+        function withImage(property) {
+            if (property.image && property.image.trim() !== '') return property;
+            const typeKey = (property.type || 'buy').toLowerCase();
+            const img = IMAGE_BY_TYPE[typeKey] || IMAGE_BY_TYPE.buy;
+            return { ...property, image: img };
+        }
+
+        function formatPrice(price) {
+            if (!isNaN(price) && price !== "") {
+                return "₹" + Number(price).toLocaleString('en-IN');
+            }
+            return price;
+        }
+
+        // --- 2. HTML GENERATORS ---
+        // Updated to accept targetUrl for the onclick event
+        function buildPropertyCardHTML(property) {
+            const propertyId = property.id ?? `${property.name}-${property.location}`;
+            const hydrated = withImage(property);
+            propertyCache.set(String(propertyId), hydrated);
+            const displayPrice = formatPrice(hydrated.price);
+
+            return `
+            <div class="property-card-wrapper">
+                <div class="property-card" onclick="showPropertyDetail('${propertyId}')">
+                    <img src="${hydrated.image}" class="card-img-top" alt="${hydrated.name}">
+                    <div class="card-body">
+                        <div class="card-title" title="${hydrated.name}">${hydrated.name}</div>
+                        <div class="card-loc"><i class="bi bi-geo-alt-fill text-danger me-1"></i>${hydrated.location}</div>
+                        <div class="card-price">${displayPrice}</div>
+                        <div class="card-meta">
+                            ${hydrated.bhk ? `<span><i class="bi bi-houses-fill"></i> ${hydrated.bhk}</span>` : ''}
+                            ${hydrated.area ? `<span><i class="bi bi-arrows-fullscreen"></i> ${hydrated.area}</span>` : ''}
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        function showPropertyDetail(propertyId) {
+            const property = propertyCache.get(String(propertyId));
+            if (!property) {
+                console.error('Property not found:', propertyId);
+                return;
+            }
+
+            // Populate modal with property data
+            document.getElementById('propertyDetailTitle').textContent = property.name || 'Property Details';
+            document.getElementById('propertyDetailImage').src = property.image || '';
+            document.getElementById('propertyDetailName').textContent = property.name || 'N/A';
+            document.getElementById('propertyDetailLocation').textContent = property.location || 'N/A';
+            document.getElementById('propertyDetailPrice').textContent = formatPrice(property.price);
+
+            // Property type badges
+            let badges = '';
+            if (property.type) badges += `<span class="detail-badge"><i class="bi bi-tag-fill me-1"></i>${property.type}</span>`;
+            if (property.property_type) badges += `<span class="detail-badge"><i class="bi bi-house-fill me-1"></i>${property.property_type}</span>`;
+            if (property.category) badges += `<span class="detail-badge">${property.category}</span>`;
+            if (property.sale_type) badges += `<span class="detail-badge">${property.sale_type}</span>`;
+            document.getElementById('propertyDetailBadges').innerHTML = badges || '<span class="text-muted">N/A</span>';
+
+            // Specifications
+            let specs = '';
+            if (property.bhk) specs += `<div class="amenity-item"><i class="bi bi-houses-fill"></i> ${property.bhk}</div>`;
+            if (property.area) specs += `<div class="amenity-item"><i class="bi bi-arrows-fullscreen"></i> ${property.area}</div>`;
+            if (property.furnish) specs += `<div class="amenity-item"><i class="bi bi-lamp-fill"></i> ${property.furnish}</div>`;
+            if (property.property_age) specs += `<div class="amenity-item"><i class="bi bi-calendar-check"></i> ${property.property_age} old</div>`;
+            if (property.facing) specs += `<div class="amenity-item"><i class="bi bi-compass"></i> ${property.facing} facing</div>`;
+            document.getElementById('propertyDetailSpecs').innerHTML = specs || '<span class="text-muted">No specifications available</span>';
+
+            // Description
+            document.getElementById('propertyDetailDescription').textContent = property.description || 'No description available.';
+
+            // View full details button
+            document.getElementById('viewFullDetailsBtn').onclick = () => {
+                window.location.href = `properties.html?id=${propertyId}`;
+            };
+
+            // Show modal
+            const modal = new bootstrap.Modal(document.getElementById('propertyDetailModal'));
+            modal.show();
+        }
+
+        function buildAgentCardHTML(agent) {
+            const initials = agent.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+            const colors = ['#ffc107', '#20c997', '#0dcaf0', '#fd7e14', '#6f42c1'];
+            const bg = colors[Math.floor(Math.random() * colors.length)];
+
+            let tagsHtml = '';
+            if (agent.locations && agent.locations.length > 0) {
+                tagsHtml = agent.locations.map(loc => `<span class="agent-tag">${loc}</span>`).join('');
+            } else {
+                tagsHtml = '<span class="agent-tag">Ahmedabad</span>';
+            }
+
+            return `
+            <div class="agent-card-wrapper">
+                <div class="agent-card">
+                    <div class="agent-header">
+                        <div class="agent-initial" style="background-color: ${bg};">${initials}</div>
+                        <div class="agent-name" title="${agent.name}">${agent.name} <i class="bi bi-chevron-right ms-1 small text-muted"></i></div>
+                    </div>
+                    <div class="agent-stats">
+                        <span class="agent-stat"><strong>${agent.total_properties}</strong> Properties</span>
+                    </div>
+                    <div class="agent-tags">
+                        ${tagsHtml}
+                    </div>
+                    <button class="btn-contact" onclick="window.open('https://wa.me/${agent.phone.replace(/[^0-9]/g, '')}', '_blank')">
+                        <i class="bi bi-telephone-fill me-2"></i> Show Contact
+                    </button>
+                </div>
+            </div>`;
+        }
+
+        // --- SCROLL LOGIC ---
+        function scrollContainer(containerId, direction) {
+            const container = document.getElementById(containerId);
+            if (container) {
+                const scrollAmount = 300;
+                container.scrollBy({
+                    left: direction === 'left' ? -scrollAmount : scrollAmount,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // Scroll property tabs left or right
+        function scrollTabs(direction) {
+            const tabsContainer = document.getElementById('propertyTabs');
+            if (tabsContainer) {
+                const scrollAmount = 200; // Scroll 200px at a time
+                tabsContainer.scrollBy({
+                    left: direction === 'left' ? -scrollAmount : scrollAmount,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // --- FETCH AND RENDER LOGIC ---
+
+        // 1. Renders Buy Section (Flats + Villas)
+        async function renderBuySection() {
+            try {
+                const res = await fetch(`${window.API_BASE}/api/properties?listing_type=buy`);
+                const allBuyProperties = await res.json();
+
+                // Filter for Flats (Top 8)
+                const flats = allBuyProperties.filter(p => (p.property_type || '').toLowerCase() === 'flat').slice(0, 8);
+                // Filter for Villas (Top 8)
+                const villas = allBuyProperties.filter(p => (p.property_type || '').toLowerCase() === 'villa').slice(0, 8);
+
+                // Render Flats Carousel
+                const flatContainer = document.getElementById('flats-buy-carousel');
+                if (flats.length > 0) flatContainer.innerHTML = flats.map(p => buildPropertyCardHTML(p)).join('');
+                else flatContainer.innerHTML = '<div class="w-100 text-center text-muted py-4">No flats currently available.</div>';
+
+                // Render Villas Carousel
+                const villaContainer = document.getElementById('villas-buy-carousel');
+                if (villas.length > 0) villaContainer.innerHTML = villas.map(p => buildPropertyCardHTML(p)).join('');
+                else villaContainer.innerHTML = '<div class="w-100 text-center text-muted py-4">No villas currently available.</div>';
+
+            } catch (error) {
+                console.error("Error loading buy properties:", error);
+            }
+        }
+
+        // 2. Renders Rent Section (Flats + Villas)
+        async function renderRentSection() {
+            try {
+                const res = await fetch(`${window.API_BASE}/api/properties?listing_type=rent`);
+                const allRentProperties = await res.json();
+
+                // Filter for Flats (Top 8)
+                const flats = allRentProperties.filter(p => (p.property_type || '').toLowerCase() === 'flat').slice(0, 8);
+                // Filter for Villas (Top 8)
+                const villas = allRentProperties.filter(p => (p.property_type || '').toLowerCase() === 'villa').slice(0, 8);
+
+                // Render Flats Carousel
+                const flatContainer = document.getElementById('flats-rent-carousel');
+                if (flats.length > 0) flatContainer.innerHTML = flats.map(p => buildPropertyCardHTML(p)).join('');
+                else flatContainer.innerHTML = '<div class="w-100 text-center text-muted py-4">No flats for rent available.</div>';
+
+                // Render Villas Carousel
+                const villaContainer = document.getElementById('villas-rent-carousel');
+                if (villas.length > 0) villaContainer.innerHTML = villas.map(p => buildPropertyCardHTML(p)).join('');
+                else villaContainer.innerHTML = '<div class="w-100 text-center text-muted py-4">No villas for rent available.</div>';
+
+            } catch (error) {
+                console.error("Error loading rent properties:", error);
+            }
+        }
+
+        // 3. Renders Commercial Section (Buy + Rent)
+        async function renderCommercialSection() {
+            try {
+                // Fetch Buy Commercial (Office, Shop, Showroom)
+                const resBuy = await fetch(`${window.API_BASE}/api/properties?listing_type=buy`);
+                const allBuy = await resBuy.json();
+                const commBuy = allBuy.filter(p => ['office', 'shop', 'showroom'].includes((p.property_type || '').toLowerCase())).slice(0, 8);
+
+                // Fetch Rent Commercial
+                const resRent = await fetch(`${window.API_BASE}/api/properties?listing_type=rent`);
+                const allRent = await resRent.json();
+                const commRent = allRent.filter(p => ['office', 'shop', 'showroom'].includes((p.property_type || '').toLowerCase())).slice(0, 8);
+
+                // Render Buy Carousel
+                const buyContainer = document.getElementById('commercial-buy-carousel');
+                if (commBuy.length > 0) buyContainer.innerHTML = commBuy.map(p => buildPropertyCardHTML(p)).join('');
+                else buyContainer.innerHTML = '<div class="w-100 text-center text-muted py-4">No commercial properties for sale.</div>';
+
+                // Render Rent Carousel
+                const rentContainer = document.getElementById('commercial-rent-carousel');
+                if (commRent.length > 0) rentContainer.innerHTML = commRent.map(p => buildPropertyCardHTML(p)).join('');
+                else rentContainer.innerHTML = '<div class="w-100 text-center text-muted py-4">No commercial properties for rent.</div>';
+
+            } catch (error) {
+                console.error("Error loading commercial properties:", error);
+            }
+        }
+
+        // 4. Renders Plots Section (Residential + Commercial)
+        async function renderPlotsSection() {
+            try {
+                const res = await fetch(`${window.API_BASE}/api/properties?listing_type=buy`); // Assuming plots are mostly buy
+                const allProps = await res.json();
+
+                // Filter by Category
+                const resPlots = allProps.filter(p => (p.property_type || '').toLowerCase() === 'plot' && (p.category || '').toLowerCase() === 'residential').slice(0, 8);
+                const commPlots = allProps.filter(p => (p.property_type || '').toLowerCase() === 'plot' && (p.category || '').toLowerCase() === 'commercial').slice(0, 8);
+
+                // Render Residential Plots
+                const resContainer = document.getElementById('plots-residential-carousel');
+                if (resPlots.length > 0) resContainer.innerHTML = resPlots.map(p => buildPropertyCardHTML(p)).join('');
+                else resContainer.innerHTML = '<div class="w-100 text-center text-muted py-4">No residential plots available.</div>';
+
+                // Render Commercial Plots
+                const commContainer = document.getElementById('plots-commercial-carousel');
+                if (commPlots.length > 0) commContainer.innerHTML = commPlots.map(p => buildPropertyCardHTML(p)).join('');
+                else commContainer.innerHTML = '<div class="w-100 text-center text-muted py-4">No commercial plots available.</div>';
+
+            } catch (error) {
+                console.error("Error loading plots:", error);
+            }
+        }
+
+        // 5. Render Agents Section
+        async function renderAgentsSection() {
+            try {
+                const res = await fetch(`${window.API_BASE}/api/agents/top`);
+                const agents = await res.json();
+                const container = document.getElementById('agents-carousel');
+
+                if (agents.length > 0) {
+                    container.innerHTML = agents.map(a => buildAgentCardHTML(a)).join('');
+                } else {
+                    container.innerHTML = '<div class="w-100 text-center text-muted py-4">No recommended sellers found.</div>';
+                }
+            } catch (error) {
+                console.error("Error loading agents:", error);
+                document.getElementById('agents-carousel').innerHTML = '<div class="text-danger text-center">Failed to load agents.</div>';
+            }
+        }
+
+        // --- AUTH & SESSION VARIABLES ---
+        let isLoggedIn = false;
+        let pendingOtpEmail = "";
+        let pendingOtpPurpose = "Login";
+        let otpCooldownTimer = null;
+
+        // --- SESSION MANAGEMENT ---
+        function initSession() {
+            const storedUser = localStorage.getItem("user");
+
+            // Elements
+            const navProfileName = document.getElementById("navProfileName");
+            const navProfileBtn = document.getElementById("navProfileBtn");
+            const profileName = document.getElementById("profileName");
+            const profileEmail = document.getElementById("profileEmail");
+            const profileInfo = document.getElementById("profileInfo");
+            const loginBtn = document.getElementById("loginActionBtn");
+            const editProfileBtn = document.getElementById("editProfileBtn");
+            const logoutAction = document.getElementById("logoutAction");
+
+            if (storedUser) {
+                try {
+                    const user = JSON.parse(storedUser);
+                    window.isLoggedIn = true;
+
+                    // Update Offcanvas Sidebar
+                    if (profileName) profileName.textContent = user.full_name || user.name || "User";
+                    if (profileEmail) profileEmail.textContent = user.email || "";
+                    if (profileInfo) profileInfo.classList.remove("d-none");
+                    if (loginBtn) loginBtn.classList.add("d-none");
+                    if (editProfileBtn) editProfileBtn.classList.remove("d-none");
+                    if (logoutAction) logoutAction.classList.remove("d-none");
+
+                    // Update Navbar Name (First Name Only)
+                    if (navProfileName) {
+                        const fullName = user.full_name || user.name || "User";
+                        navProfileName.textContent = fullName.split(" ")[0];
+                    }
+
+                    // Keep offcanvas toggle for logged-in users
+                    if (navProfileBtn) {
+                        navProfileBtn.setAttribute("data-bs-toggle", "offcanvas");
+                        navProfileBtn.setAttribute("data-bs-target", "#profileOffcanvas");
+                        navProfileBtn.removeAttribute("data-bs-toggle-modal");
+                    }
+                } catch (e) {
+                    console.error("Session parse error", e);
+                    localStorage.removeItem("user");
+                }
+            } else {
+                // Not logged in - show Login and open modal directly
+                if (navProfileName) navProfileName.textContent = "Login";
+                if (navProfileBtn) {
+                    navProfileBtn.setAttribute("data-bs-toggle", "modal");
+                    navProfileBtn.setAttribute("data-bs-target", "#authModal");
+                    navProfileBtn.removeAttribute("data-bs-toggle");
+                    navProfileBtn.removeAttribute("data-bs-target");
+                    navProfileBtn.onclick = function() {
+                        openLogin();
+                        const authModal = new bootstrap.Modal(document.getElementById("authModal"));
+                        authModal.show();
+                    };
+                }
+            }
+        }
+
+        function applyUserProfile(user) {
+            if (!user) return;
+            localStorage.setItem("user", JSON.stringify(user));
+            
+            // Fetch user's saved activity from backend after login
+            if (user.user_id) {
+                fetchUserActivityFromBackend(user.user_id);
+            }
+            
+            initSession();
+        }
+
+        // Fetch and sync user's activity data from backend
+        function fetchUserActivityFromBackend(userId) {
+            const apiBase = window.API_BASE || 'http://localhost:5000';
+            
+            // Fetch saved properties
+            fetch(`${apiBase}/api/users/${userId}/saved-properties`)
+                .then(response => response.ok ? response.json() : [])
+                .then(properties => {
+                    if (properties.length > 0) {
+                        localStorage.setItem('savedProperties', JSON.stringify(properties));
+                        console.log(`✅ Synced ${properties.length} saved properties from backend`);
+                    }
+                })
+                .catch(err => console.warn('Could not fetch saved properties:', err));
+            
+            // Fetch recently viewed
+            fetch(`${apiBase}/api/users/${userId}/recently-viewed`)
+                .then(response => response.ok ? response.json() : [])
+                .then(properties => {
+                    if (properties.length > 0) {
+                        localStorage.setItem('recentlyViewed', JSON.stringify(properties));
+                        console.log(`✅ Synced ${properties.length} recently viewed from backend`);
+                    }
+                })
+                .catch(err => console.warn('Could not fetch recently viewed:', err));
+            
+            // Fetch contacted properties
+            fetch(`${apiBase}/api/users/${userId}/contacted-properties`)
+                .then(response => response.ok ? response.json() : [])
+                .then(properties => {
+                    if (properties.length > 0) {
+                        localStorage.setItem('contactedProperties', JSON.stringify(properties));
+                        console.log(`✅ Synced ${properties.length} contacted properties from backend`);
+                    }
+                    // Update counts after all data is loaded
+                    updateSavedCount();
+                })
+                .catch(err => console.warn('Could not fetch contacted properties:', err));
+        }
+
+        function logoutUser() {
+            if (confirm("Are you sure you want to log out?")) {
+                // 1. Remove User Session
+                localStorage.removeItem("user");
+
+                // 2. CLEAR ALL ACTIVITY DATA (Reset for next user)
+                localStorage.removeItem("savedProperties");
+                localStorage.removeItem("recentlyViewed");
+                localStorage.removeItem("contactedProperties");
+
+                // 3. Reload
+                window.location.reload();
+            }
+        }
+
+        // Navigate to activity section in profile
+        function goToActivity(activityType) {
+            // Store the activity type to show in profile.html
+            localStorage.setItem('activityTab', activityType);
+            // Navigate to profile page
+            window.location.href = 'profile.html';
+        }
+
+        // Update activity counts in offcanvas
+        function updateSavedCount() {
+            const savedProperties = JSON.parse(localStorage.getItem('savedProperties') || '[]');
+            const recentlyViewed = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
+            const contactedProperties = JSON.parse(localStorage.getItem('contactedProperties') || '[]');
+
+            // Update counts using the new IDs
+            const savedCountEl = document.getElementById('saved-count');
+            const recentCountEl = document.getElementById('recent-count');
+            const contactedCountEl = document.getElementById('contacted-count');
+
+            if (savedCountEl) savedCountEl.textContent = String(savedProperties.length).padStart(2, '0');
+            if (recentCountEl) recentCountEl.textContent = String(recentlyViewed.length).padStart(2, '0');
+            if (contactedCountEl) contactedCountEl.textContent = String(contactedProperties.length).padStart(2, '0');
+        }
+
+        // --- MODAL HELPERS ---
+        function openLogin() {
+            document.getElementById("loginForm").classList.remove("d-none");
+            document.getElementById("registerForm").classList.add("d-none");
+            document.getElementById("authTitle").innerText = "Login";
+        }
+
+        function openRegister() {
+            document.getElementById("loginForm").classList.add("d-none");
+            document.getElementById("registerForm").classList.remove("d-none");
+            document.getElementById("authTitle").innerText = "Create Account";
+        }
+
+        function showOtpModal(email, purpose) {
+            pendingOtpEmail = email;
+            pendingOtpPurpose = purpose;
+            document.getElementById("otpEmail").value = email;
+            document.getElementById("otpInput").value = "";
+            document.getElementById("otpStatus").classList.add("d-none");
+
+            const authModal = bootstrap.Modal.getInstance(document.getElementById('authModal'));
+            if (authModal) authModal.hide();
+
+            new bootstrap.Modal(document.getElementById('otpModal')).show();
+            startOtpCooldown(60);
+        }
+
+        function hideAuthModal() {
+            const authModal = bootstrap.Modal.getInstance(document.getElementById('authModal'));
+            if (authModal) authModal.hide();
+        }
+
+        function togglePwd(id, iconEl) {
+            const el = document.getElementById(id);
+            const isHidden = el.type === "password";
+            el.type = isHidden ? "text" : "password";
+            iconEl.classList.toggle("bi-eye", !isHidden);
+            iconEl.classList.toggle("bi-eye-slash", isHidden);
+        }
+
+        // --- AUTH EVENT LISTENERS ---
+        function setupAuthListeners() {
+            const switchLink = document.getElementById("switchLink");
+            if (switchLink) {
+                switchLink.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    if (document.getElementById("loginForm").classList.contains("d-none")) openLogin();
+                    else openRegister();
+                });
+            }
+
+            // Login Submit
+            const loginForm = document.getElementById("loginForm");
+            if (loginForm) {
+                loginForm.addEventListener("submit", (e) => {
+                    e.preventDefault();
+                    const email = document.getElementById("loginEmail").value;
+                    const password = document.getElementById("loginPassword").value;
+                    const status = document.getElementById("loginStatus");
+
+                    fetch(`${window.API_BASE}/api/users/login`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ email, password })
+                    })
+                        .then(async (res) => {
+                            const data = await res.json();
+                            if (res.status === 200) {
+                                if (data.requires_otp) showOtpModal(email, "Login");
+                                else {
+                                    applyUserProfile(data);
+                                    hideAuthModal();
+                                }
+                            } else {
+                                const errorMsg = Array.isArray(data.error) ? data.error.join(', ') : (data.error || "Login Failed");
+                                status.textContent = errorMsg;
+                                status.classList.remove("d-none");
+                                status.classList.add("alert-danger");
+                            }
+                        })
+                        .catch((error) => {
+                            console.error("Login error:", error);
+                            status.textContent = "Network Error: " + (error.message || "Unable to connect to server");
+                            status.classList.remove("d-none");
+                            status.classList.add("alert-danger");
+                        });
+                });
+            }
+
+            // Register Submit
+            const registerForm = document.getElementById("registerForm");
+            if (registerForm) {
+                registerForm.addEventListener("submit", (e) => {
+                    e.preventDefault();
+                    const full_name = document.getElementById("regName").value;
+                    const email = document.getElementById("regEmail").value;
+                    const phone = document.getElementById("regPhone").value;
+                    const password = document.getElementById("regPassword").value;
+                    const confirm = document.getElementById("regConfirm").value;
+
+                    if (password !== confirm) { alert("Passwords do not match"); return; }
+
+                    fetch(`${window.API_BASE}/api/users/register`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ full_name, email, phone, password })
+                    })
+                        .then(async (res) => {
+                            const data = await res.json();
+                            if (res.status === 201 && data.requires_otp) showOtpModal(email, "Registration");
+                            else alert(data.error || "Registration Failed");
+                        })
+                        .catch((err) => console.error(err));
+                });
+            }
+
+            // OTP Submit
+            const otpForm = document.getElementById("otpForm");
+            if (otpForm) {
+                otpForm.addEventListener("submit", (e) => {
+                    e.preventDefault();
+                    const otp = document.getElementById("otpInput").value;
+                    const status = document.getElementById("otpStatus");
+
+                    fetch(`${window.API_BASE}/api/users/verify-otp`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ email: pendingOtpEmail, otp, purpose: pendingOtpPurpose })
+                    })
+                        .then(async (res) => {
+                            const data = await res.json();
+                            if (res.status === 200) {
+                                applyUserProfile(data);
+                                const otpModal = bootstrap.Modal.getInstance(document.getElementById("otpModal"));
+                                if (otpModal) otpModal.hide();
+                                window.location.reload();
+                            } else {
+                                status.textContent = data.error || "Invalid OTP";
+                                status.classList.remove("d-none", "alert-danger");
+                                status.classList.add("alert-danger");
+                            }
+                        })
+                        .catch(err => console.error(err));
+                });
+            }
+
+            // OTP Resend
+            const otpResendBtn = document.getElementById("otpResendBtn");
+            if (otpResendBtn) {
+                otpResendBtn.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    if (otpResendBtn.disabled) return;
+                    fetch(`${window.API_BASE}/api/users/resend-otp`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ email: pendingOtpEmail, purpose: pendingOtpPurpose })
+                    }).then(() => {
+                        startOtpCooldown(60);
+                        alert("OTP Resent");
+                    });
+                });
+            }
+
+            // Preservation of redirects
+            const loginNextEl = document.getElementById("loginNext");
+            const registerNextEl = document.getElementById("registerNext");
+            if (loginNextEl) loginNextEl.value = window.location.pathname;
+            if (registerNextEl) registerNextEl.value = window.location.pathname;
+
+        }
+
+        function startOtpCooldown(seconds) {
+            const otpResendBtn = document.getElementById("otpResendBtn");
+            const otpResendCountdown = document.getElementById("otpResendCountdown");
+            if (window.otpCooldownTimer) clearInterval(window.otpCooldownTimer);
+            let remaining = seconds;
+
+            if (otpResendBtn) otpResendBtn.disabled = true;
+            if (otpResendCountdown) {
+                otpResendCountdown.textContent = `You can resend in ${remaining}s`;
+                otpResendCountdown.classList.remove("text-success");
+            }
+
+            window.otpCooldownTimer = setInterval(() => {
+                remaining -= 1;
+                if (otpResendCountdown) {
+                    if (remaining > 0) {
+                        otpResendCountdown.textContent = `You can resend in ${remaining}s`;
+                    } else {
+                        otpResendCountdown.textContent = "You can resend now";
+                        otpResendCountdown.classList.add("text-success");
+                    }
+                }
+                if (remaining <= 0) {
+                    clearInterval(window.otpCooldownTimer);
+                    window.otpCooldownTimer = null;
+                    if (otpResendBtn) otpResendBtn.disabled = false;
+                }
+            }, 1000);
+        }
+
+        // --- DOM CONTENT LOADED ---
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Carousel Init
+            const heroCarousel = new bootstrap.Carousel(document.getElementById('heroCarousel'), { ride: false });
+
+            // Tab Switching Logic
+            const tabs = document.querySelectorAll('#propertyTabs .nav-link');
+            const sections = document.querySelectorAll('.property-section-container');
+            const commercialRadioGroup = document.getElementById('commercialRadioGroup');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Active State
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    // Carousel BG
+                    heroCarousel.to(Number(tab.dataset.slide));
+
+                    // Show/Hide Commercial Radio Options
+                    const targetId = tab.dataset.target;
+                    const searchInput = document.getElementById('searchInput');
+                    if (targetId === 'commercial-section') {
+                        commercialRadioGroup.classList.add('show');
+                        searchInput.classList.add('with-radio');
+                    } else {
+                        commercialRadioGroup.classList.remove('show');
+                        searchInput.classList.remove('with-radio');
+                    }
+
+                    // Show Section
+                    sections.forEach(sec => sec.classList.add('d-none'));
+                    const targetEl = document.getElementById(targetId);
+                    if (targetEl) targetEl.classList.remove('d-none');
+
+                    // Trigger Data Load
+                    if (targetId === 'buy-section') renderBuySection();
+                    if (targetId === 'rent-section') renderRentSection();
+                    if (targetId === 'commercial-section') renderCommercialSection();
+                    if (targetId === 'plots-section') renderPlotsSection();
+                });
+            });
+
+            // Navbar Scroll Effect
+            window.addEventListener("scroll", function () {
+                const navbar = document.querySelector(".custom-nav");
+                if (!navbar) return;
+                if (window.scrollY > 350) {
+                    navbar.classList.add("scrolled");
+                } else {
+                    navbar.classList.remove("scrolled");
+                }
+            });
+
+            // Search Functionality
+            const searchBtn = document.getElementById('searchBtn');
+            const searchInput = document.getElementById('searchInput');
+
+            function performSearch() {
+                const searchTerm = searchInput.value.trim();
+                const activeTab = document.querySelector('#propertyTabs .nav-link.active');
+                const targetSection = activeTab ? activeTab.dataset.target : 'buy-section';
+
+                // Determine listing type based on active tab
+                let listingType = 'buy';
+                if (targetSection.includes('rent')) {
+                    listingType = 'rent';
+                } else if (targetSection.includes('commercial')) {
+                    // Get selected radio button value for commercial
+                    const selectedRadio = document.querySelector('input[name="commercialType"]:checked');
+                    listingType = selectedRadio ? selectedRadio.value : 'buy';
+                } else if (targetSection.includes('plots')) {
+                    listingType = 'buy';
+                }
+
+                // Build URL with search parameters
+                let url = `properties.html?listing=${listingType}`;
+
+                if (searchTerm) {
+                    url += `&search=${encodeURIComponent(searchTerm)}`;
+                }
+
+                // Add category or property type for specific sections
+                if (targetSection.includes('commercial')) {
+                    url += '&category=Commercial&label=Commercial Properties';
+                } else if (targetSection.includes('plots')) {
+                    url += '&property_type=Plot&label=Plots';
+                }
+
+                // Navigate to properties page
+                window.location.href = url;
+            }
+
+            if (searchBtn) {
+                searchBtn.addEventListener('click', performSearch);
+            }
+
+            if (searchInput) {
+                searchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+
+            // Initial Calls
+            initSession();
+            renderBuySection();
+            renderAgentsSection();
+            setupAuthListeners();
+            updateSavedCount();
+
+            // Update saved count when offcanvas opens
+            const profileOffcanvas = document.getElementById('profileOffcanvas');
+            if (profileOffcanvas) {
+                profileOffcanvas.addEventListener('show.bs.offcanvas', updateSavedCount);
+            }
+
+            // Listen for storage changes (when properties are saved/removed in other tabs)
+            window.addEventListener('storage', function (e) {
+                // This fires when localStorage is changed in another tab/window
+                if (e.key === 'savedProperties' || e.key === 'recentlyViewed' || e.key === 'contactedProperties') {
+                    updateSavedCount();
+                }
+            });
+
+            // Listen for custom event for same-window updates
+            window.addEventListener('activityCountsUpdated', updateSavedCount);
+
+            // Update counts when page becomes visible (user returns to tab)
+            document.addEventListener('visibilitychange', function () {
+                if (!document.hidden) {
+                    updateSavedCount();
+                }
+            });
+
+            // Update counts when window is focused (user switches back to this window)
+            window.addEventListener('focus', updateSavedCount);
+
+        });
+        // --- NEW: FETCH ACTIVITY FROM DB ---
+        async function fetchUserActivity() {
+            const userStr = localStorage.getItem("user");
+            if (!userStr) return;
+
+            const user = JSON.parse(userStr);
+            // Assuming your user object has an 'id' or '_id' field
+            const userId = user.id || user._id;
+
+            if (!userId) return;
+
+            try {
+                // API call to backend to get saved/recent/contacted lists
+                const res = await fetch(`${window.API_BASE}/api/users/${userId}/activity`);
+
+                if (res.ok) {
+                    const data = await res.json();
+
+                    // Expected data format from API: { saved: [...], recent: [...], contacted: [...] }
+                    // Update LocalStorage with Database data
+                    localStorage.setItem('savedProperties', JSON.stringify(data.saved || []));
+                    localStorage.setItem('recentlyViewed', JSON.stringify(data.recent || []));
+                    localStorage.setItem('contactedProperties', JSON.stringify(data.contacted || []));
+
+                    // Update the UI bubbles
+                    updateSavedCount();
+                }
+            } catch (error) {
+                console.error("Error fetching user activity:", error);
+            }
+        }
+        // Call this function when a user clicks "Save" or "Contact"
+        async function saveUserAction(actionType, propertyId) {
+            // actionType = 'saved', 'recent', or 'contacted'
+
+            // 1. Update LocalStorage (Instant UI feedback)
+            let storageKey = '';
+            if (actionType === 'saved') storageKey = 'savedProperties';
+            else if (actionType === 'recent') storageKey = 'recentlyViewed';
+            else if (actionType === 'contacted') storageKey = 'contactedProperties';
+
+            let list = JSON.parse(localStorage.getItem(storageKey) || '[]');
+            if (!list.includes(propertyId)) {
+                list.push(propertyId);
+                localStorage.setItem(storageKey, JSON.stringify(list));
+                updateSavedCount(); // Update the bubbles immediately
+            }
+
+            // 2. If Logged In -> Send to Backend
+            if (window.isLoggedIn) {
+                const user = JSON.parse(localStorage.getItem("user"));
+                try {
+                    await fetch(`${window.API_BASE}/api/users/activity/update`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            user_id: user.id || user._id,
+                            action: actionType, // 'saved', 'recent', etc.
+                            property_id: propertyId
+                        })
+                    });
+                } catch (err) {
+                    console.error("Failed to sync to DB", err);
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark transparent-nav fixed-top custom-nav">
+        <div class="container">
+            <button class="btn btn-light">
+                <a href="#" class="navbar-brand fw-bold">
+                    <img height="35px" width="35px" src="Photos/logo3.png" alt="logo"> FindMyRoof
+                </a>
+            </button>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav mx-auto align-items-center gap-3">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link fw-bold" href="#" data-bs-toggle="dropdown">For Buyers</a>
+                        <ul class="dropdown-menu bg-white">
+                            <li class="dropdown-item disabled text-secondary">Property type</li>
+                            <li><a href="properties.html?listing=buy&property_type=Flat&label=Flats"
+                                    class="dropdown-item text-dark"><i class="bi bi-buildings me-2"></i>Flats</a></li>
+                            <li><a href="properties.html?listing=buy&property_type=Plot&label=Plots"
+                                    class="dropdown-item text-dark"><i class="bi bi-bounding-box me-2"></i>Plots</a>
+                            </li>
+                            <li><a href="properties.html?listing=buy&property_type=Villa&label=Villas"
+                                    class="dropdown-item text-dark"><i class="bi bi-house-heart me-2"></i>Villas</a>
+                            </li>
+                            <li><a href="properties.html?listing=buy&property_type=Office&label=Commercial"
+                                    class="dropdown-item text-dark"><i class="bi bi-shop me-2"></i>Commercial
+                                    properties</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link fw-bold" href="#" data-bs-toggle="dropdown">For Tenants</a>
+                        <ul class="dropdown-menu bg-white">
+                            <li class="dropdown-item disabled text-secondary">Property type</li>
+                            <li><a href="properties.html?listing=rent&property_type=Flat&label=Flats for Rent"
+                                    class="dropdown-item text-dark"><i class="bi bi-buildings me-2"></i>Flats</a></li>
+                            <li><a href="properties.html?listing=rent&property_type=Villa&label=Villas for Rent"
+                                    class="dropdown-item text-dark"><i class="bi bi-house-heart me-2"></i>Villas</a>
+                            </li>
+                            <li><a href="properties.html?listing=rent&property_type=Office&label=Commercial for Rent"
+                                    class="dropdown-item text-dark"><i class="bi bi-shop me-2"></i>Commercial
+                                    properties</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link fw-bold" href="#" data-bs-toggle="dropdown">Services</a>
+                        <ul class="dropdown-menu bg-white">
+                            <li class="dropdown-item disabled text-secondary">Tools</li>
+                            <li><a href="post_property.html" class="dropdown-item text-dark">Post property</a></li>
+                            <li><a href="price_estimator.html" class="dropdown-item text-dark">Property price
+                                    estimator</a></li>
+                            <li><a href="emi_calculator.html" class="dropdown-item text-dark">EMI calculator</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav align-items-center gap-3 ms-auto">
+                    <li class="nav-item">
+                        <button id="navProfileBtn" class="btn btn-transparent d-flex align-items-center gap-2" data-bs-toggle="offcanvas"
+                            data-bs-target="#profileOffcanvas">
+                            <i class="bi bi-person-circle text-white fs-4"></i>
+                            <span id="navProfileName" class="text-white fw-bold fs-6">Login</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="profileOffcanvas">
+        <div class="offcanvas-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="profile-card mb-0">
+                    <div class="avatar"><i class="bi bi-person"></i></div>
+                    <div id="profileInfo" class="d-none">
+                        <div id="profileName" class="fw-semibold small">User</div>
+                        <div id="profileEmail" class="text-muted small"></div>
+                    </div>
+                </div>
+                <div>
+                    <button id="editProfileBtn" class="btn btn-sm btn-outline-primary d-none"
+                        onclick="window.location.href='profile.html'" title="Edit Profile">
+                        <i class="bi bi-pencil-square"></i> Edit
+                    </button>
+                    <button id="loginActionBtn" class="btn btn-success" data-bs-dismiss="offcanvas"
+                        data-bs-toggle="modal" data-bs-target="#authModal" onclick="openLogin()">Login</button>
+                </div>
+            </div>
+            <h6 class="mb-2">My Activity</h6>
+            <div class="row g-2 mb-3">
+                <div class="col-4">
+                    <div class="activity-card" onclick="goToActivity('contacted')"><i
+                            class="bi bi-telephone"></i>Contacted<br><strong id="contacted-count">00</strong></div>
+                </div>
+                <div class="col-4">
+                    <div class="activity-card" id="saved-card" onclick="goToActivity('saved')"><i
+                            class="bi bi-heart"></i>Saved<br><strong id="saved-count">00</strong></div>
+                </div>
+                <div class="col-4">
+                    <div class="activity-card" id="recent-card" onclick="goToActivity('recent')"><i
+                            class="bi bi-clock"></i>Recent<br><strong id="recent-count">00</strong></div>
+                </div>
+            </div>
+
+            <div class="menu-item" onclick="window.location.href='profile.html'"><i class="bi bi-person-circle"></i> My
+                Profile</div>
+
+            <div class="mt-3">
+                <div id="logoutAction" class="menu-item text-danger d-none" role="button" onclick="logoutUser()">
+                    <i class="bi bi-box-arrow-right"></i> Log Out
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="authModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-4 auth-box">
+                <h4 class="text-center mb-4" id="authTitle">Login</h4>
+                <form id="loginForm" novalidate>
+                    <input type="hidden" name="next" id="loginNext">
+                    <div class="mb-3"><label class="form-label">Email Address</label><input type="email"
+                            class="form-control" id="loginEmail" autocomplete="username" required></div>
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <div class="position-relative"><input type="password" class="form-control pe-5"
+                                id="loginPassword" autocomplete="current-password" required><button type="button" class="toggle-eye-btn"
+                                onclick="togglePwd('loginPassword', this.querySelector('i'))"><i
+                                    class="bi bi-eye"></i></button></div>
+                    </div>
+                    <button class="btn btn-primary w-100">Login</button>
+                    <div id="loginStatus" class="alert d-none mt-2"></div>
+                </form>
+                <form id="registerForm" class="d-none" novalidate>
+                    <input type="hidden" name="next" id="registerNext">
+                    <div class="mb-3"><label class="form-label">Full Name</label><input type="text" class="form-control"
+                            id="regName" required></div>
+                    <div class="mb-3"><label class="form-label">Email</label><input type="email" class="form-control"
+                            id="regEmail" autocomplete="email" required></div>
+                    <div class="mb-3"><label class="form-label">Mobile Number</label><input type="text"
+                            class="form-control" id="regPhone" pattern="[0-9]{10}" required></div>
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <div class="position-relative"><input type="password" class="form-control pe-5" id="regPassword"
+                                autocomplete="new-password" required><button type="button" class="toggle-eye-btn"
+                                onclick="togglePwd('regPassword', this.querySelector('i'))"><i
+                                    class="bi bi-eye"></i></button></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Confirm Password</label>
+                        <div class="position-relative"><input type="password" class="form-control pe-5" id="regConfirm"
+                                autocomplete="new-password" required><button type="button" class="toggle-eye-btn"
+                                onclick="togglePwd('regConfirm', this.querySelector('i'))"><i
+                                    class="bi bi-eye"></i></button></div>
+                    </div>
+                    <button class="btn btn-primary w-100">Create Account</button>
+                </form>
+                <p class="text-center mt-3 mb-0"><span id="switchText">Don’t have an account?</span> <a href="#"
+                        id="switchLink">Sign up</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="otpModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
+            <div class="modal-content p-4 position-relative">
+                <h5 class="mb-3">Enter OTP</h5>
+                <form id="otpForm" novalidate>
+                    <div class="mb-3"><label class="form-label">Email</label><input type="email" class="form-control"
+                            id="otpEmail" readonly></div>
+                    <div class="mb-3"><label class="form-label">OTP</label><input type="text" class="form-control"
+                            id="otpInput" maxlength="6" required></div>
+                    <button class="btn btn-primary w-100" type="submit">Verify OTP</button>
+                    <div class="d-flex align-items-center justify-content-between mt-3">
+                        <div id="otpResendCountdown" class="small text-muted">You can resend in 60s</div><button
+                            class="btn btn-link p-0" type="button" id="otpResendBtn" disabled>Resend OTP</button>
+                    </div>
+                    <div id="otpStatus" class="alert d-none mt-2"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Property Detail Modal -->
+    <div class="modal fade property-detail-modal" id="propertyDetailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="propertyDetailTitle">Property Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img id="propertyDetailImage" src="" alt="Property" class="property-detail-image mb-3">
+                    <div class="detail-section">
+                        <h4 id="propertyDetailName" class="fw-bold mb-2"></h4>
+                        <p class="text-muted mb-2"><i class="bi bi-geo-alt-fill text-danger me-2"></i><span id="propertyDetailLocation"></span></p>
+                        <h3 class="text-primary fw-bold mb-3" id="propertyDetailPrice"></h3>
+                    </div>
+                    <div class="detail-section" id="propertyTypeSection">
+                        <h6>Property Type</h6>
+                        <div id="propertyDetailBadges"></div>
+                    </div>
+                    <div class="detail-section" id="propertySpecsSection">
+                        <h6>Specifications</h6>
+                        <div id="propertyDetailSpecs" class="d-flex flex-wrap gap-2"></div>
+                    </div>
+                    <div class="detail-section" id="propertyDescSection">
+                        <h6>Description</h6>
+                        <p id="propertyDetailDescription" class="text-muted"></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="viewFullDetailsBtn">View Full Details</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="heroCarousel" class="carousel slide" data-bs-ride="false">
+        <div class="carousel-inner">
+            <div class="carousel-item active"><img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688"
+                    class="d-block w-100 hero-img"></div>
+            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1523217582562-09d0def993a6"
+                    class="d-block w-100 hero-img"></div>
+            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab"
+                    class="d-block w-100 hero-img"></div>
+            <div class="carousel-item"><img src="https://images.unsplash.com/photo-1501183638710-841dd1904471"
+                    class="d-block w-100 hero-img"></div>
+        </div>
+
+        <div class="carousel-caption custom-caption">
+            <div class="search-wrapper">
+                <ul class="nav nav-tabs justify-content-center mb-3" id="propertyTabs">
+                    <li class="nav-item"><button class="nav-link active" data-slide="0"
+                            data-target="buy-section">BUY</button></li>
+                    <li class="nav-item"><button class="nav-link" data-slide="1"
+                            data-target="rent-section">RENT</button></li>
+                    <li class="nav-item"><button class="nav-link" data-slide="2"
+                            data-target="commercial-section">COMMERCIAL</button></li>
+                    <li class="nav-item"><button class="nav-link" data-slide="3"
+                            data-target="plots-section">PLOTS</button></li>
+                </ul>
+
+                <div class="input-group">
+                    <span class="input-group-text bg-white">Ahmedabad</span>
+                    <input type="text" id="searchInput" class="form-control"
+                        placeholder="Search locality, project, builder">
+
+                    <!-- Commercial Radio Options inside search bar -->
+                    <div class="commercial-radio-group" id="commercialRadioGroup">
+                        <div class="radio-option">
+                            <input type="radio" id="commercialBuy" name="commercialType" value="buy" checked>
+                            <label for="commercialBuy">Buy</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="commercialLease" name="commercialType" value="rent">
+                            <label for="commercialLease">Lease</label>
+                        </div>
+                    </div>
+
+                    <button id="searchBtn" class="btn btn-success px-4">Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container section-wrapper" id="mainPropertyContainer">
+
+        <div id="buy-section" class="property-section-container">
+            <div class="section-header">
+                <div>
+                    <h3 class="section-title-text">Discover Flats for Sale</h3>
+                    <p class="text-muted small mb-0">Handpicked flats just for you</p>
+                </div>
+                <a href="properties.html?listing=buy&property_type=Flat" class="btn-discover">Discover <i
+                        class="bi bi-arrow-right"></i></a>
+            </div>
+            <div class="carousel-wrapper">
+                <button class="scroll-btn left" onclick="scrollContainer('flats-buy-carousel', 'left')"><i
+                        class="bi bi-chevron-left"></i></button>
+                <div class="horizontal-scroll-container" id="flats-buy-carousel">
+                    <div class="text-center w-100 py-5">
+                        <div class="spinner-border text-primary"></div>
+                    </div>
+                </div>
+                <button class="scroll-btn right" onclick="scrollContainer('flats-buy-carousel', 'right')"><i
+                        class="bi bi-chevron-right"></i></button>
+            </div>
+
+            <hr class="my-5" style="border-color: #eee;">
+
+            <div class="section-header">
+                <div>
+                    <h3 class="section-title-text">Discover Villas for Sale</h3>
+                    <p class="text-muted small mb-0">Luxury villas at best prices</p>
+                </div>
+                <a href="properties.html?listing=buy&property_type=Villa" class="btn-discover">Discover <i
+                        class="bi bi-arrow-right"></i></a>
+            </div>
+            <div class="carousel-wrapper">
+                <button class="scroll-btn left" onclick="scrollContainer('villas-buy-carousel', 'left')"><i
+                        class="bi bi-chevron-left"></i></button>
+                <div class="horizontal-scroll-container" id="villas-buy-carousel">
+                    <div class="text-center w-100 py-5">
+                        <div class="spinner-border text-primary"></div>
+                    </div>
+                </div>
+                <button class="scroll-btn right" onclick="scrollContainer('villas-buy-carousel', 'right')"><i
+                        class="bi bi-chevron-right"></i></button>
+            </div>
+        </div>
+
+        <div id="rent-section" class="property-section-container d-none">
+            <div class="section-header">
+                <div>
+                    <h3 class="section-title-text">Discover Flats for Rent</h3>
+                    <p class="text-muted small mb-0">Premium rentals available</p>
+                </div>
+                <a href="properties.html?listing=rent&property_type=Flat" class="btn-discover">Discover <i
+                        class="bi bi-arrow-right"></i></a>
+            </div>
+            <div class="carousel-wrapper">
+                <button class="scroll-btn left" onclick="scrollContainer('flats-rent-carousel', 'left')"><i
+                        class="bi bi-chevron-left"></i></button>
+                <div class="horizontal-scroll-container" id="flats-rent-carousel">
+                    <div class="text-center w-100 py-5">
+                        <div class="spinner-border text-primary"></div>
+                    </div>
+                </div>
+                <button class="scroll-btn right" onclick="scrollContainer('flats-rent-carousel', 'right')"><i
+                        class="bi bi-chevron-right"></i></button>
+            </div>
+            <hr class="my-5" style="border-color: #eee;">
+            <div class="section-header">
+                <div>
+                    <h3 class="section-title-text">Discover Villas for Rent</h3>
+                    <p class="text-muted small mb-0">Spacious villas for lease</p>
+                </div>
+                <a href="properties.html?listing=rent&property_type=Villa" class="btn-discover">Discover <i
+                        class="bi bi-arrow-right"></i></a>
+            </div>
+            <div class="carousel-wrapper">
+                <button class="scroll-btn left" onclick="scrollContainer('villas-rent-carousel', 'left')"><i
+                        class="bi bi-chevron-left"></i></button>
+                <div class="horizontal-scroll-container" id="villas-rent-carousel">
+                    <div class="text-center w-100 py-5">
+                        <div class="spinner-border text-primary"></div>
+                    </div>
+                </div>
+                <button class="scroll-btn right" onclick="scrollContainer('villas-rent-carousel', 'right')"><i
+                        class="bi bi-chevron-right"></i></button>
+            </div>
+        </div>
+
+        <div id="commercial-section" class="property-section-container d-none">
+            <div class="section-header">
+                <div>
+                    <h3 class="section-title-text">Discover Commercial Properties for Sale</h3>
+                    <p class="text-muted small mb-0">Best spaces for your business</p>
+                </div>
+                <a href="properties.html?listing=buy&property_type=Office" class="btn-discover">Discover <i
+                        class="bi bi-arrow-right"></i></a>
+            </div>
+            <div class="carousel-wrapper">
+                <button class="scroll-btn left" onclick="scrollContainer('commercial-buy-carousel', 'left')"><i
+                        class="bi bi-chevron-left"></i></button>
+                <div class="horizontal-scroll-container" id="commercial-buy-carousel">
+                    <div class="text-center w-100 py-5">
+                        <div class="spinner-border text-primary"></div>
+                    </div>
+                </div>
+                <button class="scroll-btn right" onclick="scrollContainer('commercial-buy-carousel', 'right')"><i
+                        class="bi bi-chevron-right"></i></button>
+            </div>
+            <hr class="my-5" style="border-color: #eee;">
+            <div class="section-header">
+                <div>
+                    <h3 class="section-title-text">Discover Commercial Properties for Rent</h3>
+                    <p class="text-muted small mb-0">Affordable leasing options</p>
+                </div>
+                <a href="properties.html?listing=rent&property_type=Office" class="btn-discover">Discover <i
+                        class="bi bi-arrow-right"></i></a>
+            </div>
+            <div class="carousel-wrapper">
+                <button class="scroll-btn left" onclick="scrollContainer('commercial-rent-carousel', 'left')"><i
+                        class="bi bi-chevron-left"></i></button>
+                <div class="horizontal-scroll-container" id="commercial-rent-carousel">
+                    <div class="text-center w-100 py-5">
+                        <div class="spinner-border text-primary"></div>
+                    </div>
+                </div>
+                <button class="scroll-btn right" onclick="scrollContainer('commercial-rent-carousel', 'right')"><i
+                        class="bi bi-chevron-right"></i></button>
+            </div>
+        </div>
+
+        <div id="plots-section" class="property-section-container d-none">
+            <div class="section-header">
+                <div>
+                    <h3 class="section-title-text">Discover Residential Plots</h3>
+                    <p class="text-muted small mb-0">Build your dream home</p>
+                </div>
+                <a href="properties.html?listing=buy&property_type=Plot&category=Residential"
+                    class="btn-discover">Discover <i class="bi bi-arrow-right"></i></a>
+            </div>
+            <div class="carousel-wrapper">
+                <button class="scroll-btn left" onclick="scrollContainer('plots-residential-carousel', 'left')"><i
+                        class="bi bi-chevron-left"></i></button>
+                <div class="horizontal-scroll-container" id="plots-residential-carousel">
+                    <div class="text-center w-100 py-5">
+                        <div class="spinner-border text-primary"></div>
+                    </div>
+                </div>
+                <button class="scroll-btn right" onclick="scrollContainer('plots-residential-carousel', 'right')"><i
+                        class="bi bi-chevron-right"></i></button>
+            </div>
+            <hr class="my-5" style="border-color: #eee;">
+            <div class="section-header">
+                <div>
+                    <h3 class="section-title-text">Discover Commercial Plots</h3>
+                    <p class="text-muted small mb-0">Invest in premium land</p>
+                </div>
+                <a href="properties.html?listing=buy&property_type=Plot&category=Commercial"
+                    class="btn-discover">Discover <i class="bi bi-arrow-right"></i></a>
+            </div>
+            <div class="carousel-wrapper">
+                <button class="scroll-btn left" onclick="scrollContainer('plots-commercial-carousel', 'left')"><i
+                        class="bi bi-chevron-left"></i></button>
+                <div class="horizontal-scroll-container" id="plots-commercial-carousel">
+                    <div class="text-center w-100 py-5">
+                        <div class="spinner-border text-primary"></div>
+                    </div>
+                </div>
+                <button class="scroll-btn right" onclick="scrollContainer('plots-commercial-carousel', 'right')"><i
+                        class="bi bi-chevron-right"></i></button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="container section-wrapper pt-0">
+        <div class="section-header">
+            <div>
+                <h3 class="section-title-text">Recommended sellers</h3>
+                <p class="text-muted small mb-0">Sellers with complete knowledge about locality</p>
+            </div>
+        </div>
+
+        <div class="carousel-wrapper">
+            <button class="scroll-btn left" onclick="scrollContainer('agents-carousel', 'left')"><i
+                    class="bi bi-chevron-left"></i></button>
+            <div class="horizontal-scroll-container" id="agents-carousel">
+                <div class="text-center w-100 py-5">
+                    <div class="spinner-border text-primary"></div>
+                </div>
+            </div>
+            <button class="scroll-btn right" onclick="scrollContainer('agents-carousel', 'right')"><i
+                    class="bi bi-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <section class="py-5" style="background: #f8f9fa;">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col-12">
+                    <h2 class="fw-bold" style="color: #0d6efd;">Why Choose FindMyRoof?</h2>
+                    <p class="text-muted">India's most trusted real estate platform</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-3 col-6">
+                    <div class="text-center p-3">
+                        <div class="mb-3 d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle"
+                            style="width: 70px; height: 70px;"><i class="bi bi-shield-check fs-2"></i></div>
+                        <h6 class="fw-bold">Verified Properties</h6>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="text-center p-3">
+                        <div class="mb-3 d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle"
+                            style="width: 70px; height: 70px;"><i class="bi bi-currency-rupee fs-2"></i></div>
+                        <h6 class="fw-bold">Zero Brokerage</h6>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="text-center p-3">
+                        <div class="mb-3 d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle"
+                            style="width: 70px; height: 70px;"><i class="bi bi-camera-video fs-2"></i></div>
+                        <h6 class="fw-bold">Virtual Tours</h6>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="text-center p-3">
+                        <div class="mb-3 d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle"
+                            style="width: 70px; height: 70px;"><i class="bi bi-headset fs-2"></i></div>
+                        <h6 class="fw-bold">24/7 Support</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark text-light pt-5 pb-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <h5 class="fw-bold"><img height="50px" src="Photos/logo3.png" alt=""> FindMyRoof</h5>
+                    <p class="small">A smart real estate platform to buy, rent, and list properties with verified
+                        details across India.</p>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-semibold">Quick Links</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2">
+                        <li><a href="index.html" class="footer-link">Home</a></li>
+                        <li><a href="price_estimator.html" class="footer-link">Price Estimator</a></li>
+                        <li><a href="about.html" class="footer-link">About Us</a></li>
+                        <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+                        <li><a href="post_property.html" class="footer-link">Post Property</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-semibold">Property Types</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2">
+                        <li><a href="properties.html?property_type=Flat" class="footer-link" onclick="window.location.href='properties.html?property_type=Flat'; return false;">Flats & Apartments</a></li>
+                        <li><a href="properties.html?property_type=Villa" class="footer-link" onclick="window.location.href='properties.html?property_type=Villa'; return false;">Villas</a></li>
+                        <li><a href="properties.html?property_type=Plot" class="footer-link" onclick="window.location.href='properties.html?property_type=Plot'; return false;">Plots & Land</a></li>
+                        <li><a href="properties.html?category=Commercial" class="footer-link" onclick="window.location.href='properties.html?category=Commercial'; return false;">Commercial Properties</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-semibold">Contact</h6>
+                    <p class="small mb-1">📧 <a href="mailto:findmyroof1@gmail.com" class="footer-link">findmyroof1@gmail.com</a></p>
+                    <p class="small mb-1">📞 +91 98765 43210</p>
+                    <p class="small">📍 Ahmedabad, India</p>
+                </div>
+            </div>
+            <hr class="border-secondary opacity-25">
+            <div class="text-center text-secondary small">© 2026 FindMyRoof. All rights reserved.</div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

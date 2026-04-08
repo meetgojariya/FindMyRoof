@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - FindMyRoof</title>
+    
+    <!-- Bootstrap Links -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <link rel="icon" href="Photos/logo3.png">
+    
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 12px 0;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: #0d6efd !important;
+            font-size: 1.5rem;
+        }
+        
+        .navbar-nav .nav-link {
+            color: #333 !important;
+            font-weight: 500;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: #0d6efd !important;
+        }
+        
+        /* Hero Section */
+        .about-hero {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            color: white;
+            padding: 100px 0 60px;
+            text-align: center;
+        }
+        
+        .about-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .about-hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* Content Sections */
+        .section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .section-subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 1.1rem;
+        }
+        
+        /* Feature Cards */
+        .feature-card {
+            text-align: center;
+            padding: 30px;
+            border-radius: 15px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .feature-card h4 {
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* Stats Section */
+        .stats-section {
+            background: #f8f9fa;
+            padding: 80px 0;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #0d6efd;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        /* Team Section */
+        .team-card {
+            text-align: center;
+            padding: 30px;
+            border-radius: 15px;
+            background: #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .team-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 3rem;
+        }
+        
+        /* Mission Vision */
+        .mission-vision {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 80px 0;
+        }
+        
+        .mission-card, .vision-card {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            height: 100%;
+        }
+        
+        .mission-card h3, .vision-card h3 {
+            color: #0d6efd;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        /* Footer */
+        footer {
+            background: #212529;
+            color: #fff;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-link {
+            color: #bdbdbd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-link:hover {
+            color: #0d6efd;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            body {
+                overflow-x: hidden;
+            }
+
+            .navbar {
+                padding: 0.5rem 0;
+            }
+
+            .about-hero h1 {
+                font-size: 2rem;
+            }
+
+            .section {
+                padding: 2rem 0;
+            }
+
+            .navbar-toggler {
+                border-color: rgba(0, 0, 0, 0.1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img height="40px" width="40px" src="Photos/logo3.png" alt="logo"> FindMyRoof
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html"><i class="bi bi-house-door me-2"></i>Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="about-hero">
+        <div class="container">
+            <h1>About FindMyRoof</h1>
+            <p>Redefining the search for 'home.' Our platform combines a clean, intuitive interface with a rigorous verification process, ensuring that every user finds more than just a house—they find a space they can trust.</p>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Who We Are</h2>
+            <p class="section-subtitle">Transforming the way people find their perfect home</p>
+            
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="mission-card">
+                        <h3><i class="bi bi-bullseye"></i> Our Mission</h3>
+                        <p>To make property search simple, transparent, and accessible to everyone. We believe everyone deserves a place to call home, and we're here to help you find it.</p>
+                        <p>We leverage technology to provide verified listings, virtual tours, and expert guidance, making the real estate journey smooth and stress-free.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="vision-card">
+                        <h3><i class="bi bi-eye"></i> Our Vision</h3>
+                        <p>To become India's #1 real estate platform, known for trust, transparency, and innovation. We envision a future where finding the perfect property is as easy as ordering food online.</p>
+                        <p>We aim to revolutionize the real estate industry by providing cutting-edge technology solutions and exceptional customer service.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" style="background: #f8f9fa;">
+        <div class="container">
+            <h2 class="section-title">Why Choose FindMyRoof?</h2>
+            <p class="section-subtitle">We make property search easy and reliable</p>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <h4>Verified Data Architecture</h4>
+                        <p>Prioritizing data integrity. Our system is designed to showcase listings that undergo a multi-step verification process to ensure authenticity for the end-user.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-cpu"></i>
+                        </div>
+                        <h4>Predictive Analytics</h4>
+                        <p>Beyond simple listings—we use data insights to offer price predictions, helping users understand market trends before making an investment.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-person-workspace"></i>
+                        </div>
+                        <h4>Direct Connectivity</h4>
+                        <p>Eliminating the middleman. The platform architecture facilitates direct peer-to-peer communication between owners and seekers to streamline the process.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-bounding-box-circles"></i>
+                        </div>
+                        <h4>Virtual Accessibility</h4>
+                        <p>Utilizing high-resolution spatial rendering and interactive walkthroughs to provide a digital-first viewing experience, significantly reducing the overhead of physical site visits.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-geo-fill"></i>
+                        </div>
+                        <h4>Spatial Market Intelligence</h4>
+                        <p>Integrating localized metadata to provide users with deep insights into neighborhood infrastructure, connectivity indices, and long-term valuation trends.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-phone"></i>
+                        </div>
+                        <h4>Responsive Design</h4>
+                        <p>Developed with a mobile-first philosophy, ensuring a seamless experience across all devices and screen resolutions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Development Team</h2>
+            <p class="section-subtitle">The minds behind the FindMyRoof project</p>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="team-card">
+                        <div class="team-avatar">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <h4>Krish Tarpara</h4>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="team-card">
+                        <div class="team-avatar">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <h4>Meet Gojariya</h4>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="team-card">
+                        <div class="team-avatar">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <h4>Meet Senjaliya</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light pt-5 pb-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <h5 class="fw-bold"><img height="50px" src="Photos/logo3.png" alt=""> FindMyRoof</h5>
+                    <p class="small">A smart real estate platform to buy, rent, and list properties with verified
+                        details across India.</p>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-semibold">Quick Links</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2">
+                        <li><a href="index.html" class="footer-link">Home</a></li>
+                        <li><a href="price_estimator.html" class="footer-link">Price Estimator</a></li>
+                        <li><a href="about.html" class="footer-link">About Us</a></li>
+                        <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+                        <li><a href="post_property.html" class="footer-link">Post Property</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-semibold">Property Types</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2">
+                        <li><a href="properties.html?property_type=Flat" class="footer-link">Flats & Apartments</a></li>
+                        <li><a href="properties.html?property_type=Villa" class="footer-link">Villas</a></li>
+                        <li><a href="properties.html?property_type=Plot" class="footer-link">Plots & Land</a></li>
+                        <li><a href="properties.html?category=Commercial" class="footer-link">Commercial Properties</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-semibold">Contact</h6>
+                    <p class="small mb-1">📧 <a href="mailto:findmyroof1@gmail.com" class="footer-link">findmyroof1@gmail.com</a></p>
+                    <p class="small mb-1">📞 +91 98765 43210</p>
+                    <p class="small">📍 Ahmedabad, India</p>
+                </div>
+            </div>
+            <hr class="border-secondary opacity-25">
+            <div class="text-center text-secondary small">© 2026 FindMyRoof. All rights reserved.</div>
+        </div>
+    </footer>
+</body>
+
+</html>

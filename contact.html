@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - FindMyRoof</title>
+    
+    <!-- Bootstrap Links -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <link rel="icon" href="Photos/logo3.png">
+    
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 12px 0;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: #0d6efd !important;
+            font-size: 1.5rem;
+        }
+        
+        .navbar-nav .nav-link {
+            color: #333 !important;
+            font-weight: 500;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: #0d6efd !important;
+        }
+        
+        /* Hero Section */
+        .contact-hero {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            color: white;
+            padding: 100px 0 60px;
+            text-align: center;
+        }
+        
+        .contact-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        /* Contact Section */
+        .contact-section {
+            padding: 80px 0;
+        }
+        
+        .contact-card {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            height: 100%;
+            transition: transform 0.3s;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .contact-form {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            margin-bottom: 5px;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        }
+        
+        .form-control.is-invalid {
+            border-color: #dc3545;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right calc(0.375em + 0.1875rem) center;
+            background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+            padding-right: calc(1.5em + 0.75rem);
+        }
+        
+        .form-control.is-valid {
+            border-color: #28a745;
+        }
+        
+        .contact-form small.text-muted {
+            display: block;
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        
+        .btn-submit {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+        
+        .btn-submit:hover {
+            transform: scale(1.05);
+            color: white;
+        }
+
+        /* Alert Messages */
+        #alertContainer {
+            margin-top: 20px;
+        }
+
+        #alertContainer .alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            animation: slideDown 0.5s ease-out;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #alertContainer .alert-success {
+            background: #d1f4e0;
+            color: #0a5c2e;
+            border: 2px solid #28a745;
+        }
+
+        #alertContainer .alert-danger {
+            background: #fdd;
+            color: #721c24;
+            border: 2px solid #dc3545;
+        }
+
+        #alertContainer .alert i {
+            font-size: 1.3rem;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Map Section */
+        .map-section {
+            padding: 0;
+            height: 400px;
+        }
+        
+        .map-container {
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* Footer */
+        footer {
+            background: #212529;
+            color: #fff;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-link {
+            color: #bdbdbd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-link:hover {
+            color: #0d6efd;
+        }
+        
+        .alert {
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+    </style>
+
+    <style>
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            body {
+                overflow-x: hidden;
+            }
+
+            .navbar {
+                padding: 0.5rem 0;
+            }
+
+            .contact-hero h1 {
+                font-size: 2rem;
+            }
+
+            .contact-section {
+                padding: 2rem 0;
+            }
+
+            .form-control,
+            .form-select,
+            textarea {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img height="40px" width="40px" src="Photos/logo3.png" alt="logo"> FindMyRoof
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html"><i class="bi bi-house-door me-2"></i>Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="contact-hero">
+        <div class="container">
+            <h1>Get in Touch</h1>
+            <p style="font-size: 1.2rem;">We're here to help you find your perfect property</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="container">
+            <div class="row g-4 mb-5">
+                <div class="col-md-4">
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="bi bi-geo-alt-fill"></i>
+                        </div>
+                        <h4>Our Address</h4>
+                        <p>Ahmedabad, Gujarat<br>India</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="bi bi-telephone-fill"></i>
+                        </div>
+                        <h4>Phone Number</h4>
+                        <p>+91 98765 43210<br>+91 98765 43211<br>Mon - Sat, 9:00 AM - 7:00 PM</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="bi bi-envelope-fill"></i>
+                        </div>
+                        <h4>Email Address</h4>
+                        <p><a href="mailto:findmyroof1@gmail.com" style="color: #0d6efd; text-decoration: none;">findmyroof1@gmail.com</a><br>We reply within 24 hours</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="contact-form">
+                        <h3 class="mb-4">Send us a Message</h3>
+                        <form id="contactForm">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="name" placeholder="Your Name" 
+                                           required minlength="2" maxlength="100" 
+                                           pattern="[a-zA-Z\s.'-]+" 
+                                           title="Name should contain only letters, spaces, dots, hyphens and apostrophes">
+                                    <small class="text-muted">2-100 characters</small>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="email" class="form-control" id="email" placeholder="Your Email" 
+                                           required maxlength="100"
+                                           title="Please enter a valid email address">
+                                    <small class="text-muted">Valid email required</small>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="tel" class="form-control" id="phone" placeholder="Your Phone (Optional)" 
+                                           pattern="[\d\s\-().+]{10,15}"
+                                           title="10-digit Indian phone number">
+                                    <small class="text-muted">Optional: +91 9876543210</small>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="subject" placeholder="Subject" 
+                                           required minlength="3" maxlength="200"
+                                           title="Brief subject of your message">
+                                    <small class="text-muted">3-200 characters</small>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <textarea class="form-control" id="message" rows="5" placeholder="Your Message" 
+                                          required minlength="10" maxlength="1000"
+                                          title="Detailed message (10-1000 characters)"></textarea>
+                                <small class="text-muted">
+                                    <span id="charCount">0</span>/1000 characters (minimum 10 required)
+                                </small>
+                            </div>
+                            <div id="alertContainer"></div>
+                            <button type="submit" class="btn btn-submit" id="submitBtn">
+                                <span id="btnText">Send Message</span>
+                                <span id="btnSpinner" class="d-none">
+                                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                    Sending...
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="contact-card">
+                        <h4 class="mb-4">Office Hours</h4>
+                        <div class="mb-3">
+                            <strong>Monday - Friday:</strong><br>
+                            <span class="text-muted">9:00 AM - 7:00 PM</span>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Saturday:</strong><br>
+                            <span class="text-muted">10:00 AM - 5:00 PM</span>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Sunday:</strong><br>
+                            <span class="text-muted">Closed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+        <div class="container">
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3671.924539294536!2d72.57136431496826!3d23.0264844849505!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e9b8b8b8b8b8b%3A0x8b8b8b8b8b8b8b8b!2sAhmedabad%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1234567890123!5m2!1sen!2sin" 
+                    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light pt-5 pb-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <h5 class="fw-bold"><img height="50px" src="Photos/logo3.png" alt=""> FindMyRoof</h5>
+                    <p class="small">A smart real estate platform to buy, rent, and list properties with verified
+                        details across India.</p>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-semibold">Quick Links</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2">
+                        <li><a href="index.html" class="footer-link">Home</a></li>
+                        <li><a href="price_estimator.html" class="footer-link">Price Estimator</a></li>
+                        <li><a href="about.html" class="footer-link">About Us</a></li>
+                        <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+                        <li><a href="post_property.html" class="footer-link">Post Property</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-semibold">Property Types</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2">
+                        <li><a href="properties.html?property_type=Flat" class="footer-link">Flats & Apartments</a></li>
+                        <li><a href="properties.html?property_type=Villa" class="footer-link">Villas</a></li>
+                        <li><a href="properties.html?property_type=Plot" class="footer-link">Plots & Land</a></li>
+                        <li><a href="properties.html?category=Commercial" class="footer-link">Commercial Properties</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-semibold">Contact</h6>
+                    <p class="small mb-1">📧 <a href="mailto:findmyroof1@gmail.com" class="footer-link">findmyroof1@gmail.com</a></p>
+                    <p class="small mb-1">📞 +91 98765 43210</p>
+                    <p class="small">📍 Ahmedabad, India</p>
+                </div>
+            </div>
+            <hr class="border-secondary opacity-25">
+            <div class="text-center text-secondary small">© 2026 FindMyRoof. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <!-- Contact Form Script -->
+    <script>
+        const API_BASE_URL = 'http://localhost:5000/api';
+        
+        // Validation functions
+        function validateName(name) {
+            const errors = [];
+            const trimmedName = name.trim();
+            
+            if (trimmedName.length < 2) {
+                errors.push('Name must be at least 2 characters long');
+            }
+            if (trimmedName.length > 100) {
+                errors.push('Name must not exceed 100 characters');
+            }
+            if (!/^[a-zA-Z\s.'-]+$/.test(trimmedName)) {
+                errors.push('Name can only contain letters, spaces, dots, hyphens and apostrophes');
+            }
+            if (/\d/.test(trimmedName)) {
+                errors.push('Name cannot contain numbers');
+            }
+            
+            return { valid: errors.length === 0, errors, value: trimmedName };
+        }
+        
+        function validateEmail(email) {
+            const errors = [];
+            const trimmedEmail = email.trim().toLowerCase();
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            
+            if (!emailPattern.test(trimmedEmail)) {
+                errors.push('Please enter a valid email address');
+            }
+            if (trimmedEmail.length > 100) {
+                errors.push('Email must not exceed 100 characters');
+            }
+            
+            return { valid: errors.length === 0, errors, value: trimmedEmail };
+        }
+        
+        function validatePhone(phone) {
+            const errors = [];
+            const trimmedPhone = phone.trim();
+            
+            // Phone is optional, so empty is valid
+            if (!trimmedPhone) {
+                return { valid: true, errors: [], value: '' };
+            }
+            
+            // Remove common separators for validation
+            const cleanPhone = trimmedPhone.replace(/[\s\-().+]/g, '');
+            
+            // Check if it's a valid Indian phone number (10 digits) or with country code
+            if (!/^(\+91)?[6-9]\d{9}$/.test(cleanPhone)) {
+                errors.push('Please enter a valid Indian phone number (10 digits starting with 6-9)');
+            }
+            
+            return { valid: errors.length === 0, errors, value: trimmedPhone };
+        }
+        
+        function validateSubject(subject) {
+            const errors = [];
+            const trimmedSubject = subject.trim();
+            
+            if (trimmedSubject.length < 3) {
+                errors.push('Subject must be at least 3 characters long');
+            }
+            if (trimmedSubject.length > 200) {
+                errors.push('Subject must not exceed 200 characters');
+            }
+            if (trimmedSubject.length > 0 && !/[a-zA-Z]/.test(trimmedSubject)) {
+                errors.push('Subject must contain at least one letter');
+            }
+            
+            return { valid: errors.length === 0, errors, value: trimmedSubject };
+        }
+        
+        function validateMessage(message) {
+            const errors = [];
+            const trimmedMessage = message.trim();
+            
+            if (trimmedMessage.length < 10) {
+                errors.push('Message must be at least 10 characters long');
+            }
+            if (trimmedMessage.length > 1000) {
+                errors.push('Message must not exceed 1000 characters');
+            }
+            
+            // Check for spam patterns
+            const repeatedChars = /(.)\1{9,}/; // 10 or more repeated characters
+            if (repeatedChars.test(trimmedMessage)) {
+                errors.push('Message contains too many repeated characters');
+            }
+            
+            // Check if message is all caps (possible spam)
+            if (trimmedMessage.length > 20 && trimmedMessage === trimmedMessage.toUpperCase()) {
+                errors.push('Please avoid writing in all capital letters');
+            }
+            
+            // Check for minimum word count
+            const wordCount = trimmedMessage.split(/\s+/).filter(word => word.length > 0).length;
+            if (wordCount < 3) {
+                errors.push('Message must contain at least 3 words');
+            }
+            
+            return { valid: errors.length === 0, errors, value: trimmedMessage };
+        }
+        
+        function showValidationErrors(errors) {
+            const alertContainer = document.getElementById('alertContainer');
+            const errorList = errors.map(err => `<li>${err}</li>`).join('');
+            
+            alertContainer.innerHTML = `
+                <div class="alert alert-danger">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    <div>
+                        <strong>Please correct the following errors:</strong>
+                        <ul class="mb-0 mt-2" style="padding-left: 20px;">
+                            ${errorList}
+                        </ul>
+                    </div>
+                </div>
+            `;
+            
+            alertContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Show loading state
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const btnSpinner = document.getElementById('btnSpinner');
+            const alertContainer = document.getElementById('alertContainer');
+            
+            alertContainer.innerHTML = '';
+            
+            // Get form values
+            const nameInput = document.getElementById('name').value;
+            const emailInput = document.getElementById('email').value;
+            const phoneInput = document.getElementById('phone').value;
+            const subjectInput = document.getElementById('subject').value;
+            const messageInput = document.getElementById('message').value;
+            
+            // Validate all fields
+            const nameValidation = validateName(nameInput);
+            const emailValidation = validateEmail(emailInput);
+            const phoneValidation = validatePhone(phoneInput);
+            const subjectValidation = validateSubject(subjectInput);
+            const messageValidation = validateMessage(messageInput);
+            
+            // Collect all errors
+            const allErrors = [
+                ...nameValidation.errors,
+                ...emailValidation.errors,
+                ...phoneValidation.errors,
+                ...subjectValidation.errors,
+                ...messageValidation.errors
+            ];
+            
+            // If there are validation errors, show them and stop
+            if (allErrors.length > 0) {
+                showValidationErrors(allErrors);
+                return;
+            }
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            btnText.classList.add('d-none');
+            btnSpinner.classList.remove('d-none');
+            
+            const formData = {
+                name: nameValidation.value,
+                email: emailValidation.value,
+                phone: phoneValidation.value,
+                subject: subjectValidation.value,
+                message: messageValidation.value
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/contact`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    alertContainer.innerHTML = `
+                        <div class="alert alert-success">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <div>
+                                <strong>Success!</strong><br>
+                                ${data.message || 'Thank you for contacting us! We\'ll get back to you soon.'}
+                            </div>
+                        </div>
+                    `;
+                    document.getElementById('contactForm').reset();
+                    
+                    // Scroll to alert
+                    alertContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // Auto dismiss after 5 seconds
+                    setTimeout(() => {
+                        alertContainer.innerHTML = '';
+                    }, 5000);
+                } else {
+                    alertContainer.innerHTML = `
+                        <div class="alert alert-danger">
+                            <i class="bi bi-exclamation-circle-fill"></i>
+                            <div>
+                                <strong>Error!</strong><br>
+                                ${data.error || 'Something went wrong. Please try again.'}
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Scroll to alert
+                    alertContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            } catch (error) {
+                alertContainer.innerHTML = `
+                    <div class="alert alert-danger">
+                        <i class="bi bi-exclamation-circle-fill"></i>
+                        <div>
+                            <strong>Connection Error!</strong><br>
+                            Unable to connect to server. Please try again later.
+                        </div>
+                    </div>
+                `;
+                
+                // Scroll to alert
+                alertContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } finally {
+                // Reset button state
+                submitBtn.disabled = false;
+                btnText.classList.remove('d-none');
+                btnSpinner.classList.add('d-none');
+            }
+        });
+        
+        // Character counter for message textarea
+        const messageTextarea = document.getElementById('message');
+        const charCountSpan = document.getElementById('charCount');
+        
+        messageTextarea.addEventListener('input', function() {
+            const length = this.value.length;
+            charCountSpan.textContent = length;
+            
+            // Change color based on character count
+            if (length < 10) {
+                charCountSpan.style.color = '#dc3545'; // Red - too short
+            } else if (length > 900) {
+                charCountSpan.style.color = '#ffc107'; // Orange - approaching limit
+            } else {
+                charCountSpan.style.color = '#28a745'; // Green - good
+            }
+        });
+        
+        // Real-time validation hints (optional - add visual feedback while typing)
+        document.getElementById('name').addEventListener('blur', function() {
+            const validation = validateName(this.value);
+            if (!validation.valid && this.value.length > 0) {
+                this.classList.add('is-invalid');
+            } else {
+                this.classList.remove('is-invalid');
+            }
+        });
+        
+        document.getElementById('email').addEventListener('blur', function() {
+            const validation = validateEmail(this.value);
+            if (!validation.valid && this.value.length > 0) {
+                this.classList.add('is-invalid');
+            } else {
+                this.classList.remove('is-invalid');
+            }
+        });
+        
+        document.getElementById('phone').addEventListener('blur', function() {
+            const validation = validatePhone(this.value);
+            if (!validation.valid && this.value.length > 0) {
+                this.classList.add('is-invalid');
+            } else {
+                this.classList.remove('is-invalid');
+            }
+        });
+        
+        document.getElementById('subject').addEventListener('blur', function() {
+            const validation = validateSubject(this.value);
+            if (!validation.valid && this.value.length > 0) {
+                this.classList.add('is-invalid');
+            } else {
+                this.classList.remove('is-invalid');
+            }
+        });
+    </script>
+</body>
+
+</html>

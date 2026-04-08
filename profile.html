@@ -1,0 +1,2061 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - FindMyRoof</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="icon" href="Photos/logo3.png">
+
+    <style>
+        :root {
+            --primary-color: #6366F1;
+            --sidebar-bg: #F8F9FA;
+            --border-color: #E5E7EB;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #F3F4F6;
+            min-height: 100vh;
+        }
+
+        /* Top Navigation Bar */
+        .top-navbar {
+            background: white;
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .brand-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #111827;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .brand-logo i {
+            color: var(--primary-color);
+        }
+
+        .back-home-btn {
+            padding: 0.35rem 0.75rem;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: #6B7280;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-left: auto;
+        }
+
+        .back-home-btn:hover {
+            background: #F3F4F6;
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        /* Profile Container */
+        .profile-container {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* Left Sidebar */
+        .profile-sidebar {
+            width: 320px;
+            background: white;
+            border-right: 1px solid var(--border-color);
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-avatar-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #8B5CF6 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            position: relative;
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.2);
+        }
+
+        .profile-avatar-icon {
+            color: white;
+            font-size: 3.5rem;
+        }
+
+        .profile-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-email {
+            font-size: 0.875rem;
+            color: #6B7280;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar-nav {
+            flex: 1;
+            margin-top: 1.5rem;
+        }
+
+        .nav-section {
+            margin-bottom: 1rem;
+        }
+
+        .nav-item-custom {
+            padding: 0.875rem 1rem;
+            margin-bottom: 0.25rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: #4B5563;
+            position: relative;
+        }
+
+        .nav-item-custom:hover {
+            background: #F3F4F6;
+            color: #111827;
+        }
+
+        .nav-item-custom.active {
+            background: #EEF2FF;
+            color: var(--primary-color);
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .nav-item-custom .nav-icon {
+            font-size: 1.125rem;
+            margin-right: 0.75rem;
+        }
+
+        .nav-item-content {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .nav-badge {
+            background: #EF4444;
+            color: white;
+            padding: 0.125rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            margin-top: auto;
+            padding: 0.875rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: white;
+            color: #6B7280;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logout-btn:hover {
+            background: #FEE2E2;
+            color: #DC2626;
+            border-color: #FCA5A5;
+        }
+
+        /* Main Content */
+        .profile-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #9CA3AF;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label-custom {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        .form-control-custom {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-control-custom:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .btn-primary-custom {
+            background: var(--primary-color);
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            color: white;
+            transition: all 0.2s;
+        }
+
+        .btn-primary-custom:hover {
+            background: #4F46E5;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline-custom {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            color: #6B7280;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .btn-outline-custom:hover {
+            background: #F3F4F6;
+            border-color: #9CA3AF;
+        }
+
+        .info-text {
+            font-size: 0.875rem;
+            color: #6B7280;
+            margin-top: 0.5rem;
+        }
+
+        /* Activity Section Styles */
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .stat-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+            border-color: var(--primary-color);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-content {
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #111827;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #6B7280;
+            font-weight: 500;
+        }
+
+        .activity-tabs {
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .activity-tabs .nav-link {
+            color: #6B7280;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .activity-tabs .nav-link:hover {
+            color: var(--primary-color);
+            background: #F3F4F6;
+        }
+
+        .activity-tabs .nav-link.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+            background: transparent;
+        }
+
+        .activity-properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .activity-property-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .activity-property-card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .activity-property-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: #F3F4F6;
+        }
+
+        .activity-property-body {
+            padding: 1rem;
+        }
+
+        .activity-property-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .activity-property-location {
+            font-size: 0.875rem;
+            color: #6B7280;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .activity-property-price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+        }
+
+        .activity-property-meta {
+            display: flex;
+            gap: 0.75rem;
+            font-size: 0.875rem;
+            color: #6B7280;
+            margin-bottom: 0.75rem;
+        }
+
+        .activity-property-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .activity-property-date {
+            font-size: 0.75rem;
+            color: #9CA3AF;
+            margin-bottom: 0.75rem;
+        }
+
+        .activity-property-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .activity-btn {
+            flex: 1;
+            padding: 0.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: white;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+        }
+
+        .activity-btn:hover {
+            background: #F3F4F6;
+        }
+
+        .activity-btn.btn-danger:hover {
+            background: #FEE2E2;
+            color: #DC2626;
+            border-color: #DC2626;
+        }
+
+        .activity-btn.btn-primary:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            grid-column: 1 / -1; /* Span all grid columns */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            color: #D1D5DB;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #6B7280;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state-text {
+            color: #9CA3AF;
+            font-size: 0.95rem;
+        }
+
+        /* Enquiry Form Styles */
+        .enquiry-form-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .enquiry-success {
+            background: #D1FAE5;
+            border: 1px solid #10B981;
+            color: #065F46;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+
+        .enquiry-error {
+            background: #FEE2E2;
+            border: 1px solid #DC2626;
+            color: #991B1B;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+
+        .property-select-card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .property-select-card:hover {
+            border-color: var(--primary-color);
+            background: #F9FAFB;
+        }
+
+        .property-select-card.selected {
+            border-color: var(--primary-color);
+            background: #EEF2FF;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .activity-properties-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .navbar-toggler {
+            border: 1px solid var(--border-color);
+            padding: 0.25rem 0.5rem;
+            background: transparent;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+        @media (max-width: 991px) {
+            .navbar-collapse {
+                background: white;
+                padding: 1rem;
+                border-radius: 8px;
+                margin-top: 10px;
+                border: 1px solid var(--border-color);
+            }
+
+            .back-home-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .profile-container {
+                flex-direction: column;
+            }
+
+            .profile-sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .top-navbar {
+                padding: 1rem;
+                flex-wrap: wrap;
+            }
+        }
+
+        /* Footer Styles */
+        footer {
+            background: #212529;
+            color: #fff;
+        }
+
+        .footer-link {
+            color: #bdbdbd;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .footer-link:hover {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        /* Password Toggle Eye Icon */
+        .password-input-wrapper {
+            position: relative;
+        }
+
+        .toggle-eye-btn {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: #6c757d;
+            cursor: pointer;
+            padding: 8px;
+            font-size: 1.1rem;
+            transition: color 0.2s;
+        }
+
+        .toggle-eye-btn:hover {
+            color: #495057;
+        }
+
+        .password-input-wrapper input {
+            padding-right: 45px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Navigation Bar -->
+    <nav class="top-navbar">
+        <a href="index.html" class="brand-logo">
+            <img src="Photos/logo3.png" height="35px" width="35px" alt="">
+            <span>FindMyRoof</span>
+        </a>
+        <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#profileNav" aria-controls="profileNav" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-list" style="font-size: 1.5rem; color: #111827;"></i>
+        </button>
+        <div class="collapse navbar-collapse d-lg-flex" id="profileNav" style="justify-content: flex-end;">
+            <a href="index.html" class="back-home-btn">
+                <i class="bi bi-house-door"></i>
+                <span>Back to Home</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="profile-container">
+        <!-- Left Sidebar -->
+        <aside class="profile-sidebar">
+            <div class="profile-avatar-section">
+                <div class="profile-avatar">
+                    <i class="bi bi-person-fill profile-avatar-icon"></i>
+                </div>
+                <h3 class="profile-name" id="profileUserName">Loading...</h3>
+                <p class="profile-email" id="profileUserEmail">Loading...</p>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <a href="#" class="nav-item-custom" onclick="switchSection('activity', this)">
+                        <div class="nav-item-content">
+                            <i class="bi bi-activity nav-icon"></i>
+                            <span>My Activity</span>
+                        </div>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+
+                    <a href="#" class="nav-item-custom active" onclick="switchSection('editprofile', this)">
+                        <div class="nav-item-content">
+                            <i class="bi bi-pencil-square nav-icon"></i>
+                            <span>Edit Profile</span>
+                        </div>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+
+                    <a href="#" class="nav-item-custom" onclick="switchSection('enquiry', this)">
+                        <div class="nav-item-content">
+                            <i class="bi bi-envelope nav-icon"></i>
+                            <span>Submit Enquiry</span>
+                        </div>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </div>
+            </nav>
+
+            <button class="logout-btn" onclick="handleLogout()">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Log Out</span>
+                <i class="bi bi-chevron-right ms-auto"></i>
+            </button>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="profile-content">
+            <!-- Edit Profile Section -->
+            <section class="content-section active" id="section-editprofile">
+                <!-- Profile Information Card -->
+                <div class="content-card">
+                    <div class="section-title">Profile Information</div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label-custom">Name</label>
+                            <input type="text" class="form-control form-control-custom" id="editName" 
+                                   placeholder="Enter your full name">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label-custom">Email</label>
+                            <input type="email" class="form-control form-control-custom" id="editEmail" 
+                                   placeholder="your.email@example.com" readonly>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary-custom" onclick="saveProfileChanges()">
+                        Save Changes
+                    </button>
+                </div>
+
+                <!-- Change Phone Number Card -->
+                <div class="content-card">
+                    <div class="section-title">Change Phone Number</div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label-custom">Phone</label>
+                            <input type="tel" class="form-control form-control-custom" id="editPhone" 
+                                   placeholder="Enter phone number">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Change Password Card -->
+                <div class="content-card">
+                    <div class="section-title">Change Password</div>
+                    
+                    <form id="changePasswordForm" onsubmit="changePassword(event)">
+                        <div class="mb-3">
+                            <label for="currentPassword" class="form-label">Current Password</label>
+                            <div class="password-input-wrapper">
+                                <input type="password" class="form-control" id="currentPassword" required>
+                                <button type="button" class="toggle-eye-btn" onclick="togglePasswordVisibility('currentPassword', this)">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">New Password</label>
+                            <div class="password-input-wrapper">
+                                <input type="password" class="form-control" id="newPassword" required 
+                                       minlength="8" maxlength="12">
+                                <button type="button" class="toggle-eye-btn" onclick="togglePasswordVisibility('newPassword', this)">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                            <small class="text-muted">Must be 8-12 characters with letters and digits</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                            <div class="password-input-wrapper">
+                                <input type="password" class="form-control" id="confirmPassword" required>
+                                <button type="button" class="toggle-eye-btn" onclick="togglePasswordVisibility('confirmPassword', this)">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="passwordChangeMessage" class="alert d-none"></div>
+                        <button type="submit" class="btn btn-primary-custom">
+                            Change Password
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- My Activity Section -->
+            <section class="content-section" id="section-activity">
+                <div class="content-card">
+                    <div class="section-title">My Activity</div>
+                    
+                    <!-- Activity Stats -->
+                    <div class="row mb-4">
+                        <div class="col-md-4 mb-3">
+                            <div class="stat-card" onclick="switchActivityTab('viewed')">
+                                <div class="stat-icon" style="background: #EEF2FF;">
+                                    <i class="bi bi-eye-fill" style="color: var(--primary-color);"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number" id="viewedCount">0</div>
+                                    <div class="stat-label">Recently Viewed</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="stat-card" onclick="switchActivityTab('saved')">
+                                <div class="stat-icon" style="background: #FEE2E2;">
+                                    <i class="bi bi-heart-fill" style="color: #EF4444;"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number" id="savedCount">0</div>
+                                    <div class="stat-label">Saved Properties</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="stat-card" onclick="switchActivityTab('contacted')">
+                                <div class="stat-icon" style="background: #D1FAE5;">
+                                    <i class="bi bi-telephone-fill" style="color: #10B981;"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number" id="contactedCount">0</div>
+                                    <div class="stat-label">Contacted</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Activity Tabs -->
+                    <ul class="nav nav-tabs activity-tabs mb-4" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="viewed-tab" data-bs-toggle="tab" 
+                                    data-bs-target="#viewed-panel" type="button" role="tab">
+                                <i class="bi bi-eye me-2"></i>Recently Viewed
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="saved-tab" data-bs-toggle="tab" 
+                                    data-bs-target="#saved-panel" type="button" role="tab">
+                                <i class="bi bi-heart me-2"></i>Saved
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="contacted-tab" data-bs-toggle="tab" 
+                                    data-bs-target="#contacted-panel" type="button" role="tab">
+                                <i class="bi bi-telephone me-2"></i>Contacted
+                            </button>
+                        </li>
+                    </ul>
+
+                    <!-- Tab Content -->
+                    <div class="tab-content">
+                        <!-- Recently Viewed Panel -->
+                        <div class="tab-pane fade show active" id="viewed-panel" role="tabpanel">
+                            <div id="viewedPropertiesList" class="activity-properties-grid">
+                                <!-- Properties will be dynamically loaded here -->
+                            </div>
+                        </div>
+
+                        <!-- Saved Properties Panel -->
+                        <div class="tab-pane fade" id="saved-panel" role="tabpanel">
+                            <div id="savedPropertiesList" class="activity-properties-grid">
+                                <!-- Saved properties will be dynamically loaded here -->
+                            </div>
+                        </div>
+
+                        <!-- Contacted Properties Panel -->
+                        <div class="tab-pane fade" id="contacted-panel" role="tabpanel">
+                            <div id="contactedPropertiesList" class="activity-properties-grid">
+                                <!-- Contacted properties will be dynamically loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Submit Enquiry Section -->
+            <section class="content-section" id="section-enquiry">
+                <div class="content-card">
+                    <div class="section-title">Submit Property Enquiry</div>
+                    
+                    <div class="enquiry-form-container">
+                        <div class="enquiry-success" id="enquirySuccess">
+                            <i class="bi bi-check-circle"></i> Your enquiry has been submitted successfully! We will contact you soon.
+                        </div>
+                        <div class="enquiry-error" id="enquiryError">
+                            <i class="bi bi-exclamation-circle"></i> <span id="enquiryErrorMessage"></span>
+                        </div>
+
+                        <form id="enquiryForm" onsubmit="submitEnquiry(event)">
+                            <div class="mb-3">
+                                <label class="form-label-custom">Select Property</label>
+                                <select class="form-control form-control-custom" id="enquiryPropertyId" required>
+                                    <option value="">Choose a property...</option>
+                                </select>
+                                <p class="info-text">Select from properties you've viewed or saved</p>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label-custom">Your Name</label>
+                                    <input type="text" class="form-control form-control-custom" id="enquiryName" 
+                                           placeholder="Enter your full name" readonly required>
+                                    <p class="info-text">From your profile</p>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label-custom">Email</label>
+                                    <input type="email" class="form-control form-control-custom" id="enquiryEmail" 
+                                           placeholder="your.email@example.com" readonly required>
+                                    <p class="info-text">From your profile</p>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label-custom">Phone Number</label>
+                                <input type="tel" class="form-control form-control-custom" id="enquiryPhone" 
+                                       placeholder="Enter your 10-digit phone number" 
+                                       pattern="[9876][0-9]{9}" 
+                                       maxlength="10" 
+                                       readonly 
+                                       required>
+                                <p class="info-text">From your profile</p>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label-custom">Message</label>
+                                <textarea class="form-control form-control-custom" id="enquiryMessage" 
+                                          rows="5" 
+                                          placeholder="Write your message or queries about the property..." 
+                                          required></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary-custom" id="submitEnquiryBtn">
+                                <i class="bi bi-send"></i> Submit Enquiry
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const API_BASE = "http://localhost:5000";
+
+        // Check if user is logged in
+        function checkAuth() {
+            const userData = localStorage.getItem('user');
+            if (!userData) {
+                // Redirect to home page if not logged in
+                alert('Please login to access your profile');
+                window.location.href = 'index.html';
+                return null;
+            }
+            try {
+                return JSON.parse(userData);
+            } catch (e) {
+                console.error('Error parsing user data:', e);
+                localStorage.removeItem('user');
+                window.location.href = 'index.html';
+                return null;
+            }
+        }
+
+        // Load user profile data
+        function loadUserProfile() {
+            const userData = checkAuth();
+            if (!userData) return;
+
+            // Set user values from logged-in data
+            const userName = userData.full_name || userData.name || 'User';
+            const userEmail = userData.email || '';
+            const userPhone = userData.phone || '';
+
+            document.getElementById('profileUserName').textContent = userName;
+            document.getElementById('profileUserEmail').textContent = userEmail;
+            document.getElementById('editName').value = userName;
+            document.getElementById('editEmail').value = userEmail;
+            document.getElementById('editPhone').value = userPhone;
+            
+            // Populate enquiry form with user data
+            document.getElementById('enquiryName').value = userName;
+            document.getElementById('enquiryEmail').value = userEmail;
+            document.getElementById('enquiryPhone').value = userPhone;
+        }
+
+        // Switch between sections
+        function switchSection(sectionName, element) {
+            event.preventDefault();
+
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active class from all nav items
+            document.querySelectorAll('.nav-item-custom').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Show selected section
+            const targetSection = document.getElementById('section-' + sectionName);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+
+            // Add active class to clicked nav item
+            if (element) {
+                element.classList.add('active');
+            }
+        }
+
+        // Save profile changes
+        function saveProfileChanges() {
+            const userData = checkAuth();
+            if (!userData) return;
+
+            const name = document.getElementById('editName').value;
+            const phone = document.getElementById('editPhone').value;
+
+            // Update localStorage
+            userData.full_name = name;
+            userData.phone = phone;
+            localStorage.setItem('user', JSON.stringify(userData));
+
+            // Update display
+            document.getElementById('profileUserName').textContent = name;
+            
+            // Update enquiry form fields as well
+            document.getElementById('enquiryName').value = name;
+            document.getElementById('enquiryPhone').value = phone;
+
+            // Show success message
+            alert('Profile updated successfully!');
+
+            // Here you would typically make an API call to update the backend
+            // fetch(`${API_BASE}/api/user/update`, {...})
+        }
+
+        // Send OTP for phone verification
+        function sendPhoneOTP() {
+            const userData = checkAuth();
+            if (!userData) return;
+
+            const phone = document.getElementById('editPhone').value;
+            if (!phone) {
+                alert('Please enter a phone number');
+                return;
+            }
+            alert('OTP sent to ' + phone + '\n(This is a demo - OTP functionality needs backend implementation)');
+        }
+
+        // Toggle password visibility
+        function togglePasswordVisibility(inputId, buttonElement) {
+            const input = document.getElementById(inputId);
+            const icon = buttonElement.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            }
+        }
+
+        // Change password function
+        async function changePassword(event) {
+            event.preventDefault();
+            
+            const userData = checkAuth();
+            if (!userData || !userData.user_id) return;
+            
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const messageDiv = document.getElementById('passwordChangeMessage');
+            
+            // Clear previous messages
+            messageDiv.classList.add('d-none');
+            
+            // Validate passwords match
+            if (newPassword !== confirmPassword) {
+                messageDiv.textContent = 'New passwords do not match';
+                messageDiv.className = 'alert alert-danger';
+                messageDiv.classList.remove('d-none');
+                return;
+            }
+            
+            // Validate password requirements
+            if (newPassword.length < 8 || newPassword.length > 12) {
+                messageDiv.textContent = 'Password must be 8-12 characters long';
+                messageDiv.className = 'alert alert-danger';
+                messageDiv.classList.remove('d-none');
+                return;
+            }
+            
+            if (!/[A-Za-z]/.test(newPassword) || !/\d/.test(newPassword)) {
+                messageDiv.textContent = 'Password must contain both letters and digits';
+                messageDiv.className = 'alert alert-danger';
+                messageDiv.classList.remove('d-none');
+                return;
+            }
+            
+            if (/\s/.test(newPassword)) {
+                messageDiv.textContent = 'Password cannot contain spaces';
+                messageDiv.className = 'alert alert-danger';
+                messageDiv.classList.remove('d-none');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/users/${userData.user_id}/change-password`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        current_password: currentPassword,
+                        new_password: newPassword
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    messageDiv.textContent = 'Password changed successfully!';
+                    messageDiv.className = 'alert alert-success';
+                    messageDiv.classList.remove('d-none');
+                    
+                    // Clear form
+                    document.getElementById('changePasswordForm').reset();
+                    
+                    // Optional: Logout user after password change
+                    setTimeout(() => {
+                        alert('Password changed successfully! Please login again with your new password.');
+                        handleLogout();
+                    }, 2000);
+                } else {
+                    const errorMsg = Array.isArray(data.error) ? data.error.join(', ') : data.error;
+                    messageDiv.textContent = errorMsg || 'Failed to change password';
+                    messageDiv.className = 'alert alert-danger';
+                    messageDiv.classList.remove('d-none');
+                }
+            } catch (error) {
+                console.error('Error changing password:', error);
+                messageDiv.textContent = 'An error occurred. Please try again.';
+                messageDiv.className = 'alert alert-danger';
+                messageDiv.classList.remove('d-none');
+            }
+        }
+
+        // Handle logout
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('user');
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserProfile();
+            loadActivityData();
+            loadPropertiesForEnquiry();
+            
+            // Check if we need to switch to a specific activity tab
+            const activityTab = localStorage.getItem('activityTab');
+            if (activityTab) {
+                // Switch to My Activity section first
+                switchSection('activity', document.querySelector('[onclick*="switchSection(\'activity\'"]'));
+                // Then switch to the specific activity tab
+                switchActivityTab(activityTab);
+                // Clear the stored activity tab
+                localStorage.removeItem('activityTab');
+            }
+        });
+
+        // Listen for storage changes from other tabs/pages
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'savedProperties' || e.key === 'recentlyViewed' || e.key === 'contactedProperties') {
+                loadActivityData();
+                loadPropertiesForEnquiry(); // Refresh enquiry dropdown when activity changes
+            }
+        });
+
+        // ========== ACTIVITY SECTION FUNCTIONS ==========
+
+        // Load all activity data
+        function loadActivityData() {
+            const userData = checkAuth();
+            if (!userData || !userData.user_id) {
+                // Fallback to localStorage if no user logged in
+                loadRecentlyViewedProperties();
+                loadSavedProperties();
+                loadContactedProperties();
+                updateActivityCounts();
+                return;
+            }
+            
+            // Load from backend API
+            loadRecentlyViewedProperties();
+            loadSavedProperties();
+            loadContactedProperties();
+        }
+
+        // Get activity data from localStorage (fallback/cache)
+        function getActivityData(key) {
+            try {
+                const data = localStorage.getItem(key);
+                return data ? JSON.parse(data) : [];
+            } catch (e) {
+                console.error('Error loading activity data:', e);
+                return [];
+            }
+        }
+
+        // Save activity data to localStorage (cache)
+        function saveActivityData(key, data) {
+            try {
+                localStorage.setItem(key, JSON.stringify(data));
+                // Trigger custom event for same-window updates (e.g., index.html offcanvas)
+                window.dispatchEvent(new CustomEvent('activityCountsUpdated'));
+            } catch (e) {
+                console.error('Error saving activity data:', e);
+            }
+        }
+
+        // Update activity counts
+        function updateActivityCounts() {
+            const viewed = getActivityData('recentlyViewed');
+            const saved = getActivityData('savedProperties');
+            const contacted = getActivityData('contactedProperties');
+
+            document.getElementById('viewedCount').textContent = viewed.length;
+            document.getElementById('savedCount').textContent = saved.length;
+            document.getElementById('contactedCount').textContent = contacted.length;
+            
+            // Trigger custom event for updates
+            window.dispatchEvent(new CustomEvent('activityCountsUpdated'));
+        }
+
+        // Format date for display
+        function formatActivityDate(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 0) return 'Today';
+            if (diffDays === 1) return 'Yesterday';
+            if (diffDays < 7) return `${diffDays} days ago`;
+            return date.toLocaleDateString();
+        }
+
+        // Format price for display
+        function formatPrice(price) {
+            if (price >= 10000000) {
+                return '₹' + (price / 10000000).toFixed(2) + ' Cr';
+            } else if (price >= 100000) {
+                return '₹' + (price / 100000).toFixed(2) + ' Lac';
+            } else {
+                return '₹' + price.toLocaleString();
+            }
+        }
+
+        // Build property card HTML
+        function buildActivityPropertyCard(property, type) {
+            const dateLabel = type === 'viewed' ? 'Viewed' : type === 'saved' ? 'Saved' : 'Contacted';
+            
+            let actionsHTML = '';
+            if (type === 'viewed') {
+                actionsHTML = `
+                    <button class="activity-btn btn-primary" onclick="event.stopPropagation(); viewPropertyDetails(${property.id})">
+                        <i class="bi bi-eye"></i> View
+                    </button>
+                    <button class="activity-btn" onclick="event.stopPropagation(); saveProperty(${property.id})">
+                        <i class="bi bi-heart"></i> Save
+                    </button>
+                `;
+            } else if (type === 'saved') {
+                actionsHTML = `
+                    <button class="activity-btn btn-danger" onclick="event.stopPropagation(); removeFromSaved(${property.id})">
+                        <i class="bi bi-trash"></i> Remove
+                    </button>
+                `;
+            } else if (type === 'contacted') {
+                actionsHTML = `
+                    <button class="activity-btn btn-primary" onclick="event.stopPropagation(); contactAgain(${property.id})">
+                        <i class="bi bi-whatsapp"></i> Contact
+                    </button>
+                    <button class="activity-btn btn-primary" onclick="event.stopPropagation(); removeFromContacted(${property.id})">
+                        <i class="bi bi-trash"></i> Remove
+                    </button>
+                `;
+            }
+
+            return `
+                <div class="activity-property-card" onclick="viewPropertyDetails(${property.id})">
+                    <img src="${property.image || 'Photos/Logo2.jpeg'}" alt="${property.title}" class="activity-property-img">
+                    <div class="activity-property-body">
+                        <h6 class="activity-property-title">${property.title}</h6>
+                        <div class="activity-property-location">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            ${property.location}
+                        </div>
+                        <div class="activity-property-price">${formatPrice(property.price)}</div>
+                        <div class="activity-property-meta">
+                            ${property.bhk ? `<span><i class="bi bi-house-door"></i> ${property.bhk}</span>` : ''}
+                            ${property.area ? `<span><i class="bi bi-arrows-fullscreen"></i> ${property.area}</span>` : ''}
+                            ${property.furnish || property.furnishing ? `<span><i class="bi bi-lamp"></i> ${property.furnish || property.furnishing}</span>` : ''}
+                            ${property.type ? `<span><i class="bi bi-tag"></i> ${property.type}</span>` : ''}
+                        </div>
+                        <div class="activity-property-date">
+                            ${dateLabel} ${formatActivityDate(property.activityDate)}
+                        </div>
+                        <div class="activity-property-actions">
+                            ${actionsHTML}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Empty state HTML
+        function getEmptyStateHTML(type) {
+            const messages = {
+                viewed: {
+                    icon: 'bi-eye-slash',
+                    title: 'No Recently Viewed Properties',
+                    text: 'Properties you view will appear here'
+                },
+                saved: {
+                    icon: 'bi-heart',
+                    title: 'No Saved Properties',
+                    text: 'Save properties you like to view them later'
+                },
+                contacted: {
+                    icon: 'bi-telephone',
+                    title: 'No Contacted Properties',
+                    text: 'Properties you contact will appear here'
+                }
+            };
+
+            const msg = messages[type];
+            return `
+                <div class="empty-state">
+                    <div class="empty-state-icon"><i class="bi ${msg.icon}"></i></div>
+                    <h5 class="empty-state-title">${msg.title}</h5>
+                    <p class="empty-state-text">${msg.text}</p>
+                </div>
+            `;
+        }
+
+        // Load Recently Viewed Properties
+        function loadRecentlyViewedProperties() {
+            const userData = checkAuth();
+            const container = document.getElementById('viewedPropertiesList');
+            
+            if (!userData || !userData.user_id) {
+                // Fallback to localStorage
+                const properties = getActivityData('recentlyViewed');
+                if (properties.length === 0) {
+                    container.innerHTML = getEmptyStateHTML('viewed');
+                    return;
+                }
+                container.innerHTML = properties.map(p => buildActivityPropertyCard(p, 'viewed')).join('');
+                return;
+            }
+            
+            // Fetch from backend API
+            fetch(`${API_BASE}/api/users/${userData.user_id}/recently-viewed`)
+                .then(response => response.json())
+                .then(properties => {
+                    // Cache in localStorage
+                    saveActivityData('recentlyViewed', properties);
+                    
+                    if (properties.length === 0) {
+                        container.innerHTML = getEmptyStateHTML('viewed');
+                    } else {
+                        container.innerHTML = properties.map(p => buildActivityPropertyCard(p, 'viewed')).join('');
+                    }
+                    updateActivityCounts();
+                })
+                .catch(error => {
+                    console.error('Error loading recently viewed:', error);
+                    // Fallback to localStorage on error
+                    const properties = getActivityData('recentlyViewed');
+                    if (properties.length === 0) {
+                        container.innerHTML = getEmptyStateHTML('viewed');
+                    } else {
+                        container.innerHTML = properties.map(p => buildActivityPropertyCard(p, 'viewed')).join('');
+                    }
+                });
+        }
+
+        // Load Saved Properties
+        function loadSavedProperties() {
+            const userData = checkAuth();
+            const container = document.getElementById('savedPropertiesList');
+            
+            if (!userData || !userData.user_id) {
+                console.log('No user logged in, using localStorage');
+                // Fallback to localStorage
+                const properties = getActivityData('savedProperties');
+                if (properties.length === 0) {
+                    container.innerHTML = getEmptyStateHTML('saved');
+                    return;
+                }
+                container.innerHTML = properties.map(p => buildActivityPropertyCard(p, 'saved')).join('');
+                return;
+            }
+            
+            console.log('Fetching saved properties for user:', userData.user_id);
+            
+            // Fetch from backend API
+            fetch(`${API_BASE}/api/users/${userData.user_id}/saved-properties`)
+                .then(response => {
+                    console.log('Backend response status:', response.status);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(properties => {
+                    console.log('Received properties from backend:', properties.length);
+                    
+                    // Cache in localStorage (sync with backend)
+                    saveActivityData('savedProperties', properties);
+                    
+                    if (properties.length === 0) {
+                        container.innerHTML = getEmptyStateHTML('saved');
+                    } else {
+                        container.innerHTML = properties.map(p => buildActivityPropertyCard(p, 'saved')).join('');
+                    }
+                    updateActivityCounts();
+                })
+                .catch(error => {
+                    console.error('Error loading saved properties from backend:', error);
+                    console.warn('Falling back to localStorage');
+                    // Fallback to localStorage on error
+                    const properties = getActivityData('savedProperties');
+                    if (properties.length === 0) {
+                        container.innerHTML = getEmptyStateHTML('saved');
+                    } else {
+                        container.innerHTML = properties.map(p => buildActivityPropertyCard(p, 'saved')).join('');
+                    }
+                    updateActivityCounts();
+                });
+        }
+
+        // Load Contacted Properties
+        function loadContactedProperties() {
+            const userData = checkAuth();
+            const container = document.getElementById('contactedPropertiesList');
+            
+            if (!userData || !userData.user_id) {
+                // Fallback to localStorage
+                const properties = getActivityData('contactedProperties');
+                if (properties.length === 0) {
+                    container.innerHTML = getEmptyStateHTML('contacted');
+                    return;
+                }
+                container.innerHTML = properties.map(p => buildActivityPropertyCard(p, 'contacted')).join('');
+                return;
+            }
+            
+            // Fetch from backend API
+            fetch(`${API_BASE}/api/users/${userData.user_id}/contacted-properties`)
+                .then(response => response.json())
+                .then(properties => {
+                    // Cache in localStorage
+                    saveActivityData('contactedProperties', properties);
+                    
+                    if (properties.length === 0) {
+                        container.innerHTML = getEmptyStateHTML('contacted');
+                    } else {
+                        container.innerHTML = properties.map(p => buildActivityPropertyCard(p, 'contacted')).join('');
+                    }
+                    updateActivityCounts();
+                })
+                .catch(error => {
+                    console.error('Error loading contacted properties:', error);
+                    // Fallback to localStorage on error
+                    const properties = getActivityData('contactedProperties');
+                    if (properties.length === 0) {
+                        container.innerHTML = getEmptyStateHTML('contacted');
+                    } else {
+                        container.innerHTML = properties.map(p => buildActivityPropertyCard(p, 'contacted')).join('');
+                    }
+                });
+        }
+
+        // Switch between activity tabs
+        // Switch between activity tabs
+        function switchActivityTab(tabType) {
+            // Hide all tab panels by removing active and show classes, but keep fade
+            document.querySelectorAll('.tab-pane').forEach(pane => {
+                pane.classList.remove('show', 'active');
+            });
+
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.activity-tabs .nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Map 'recent' to 'viewed' for compatibility with index.html offcanvas
+            if (tabType === 'recent') {
+                tabType = 'viewed';
+            }
+
+            // Show selected tab based on type
+            let targetPanel = null;
+            let targetTab = null;
+            
+            if (tabType === 'viewed') {
+                targetPanel = document.getElementById('viewed-panel');
+                targetTab = document.getElementById('viewed-tab');
+            } else if (tabType === 'saved') {
+                targetPanel = document.getElementById('saved-panel');
+                targetTab = document.getElementById('saved-tab');
+            } else if (tabType === 'contacted') {
+                targetPanel = document.getElementById('contacted-panel');
+                targetTab = document.getElementById('contacted-tab');
+            }
+
+            if (targetPanel && targetTab) {
+                targetPanel.classList.add('show', 'active');
+                targetTab.classList.add('active');
+            }
+        }
+
+        // View property details
+        async function viewPropertyDetails(propertyId) {
+            // Find property from activity data
+            let property = null;
+            const viewed = getActivityData('recentlyViewed');
+            const saved = getActivityData('savedProperties');
+            const contacted = getActivityData('contactedProperties');
+            
+            property = viewed.find(p => p.id === propertyId) || 
+                      saved.find(p => p.id === propertyId) || 
+                      contacted.find(p => p.id === propertyId);
+            
+            if (!property) {
+                console.error('Property not found:', propertyId);
+                return;
+            }
+            
+            // Debug: Log property data
+            console.log('Property data:', property);
+            console.log('BHK:', property.bhk);
+            console.log('Furnishing:', property.furnish, property.furnishing);
+            
+            // Check if data is incomplete - fetch fresh data from API
+            if (!property.bhk || (!property.furnish && !property.furnishing)) {
+                console.warn('Property data incomplete. Fetching fresh data from API...');
+                try {
+                    const response = await fetch(`${API_BASE}/api/properties/${propertyId}`);
+                    if (response.ok) {
+                        const freshProperty = await response.json();
+                        console.log('Fresh property data:', freshProperty);
+                        // Update property with fresh data
+                        property = {
+                            ...property,
+                            id: freshProperty.id,
+                            title: freshProperty.name || property.title,
+                            name: freshProperty.name || property.name,
+                            bhk: freshProperty.bhk || property.bhk,
+                            furnish: freshProperty.furnish || freshProperty.furnishing || property.furnish,
+                            furnishing: freshProperty.furnishing || freshProperty.furnish || property.furnishing,
+                            description: freshProperty.description || property.description,
+                            property_type: freshProperty.property_type || property.property_type
+                        };
+                        console.log('Updated property data:', property);
+                    }
+                } catch (error) {
+                    console.error('Error fetching fresh property data:', error);
+                }
+            }
+            
+            // Populate modal with property details
+            const isRent = (property.type || '').toLowerCase() === 'rent';
+            const price = formatPrice(property.price);
+            
+            document.getElementById('modalImg').src = property.image || 'Photos/Logo2.jpeg';
+            document.getElementById('modalBadge').textContent = isRent ? 'For Rent' : 'For Sale';
+            document.getElementById('modalBadge').className = isRent ? 'badge bg-info position-absolute top-0 start-0 m-3 fs-6' : 'badge bg-primary position-absolute top-0 start-0 m-3 fs-6';
+            
+            document.getElementById('modalTitle').textContent = property.title || property.name || 'Property';
+            document.getElementById('modalLocation').textContent = property.location || 'Location not specified';
+            document.getElementById('modalPrice').textContent = price;
+            document.getElementById('modalPriceUnit').textContent = isRent ? '/ month' : 'onwards';
+            
+            // Ensure BHK and Furnishing are properly displayed
+            const bhkValue = property.bhk || 'N/A';
+            const furnishingValue = property.furnish || property.furnishing || 'N/A';
+            
+            document.getElementById('modalBhk').textContent = bhkValue;
+            document.getElementById('modalArea').textContent = property.area || 'N/A';
+            document.getElementById('modalFurnishing').textContent = furnishingValue;
+            document.getElementById('modalPropertyType').textContent = property.property_type || property.type || 'N/A';
+            document.getElementById('modalDesc').textContent = property.description || 'No detailed description available for this property.';
+            
+            console.log('Modal populated - BHK:', bhkValue, 'Furnishing:', furnishingValue);
+            
+            // Update contact button with WhatsApp link
+            const phone = '9876543210'; // Default phone, should come from property data
+            const message = `Hi, I'm interested in ${property.title || property.name} at ${property.location} listed on FindMyRoof.`;
+            const whatsappLink = `https://wa.me/91${phone}?text=${encodeURIComponent(message)}`;
+            document.getElementById('modalContactBtn').href = whatsappLink;
+            document.getElementById('modalContactBtn').onclick = function() {
+                addToContacted(propertyId);
+            };
+            
+            // Update save button state
+            const savedProperties = getActivityData('savedProperties');
+            const isSaved = savedProperties.some(p => p.id === propertyId);
+            const saveBtn = document.getElementById('modalSaveBtn');
+            saveBtn.innerHTML = isSaved ? '<i class="bi bi-heart-fill"></i>' : '<i class="bi bi-heart"></i>';
+            saveBtn.className = isSaved ? 'btn btn-danger' : 'btn btn-outline-danger';
+            saveBtn.setAttribute('data-property-id', propertyId);
+            
+            // Show modal
+            const modal = new bootstrap.Modal(document.getElementById('propertyDetailModal'));
+            modal.show();
+        }
+        
+        // Toggle save property from modal
+        function toggleSaveFromModal() {
+            const saveBtn = document.getElementById('modalSaveBtn');
+            const propertyId = parseInt(saveBtn.getAttribute('data-property-id'));
+            
+            const savedProperties = getActivityData('savedProperties');
+            const isSaved = savedProperties.some(p => p.id === propertyId);
+            
+            if (isSaved) {
+                removeFromSaved(propertyId);
+                saveBtn.innerHTML = '<i class="bi bi-heart"></i>';
+                saveBtn.className = 'btn btn-outline-danger';
+            } else {
+                saveProperty(propertyId);
+                saveBtn.innerHTML = '<i class="bi bi-heart-fill"></i>';
+                saveBtn.className = 'btn btn-danger';
+            }
+        }
+
+        // Save property to favorites
+        function saveProperty(propertyId) {
+            const userData = checkAuth();
+            if (!userData || !userData.user_id) {
+                // Fallback to localStorage
+                const viewed = getActivityData('recentlyViewed');
+                const saved = getActivityData('savedProperties');
+                const property = viewed.find(p => p.id === propertyId);
+                if (!property) return;
+                if (saved.some(p => p.id === propertyId)) {
+                    return;
+                }
+                property.activityDate = new Date().toISOString();
+                saved.unshift(property);
+                saveActivityData('savedProperties', saved);
+                loadActivityData();
+                return;
+            }
+            
+            // Save via backend API
+            fetch(`${API_BASE}/api/users/${userData.user_id}/saved-properties`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ property_id: propertyId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                loadActivityData();
+            })
+            .catch(error => {
+                console.error('Error saving property:', error);
+            });
+        }
+
+        // Remove from saved properties
+        function removeFromSaved(propertyId) {
+            if (!confirm('Remove this property from saved list?')) return;
+            
+            const userData = checkAuth();
+            if (!userData || !userData.user_id) {
+                // Fallback to localStorage
+                let saved = getActivityData('savedProperties');
+                saved = saved.filter(p => p.id !== propertyId);
+                saveActivityData('savedProperties', saved);
+                loadActivityData();
+                return;
+            }
+            
+            // Remove via backend API
+            fetch(`${API_BASE}/api/users/${userData.user_id}/saved-properties/${propertyId}`, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => {
+                loadActivityData();
+            })
+            .catch(error => {
+                console.error('Error removing saved property:', error);
+                alert('Failed to remove property. Please try again.');
+            });
+        }
+
+        // Add property to contacted list
+        function addToContacted(propertyId) {
+            const userData = checkAuth();
+            if (!userData || !userData.user_id) {
+                // Fallback to localStorage
+                const viewed = getActivityData('recentlyViewed');
+                const saved = getActivityData('savedProperties');
+                const contacted = getActivityData('contactedProperties');
+                
+                let property = viewed.find(p => p.id === propertyId) || 
+                              saved.find(p => p.id === propertyId) ||
+                              contacted.find(p => p.id === propertyId);
+                
+                if (!property) return;
+                if (contacted.some(p => p.id === propertyId)) return;
+                
+                property.activityDate = new Date().toISOString();
+                contacted.unshift(property);
+                saveActivityData('contactedProperties', contacted);
+                loadActivityData();
+                return;
+            }
+            
+            // Add via backend API
+            fetch(`${API_BASE}/api/users/${userData.user_id}/contacted-properties`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ property_id: propertyId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                loadActivityData();
+            })
+            .catch(error => {
+                console.error('Error adding to contacted:', error);
+            });
+        }
+
+        // Contact property owner again
+        function contactAgain(propertyId) {
+            // Get the property from contacted properties
+            const contactedProperties = getActivityData('contactedProperties');
+            const property = contactedProperties.find(p => p.id == propertyId);
+            
+            if (!property) {
+                alert('Property not found');
+                return;
+            }
+            
+            // Generate random contact info (matching the logic from properties.html)
+            const names = ["Rahul Sharma", "Priya Patel", "Amit Verma", "Sneha Gupta", "Vikram Singh"];
+            const randomName = names[Math.floor(Math.random() * names.length)];
+            const randomPhone = "+91 " + Math.floor(9000000000 + Math.random() * 900000000);
+            
+            // Create WhatsApp link
+            const cleanPhone = randomPhone.replace(/[^0-9]/g, '');
+            const text = `Hi, I'm interested in ${property.title} at ${property.location} listed on FindMyRoof. Please share more details.`;
+            const encodedText = encodeURIComponent(text);
+            const whatsAppLink = `https://wa.me/${cleanPhone}?text=${encodedText}`;
+            
+            // Open WhatsApp
+            window.open(whatsAppLink, '_blank');
+        }
+        
+        // Remove property from contacted list
+        function removeFromContacted(propertyId) {
+            if (!confirm('Remove this property from contacted list?')) {
+                return;
+            }
+            
+            const userData = checkAuth();
+            if (!userData || !userData.user_id) {
+                // Fallback to localStorage
+                let contactedProperties = getActivityData('contactedProperties');
+                contactedProperties = contactedProperties.filter(p => p.id !== propertyId);
+                saveActivityData('contactedProperties', contactedProperties);
+                loadActivityData();
+                return;
+            }
+            
+            // Remove via backend API
+            fetch(`${API_BASE}/api/users/${userData.user_id}/contacted-properties/${propertyId}`, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => {
+                loadActivityData();
+            })
+            .catch(error => {
+                console.error('Error removing contacted property:', error);
+                alert('Failed to remove property. Please try again.');
+            });
+        }
+
+        // ========== ENQUIRY SUBMISSION FUNCTIONS ==========
+
+        // Load properties for enquiry dropdown (from user's activity only)
+        function loadPropertiesForEnquiry() {
+            const viewed = getActivityData('recentlyViewed');
+            const saved = getActivityData('savedProperties');
+            
+            // Combine and deduplicate properties
+            const allProperties = [...saved, ...viewed];
+            const uniqueProperties = allProperties.filter((property, index, self) =>
+                index === self.findIndex(p => p.id === property.id)
+            );
+            
+            const select = document.getElementById('enquiryPropertyId');
+            
+            if (uniqueProperties.length === 0) {
+                select.innerHTML = `
+                    <option value="">No properties in your activity</option>
+                    <option value="general">General Enquiry (Not property-specific)</option>
+                `;
+                return;
+            }
+            
+            let optionsHTML = '<option value="">Choose a property...</option>';
+            
+            // Add saved properties first
+            const savedProps = uniqueProperties.filter(p => saved.some(s => s.id === p.id));
+            if (savedProps.length > 0) {
+                optionsHTML += '<optgroup label="❤️ Saved Properties">';
+                savedProps.forEach(property => {
+                    const price = formatPrice(parseFloat(property.price) || 0);
+                    optionsHTML += `<option value="${property.id}">${property.title} - ${property.location} (${price})</option>`;
+                });
+                optionsHTML += '</optgroup>';
+            }
+            
+            // Add recently viewed properties
+            const viewedOnly = uniqueProperties.filter(p => 
+                !saved.some(s => s.id === p.id) && viewed.some(v => v.id === p.id)
+            );
+            if (viewedOnly.length > 0) {
+                optionsHTML += '<optgroup label="👁️ Recently Viewed">';
+                viewedOnly.forEach(property => {
+                    const price = formatPrice(parseFloat(property.price) || 0);
+                    optionsHTML += `<option value="${property.id}">${property.title} - ${property.location} (${price})</option>`;
+                });
+                optionsHTML += '</optgroup>';
+            }
+            
+            // Add general enquiry option
+            optionsHTML += '<option value="general">💬 General Enquiry (Not property-specific)</option>';
+            
+            select.innerHTML = optionsHTML;
+        }
+
+        // Submit enquiry form
+        function submitEnquiry(event) {
+            event.preventDefault();
+            
+            const userData = checkAuth();
+            if (!userData) return;
+
+            const submitBtn = document.getElementById('submitEnquiryBtn');
+            const successDiv = document.getElementById('enquirySuccess');
+            const errorDiv = document.getElementById('enquiryError');
+            const errorMsg = document.getElementById('enquiryErrorMessage');
+
+            // Hide previous messages
+            successDiv.style.display = 'none';
+            errorDiv.style.display = 'none';
+
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Submitting...';
+
+            const propertyIdValue = document.getElementById('enquiryPropertyId').value;
+            const propertySelect = document.getElementById('enquiryPropertyId');
+            const selectedPropertyText = propertySelect.options[propertySelect.selectedIndex].text;
+            
+            // Log for debugging
+            console.log('Submitting enquiry for:', {
+                propertyIdValue: propertyIdValue,
+                propertyText: selectedPropertyText,
+                isGeneral: propertyIdValue === 'general'
+            });
+            
+            const enquiryData = {
+                property_id: (propertyIdValue === 'general' || propertyIdValue === '') ? null : parseInt(propertyIdValue),
+                name: document.getElementById('enquiryName').value.trim(),
+                email: document.getElementById('enquiryEmail').value.trim(),
+                phone: document.getElementById('enquiryPhone').value.trim(),
+                message: document.getElementById('enquiryMessage').value.trim()
+            };
+
+            // Validate phone number
+            const phoneRegex = /^[9876][0-9]{9}$/;
+            if (!phoneRegex.test(enquiryData.phone)) {
+                errorMsg.textContent = 'Phone number must be 10 digits and start with 9, 8, 7, or 6';
+                errorDiv.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="bi bi-send"></i> Submit Enquiry';
+                return;
+            }
+
+            console.log('Enquiry data being sent:', enquiryData);
+
+            fetch(`${API_BASE}/api/enquiries`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(enquiryData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Enquiry response:', data);
+                if (data.message || data.enquiry_id) {
+                    // Success
+                    successDiv.style.display = 'block';
+                    document.getElementById('enquiryForm').reset();
+                    
+                    // Scroll to success message
+                    successDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                } else if (data.error) {
+                    // Error from server
+                    errorMsg.textContent = data.error;
+                    errorDiv.style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('Error submitting enquiry:', error);
+                errorMsg.textContent = 'Failed to submit enquiry. Please try again later.';
+                errorDiv.style.display = 'block';
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="bi bi-send"></i> Submit Enquiry';
+            });
+        }
+    </script>
+
+    <!-- Property Detail Modal -->
+    <div class="modal fade" id="propertyDetailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <div class="position-relative">
+                    <img src="" id="modalImg" style="width: 100%; height: 350px; object-fit: cover;" alt="Property Image">
+                    <button type="button"
+                        class="btn-close position-absolute top-0 end-0 m-3 bg-white p-2 rounded-circle opacity-100"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
+                    <span class="badge bg-primary position-absolute top-0 start-0 m-3 fs-6" id="modalBadge">For
+                        Sale</span>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h4 class="fw-bold mb-1" id="modalTitle">Property Title</h4>
+                            <p class="text-muted mb-0"><i class="bi bi-geo-alt-fill text-danger"></i> <span
+                                    id="modalLocation">Location</span></p>
+                        </div>
+                        <div class="text-end">
+                            <div class="fs-3 fw-bold text-primary" id="modalPrice">₹0</div>
+                            <small class="text-muted" id="modalPriceUnit">onwards</small>
+                        </div>
+                    </div>
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-6 col-md-3">
+                            <div class="p-2 bg-light rounded text-center">
+                                <small class="text-muted d-block">BHK</small>
+                                <strong id="modalBhk">-</strong>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="p-2 bg-light rounded text-center">
+                                <small class="text-muted d-block">Area</small>
+                                <strong id="modalArea">-</strong>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="p-2 bg-light rounded text-center">
+                                <small class="text-muted d-block">Furnishing</small>
+                                <strong id="modalFurnishing">-</strong>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="p-2 bg-light rounded text-center">
+                                <small class="text-muted d-block">Type</small>
+                                <strong id="modalPropertyType">-</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 class="fw-bold mb-2">Description</h5>
+                    <p class="text-muted mb-4" id="modalDesc">No description available.</p>
+
+                    <div class="d-flex gap-2 mt-3">
+                        <a href="#" class="btn btn-primary flex-fill" id="modalContactBtn" target="_blank">
+                            <i class="bi bi-whatsapp"></i> Contact Owner
+                        </a>
+                        <button class="btn btn-outline-danger" id="modalSaveBtn" onclick="toggleSaveFromModal()">
+                            <i class="bi bi-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-light pt-5 pb-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <h5 class="fw-bold"><img height="50px" src="Photos/logo3.png" alt=""> FindMyRoof</h5>
+                    <p class="small">A smart real estate platform to buy, rent, and list properties with verified
+                        details across India.</p>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-semibold">Quick Links</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2">
+                        <li><a href="index.html" class="footer-link">Home</a></li>
+                        <li><a href="price_estimator.html" class="footer-link">Price Estimator</a></li>
+                        <li><a href="about.html" class="footer-link">About Us</a></li>
+                        <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+                        <li><a href="post_property.html" class="footer-link">Post Property</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-semibold">Property Types</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2">
+                        <li><a href="properties.html?property_type=Flat" class="footer-link">Flats & Apartments</a></li>
+                        <li><a href="properties.html?property_type=Villa" class="footer-link">Villas</a></li>
+                        <li><a href="properties.html?property_type=Plot" class="footer-link">Plots & Land</a></li>
+                        <li><a href="properties.html?category=Commercial" class="footer-link">Commercial Properties</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-semibold">Contact</h6>
+                    <p class="small mb-1">📧 <a href="mailto:findmyroof1@gmail.com" class="footer-link">findmyroof1@gmail.com</a></p>
+                    <p class="small mb-1">📞 +91 98765 43210</p>
+                    <p class="small">📍 Ahmedabad, India</p>
+                </div>
+            </div>
+            <hr class="border-secondary opacity-25">
+            <div class="text-center text-secondary small">© 2026 FindMyRoof. All rights reserved.</div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

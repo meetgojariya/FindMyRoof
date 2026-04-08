@@ -1,0 +1,2050 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindMyRoof Admin | Real Estate Management</title>
+
+    <link rel="icon" href="Photos/logo3.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --secondary: #64748B;
+            --bg-body: #F1F5F9;
+            --bg-card: #FFFFFF;
+            --text-main: #0F172A;
+            --sidebar-width: 280px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            height: 100vh;
+            overflow: hidden;
+            overflow-x: hidden;
+        }
+
+        /* --- LOGIN PAGE STYLES --- */
+        #login-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .login-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        /* --- ADMIN DASHBOARD (Hidden Initially) --- */
+        #admin-dashboard {
+            display: none;
+            height: 100%;
+            width: 100%;
+        }
+
+        /* --- Sidebar --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: #1E293B;
+            color: #94A3B8;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            z-index: 1000;
+        }
+
+        .brand-section {
+            padding: 24px;
+            color: #fff;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-section {
+            padding: 16px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .nav-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #475569;
+            margin: 20px 0 10px 12px;
+            font-weight: 700;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: #CBD5E1;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            transition: 0.2s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: #4F46E5;
+            color: #fff;
+        }
+
+        /* --- Main Layout --- */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            width: calc(100% - var(--sidebar-width));
+        }
+
+        .top-header {
+            background: var(--bg-card);
+            padding: 16px 32px;
+            border-bottom: 1px solid #E2E8F0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: var(--sidebar-width);
+            right: 0;
+            z-index: 500;
+            width: calc(100% - var(--sidebar-width));
+        }
+
+        .content-body {
+            padding: 32px;
+            margin-top: 72px;
+            flex: 1;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        /* --- View Sections --- */
+        .view-section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- Cards & Tables --- */
+        .card-custom {
+            background: var(--bg-card);
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            padding: 24px;
+            height: 100%;
+        }
+
+        .kpi-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 120px;
+        }
+
+        .kpi-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .table-custom th {
+            background: #F8FAFC;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #64748B;
+            font-weight: 600;
+            padding: 16px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .table-custom td {
+            padding: 16px;
+            vertical-align: middle;
+            border-bottom: 1px solid #F1F5F9;
+        }
+
+        /* --- Badges --- */
+        .badge-res {
+            background: #FDF2F8;
+            color: #DB2777;
+            border: 1px solid #FBCFE8;
+        }
+
+        .badge-com {
+            background: #FFF7ED;
+            color: #EA580C;
+            border: 1px solid #FED7AA;
+        }
+
+        /* --- Edit Modal --- */
+        .modal-content {
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+        }
+
+        .modal-header {
+            background: #F8FAFC;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #4F46E5;
+            box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.25);
+        }
+
+        /* --- Prevent Horizontal Overflow --- */
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            overflow-x: hidden;
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .top-header {
+                left: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- LOGIN CONTAINER -->
+    <div id="login-container">
+        <div class="login-card">
+            <div class="text-center mb-4">
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3"
+                    style="width: 60px; height: 60px; font-size: 28px;">
+                    <i class="bi bi-shield-lock-fill"></i>
+                </div>
+                <h3 class="fw-bold mb-1">Admin Login</h3>
+                <p class="text-muted">Enter credentials to access dashboard</p>
+            </div>
+
+            <form onsubmit="handleLogin(event)">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Email Address</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light"><i class="bi bi-envelope"></i></span>
+                        <input type="email" id="loginEmail" class="form-control" placeholder="admin@findmyroof.com"
+                            required>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light"><i class="bi bi-key"></i></span>
+                        <input type="password" id="loginPassword" class="form-control" placeholder="Enter password"
+                            required>
+                        <button class="btn btn-outline-secondary" type="button" id="togglePassword"
+                            style="border-left: 0;">
+                            <i class="bi bi-eye" id="eyeIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="loginError" class="alert alert-danger d-none text-center py-2 small mb-3"></div>
+
+                <button type="submit" class="btn btn-primary w-100 py-2 fw-bold" id="loginBtn">
+                    Sign In
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ADMIN DASHBOARD -->
+    <div id="admin-dashboard">
+        <aside class="sidebar" id="sidebar">
+            <div class="brand-section">
+                <h4 class="m-0 fw-bold"><img src="Photos/Logo3.png" height="45px" width="45px" alt=""> FindMyRoof</h4>
+                <small style="opacity: 0.6;">Admin Console</small>
+            </div>
+
+            <nav class="nav-section">
+                <div class="nav-label">Overview</div>
+                <a href="#" class="nav-link active" onclick="switchView('dashboard', this)">
+                    <i class="bi bi-grid-fill"></i> Dashboard
+                </a>
+                <a href="#" class="nav-link" onclick="switchView('analytics', this)">
+                    <i class="bi bi-graph-up-arrow"></i> Analytics
+                </a>
+
+                <div class="nav-label">Management</div>
+                <a href="#" class="nav-link" onclick="switchView('properties-rent', this)">
+                    <i class="bi bi-house-door-fill"></i> Properties on Rent
+                </a>
+                <a href="#" class="nav-link" onclick="switchView('properties-sell', this)">
+                    <i class="bi bi-house-door-fill"></i> Properties on Sell
+                </a>
+                <a href="#" class="nav-link" onclick="switchView('enquiries', this)">
+                    <i class="bi bi-chat-square-text-fill"></i> Enquiries
+                    <span class="badge bg-danger rounded-pill ms-auto" id="sidebarEnquiryCount"
+                        style="font-size: 10px;">0</span>
+                </a>
+                <a href="#" class="nav-link" onclick="switchView('users', this)">
+                    <i class="bi bi-people-fill"></i> Agents & Owners
+                </a>
+                <a href="#" class="nav-link" onclick="switchView('contact-messages', this)">
+                    <i class="bi bi-envelope-fill"></i> Contact Messages
+                    <span class="badge bg-info rounded-pill ms-auto" id="sidebarContactCount" style="font-size: 10px;">0</span>
+                </a>
+
+                <div class="nav-label">System</div>
+                <a href="#" class="nav-link" onclick="switchView('settings', this)">
+                    <i class="bi bi-gear-fill"></i> Settings
+                </a>
+
+                <a href="#" class="nav-link text-danger mt-4" onclick="logout()">
+                    <i class="bi bi-box-arrow-right"></i> Logout
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <button class="btn btn-outline-secondary d-lg-none" onclick="toggleSidebar()">
+                    <i class="bi bi-list"></i>
+                </button>
+                <h5 class="fw-bold m-0" id="page-title">Dashboard Overview</h5>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="text-end d-none d-sm-block">
+                        <div class="fw-bold" id="adminNameDisplay">Admin User</div>
+                        <div class="text-muted" style="font-size: 11px;">Administrator</div>
+                    </div>
+                    <div id="adminProfileInitials"
+                        class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center"
+                        style="width: 40px; height: 40px;">
+                        AD
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-body">
+                <!-- DASHBOARD VIEW -->
+                <div id="dashboard" class="view-section active">
+                    <div style="height: calc(100vh - 140px); overflow-y: auto; overflow-x: hidden;">
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-3">
+                            <div class="card-custom kpi-card">
+                                <div>
+                                    <div class="text-muted small fw-bold text-uppercase">Total Properties</div>
+                                    <div class="fs-2 fw-bold mt-2 mb-3" data-stat="properties" style="color: #4F46E5;">-
+                                    </div>
+                                    <div class="small"><i class="bi bi-check-circle-fill" style="color: #10B981;"></i>
+                                        All Listed</div>
+                                </div>
+                                <div class="kpi-icon" style="background:#E0E7FF; color:#4F46E5;">
+                                    <i class="bi bi-building fs-4"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card-custom kpi-card">
+                                <div>
+                                    <div class="text-muted small fw-bold text-uppercase">Properties on Rent</div>
+                                    <div class="fs-2 fw-bold mt-2 mb-3" id="rentCount" style="color: #0D6EFD;">-</div>
+                                    <div class="small"><i class="bi bi-lightning-fill" style="color: #F59E0B;"></i>
+                                        Available</div>
+                                </div>
+                                <div class="kpi-icon" style="background:#DFF2FF; color:#0D6EFD;">
+                                    <i class="bi bi-house-check fs-4"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card-custom kpi-card">
+                                <div>
+                                    <div class="text-muted small fw-bold text-uppercase">Properties for Sale</div>
+                                    <div class="fs-2 fw-bold mt-2 mb-3" id="sellCount" style="color: #059669;">-</div>
+                                    <div class="small"><i class="bi bi-check-circle-fill" style="color: #10B981;"></i>
+                                        Available</div>
+                                </div>
+                                <div class="kpi-icon" style="background:#ECFDF5; color:#059669;">
+                                    <i class="bi bi-tag fs-4"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card-custom kpi-card">
+                                <div>
+                                    <div class="text-muted small fw-bold text-uppercase">Portfolio Value</div>
+                                    <div class="fs-2 fw-bold mt-2 mb-3" data-stat="volume" style="color: #DC2626;">-
+                                    </div>
+                                    <div class="small"><i class="bi bi-graph-up-arrow" style="color: #10B981;"></i> Est.
+                                        Value</div>
+                                </div>
+                                <div class="kpi-icon" style="background:#FEE2E2; color:#DC2626;">
+                                    <i class="bi bi-wallet2 fs-4"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-lg-8">
+                            <div class="card-custom">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h6 class="fw-bold mb-0">Recent Lead Activity</h6>
+                                    <a href="#"
+                                        onclick="switchView('enquiries', event.target.closest('.nav-link') || {classList: {add: () => {}, remove: () => {}}})"
+                                        class="btn btn-sm btn-outline-primary">View All</a>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-custom">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Client Name</th>
+                                                <th>Interested In</th>
+                                                <th>Contact</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="dashboardEnquiries">
+                                            <tr>
+                                                <td colspan="5" class="text-center text-muted py-3">Loading enquiries...
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card-custom">
+                                <h6 class="fw-bold mb-4">Property Distribution</h6>
+                                <canvas id="miniPieChart" style="max-height: 200px;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="card-custom"
+                                style="background: linear-gradient(135deg, #5A67D8 0%, #6366F1 100%); padding: 25px;">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div style="color: white;">
+                                        <div class="small fw-bold text-uppercase"
+                                            style="color: rgba(255,255,255,0.9); letter-spacing: 1px;">Active Enquiries
+                                        </div>
+                                        <div class="fs-1 fw-bold mt-3 mb-2" id="dashboardActiveEnquiries"
+                                            style="color: white;">-</div>
+                                        <div class="small" style="color: rgba(255,255,255,0.85);">Pending follow-up
+                                        </div>
+                                    </div>
+                                    <i class="bi bi-chat-dots"
+                                        style="font-size: 2.5rem; color: rgba(255,255,255,0.3);"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card-custom"
+                                style="background: linear-gradient(135deg, #F93B1D 0%, #EA580C 100%); padding: 25px;">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div style="color: white;">
+                                        <div class="small fw-bold text-uppercase"
+                                            style="color: rgba(255,255,255,0.9); letter-spacing: 1px;">Registered Agents
+                                        </div>
+                                        <div class="fs-1 fw-bold mt-3 mb-2" id="dashboardAgentCount"
+                                            style="color: white;">-</div>
+                                        <div class="small" style="color: rgba(255,255,255,0.85);">Active team members
+                                        </div>
+                                    </div>
+                                    <i class="bi bi-people-fill"
+                                        style="font-size: 2.5rem; color: rgba(255,255,255,0.3);"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card-custom"
+                                style="background: linear-gradient(135deg, #00A651 0%, #00C853 100%); padding: 25px;">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div style="color: white;">
+                                        <div class="small fw-bold text-uppercase"
+                                            style="color: rgba(255,255,255,0.9); letter-spacing: 1px;">Total Owners
+                                        </div>
+                                        <div class="fs-1 fw-bold mt-3 mb-2" id="dashboardOwnerCount"
+                                            style="color: white;">-</div>
+                                        <div class="small" style="color: rgba(255,255,255,0.85);">Property stakeholders
+                                        </div>
+                                    </div>
+                                    <i class="bi bi-house-heart-fill"
+                                        style="font-size: 2.5rem; color: rgba(255,255,255,0.3);"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- ANALYTICS VIEW -->
+                <div id="analytics" class="view-section">
+                    <div class="row g-4 mb-4" style="height: calc(100vh - 140px); overflow-y: auto; overflow-x: hidden;">
+
+                        <div class="col-md-6">
+                            <div class="card-custom h-100">
+                                <h6 class="fw-bold mb-4">Most Popular Areas (by Listings)</h6>
+                                <div style="height: 300px;">
+                                    <canvas id="areaPopularityChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card-custom h-100">
+                                <h6 class="fw-bold mb-4">Property Type Distribution</h6>
+                                <div style="height: 300px; display: flex; justify-content: center;">
+                                    <canvas id="propertyTypePieChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card-custom h-100">
+                                <h6 class="fw-bold mb-4">Agent Performance Leaderboard</h6>
+                                <div style="height: 300px;">
+                                    <canvas id="agentPerformanceChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card-custom h-100">
+                                <h6 class="fw-bold mb-4">Most Expensive Areas (Avg. Price)</h6>
+                                <div style="height: 300px;">
+                                    <canvas id="expensiveAreasChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- PROPERTIES RENT VIEW -->
+                <div id="properties-rent" class="view-section">
+                    <div class="card-custom p-0 overflow-hidden d-flex flex-column"
+                        style="height: calc(100vh - 140px);">
+                        <div class="p-4 border-bottom d-flex justify-content-between align-items-center bg-white">
+                            <div class="d-flex gap-2 w-100">
+                                <input type="text" class="form-control searchInputRent"
+                                    placeholder="Search properties..." style="max-width: 300px;"
+                                    onkeyup="filterTableRent()">
+                                <select class="form-select w-auto categoryFilterRent" onchange="filterTableRent()">
+                                    <option value="All">All Categories</option>
+                                    <option value="Residential">Residential</option>
+                                    <option value="Commercial">Commercial</option>
+                                </select>
+                                <select class="form-select w-auto statusFilterRent" onchange="filterTableRent()">
+                                    <option value="All">All Status</option>
+                                    <option value="Available">Available</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="table-responsive flex-grow-1" style="overflow-y: auto;">
+                            <table class="table table-custom mb-0" id="propertiesTableRent">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Title & Location</th>
+                                        <th>Category</th>
+                                        <th>Type</th>
+                                        <th>Price</th>
+                                        <th>Owner</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableBodyRent"></tbody>
+                            </table>
+                        </div>
+                        <div class="p-3 border-top bg-light text-center small text-muted">
+                            <span id="showingCountRent">Showing all items</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PROPERTIES SELL VIEW -->
+                <div id="properties-sell" class="view-section">
+                    <div class="card-custom p-0 overflow-hidden d-flex flex-column"
+                        style="height: calc(100vh - 140px);">
+                        <div class="p-4 border-bottom d-flex justify-content-between align-items-center bg-white">
+                            <div class="d-flex gap-2 w-100">
+                                <input type="text" class="form-control searchInputSell"
+                                    placeholder="Search properties..." style="max-width: 300px;"
+                                    onkeyup="filterTableSell()">
+                                <select class="form-select w-auto categoryFilterSell" onchange="filterTableSell()">
+                                    <option value="All">All Categories</option>
+                                    <option value="Residential">Residential</option>
+                                    <option value="Commercial">Commercial</option>
+                                </select>
+                                <select class="form-select w-auto statusFilterSell" onchange="filterTableSell()">
+                                    <option value="All">All Status</option>
+                                    <option value="Available">Available</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="table-responsive flex-grow-1" style="overflow-y: auto;">
+                            <table class="table table-custom mb-0" id="propertiesTableSell">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Title & Location</th>
+                                        <th>Category</th>
+                                        <th>Type</th>
+                                        <th>Price</th>
+                                        <th>Owner</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableBodySell"></tbody>
+                            </table>
+                        </div>
+                        <div class="p-3 border-top bg-light text-center small text-muted">
+                            <span id="showingCountSell">Showing all items</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ENQUIRIES VIEW -->
+                <div id="enquiries" class="view-section">
+                    <div class="row h-100">
+                        <div class="col-md-4 border-end bg-white p-0" style="overflow-y:auto; height: calc(100vh - 140px);">
+                            <div class="p-3 border-bottom">
+                                <input type="text" class="form-control" placeholder="Search enquiries..."
+                                    id="enquirySearch" onkeyup="filterEnquiries()">
+                            </div>
+                            <div class="list-group list-group-flush" id="enquiryList"></div>
+                        </div>
+                        <div class="col-md-8 p-5 text-center d-flex flex-column justify-content-center align-items-center bg-light"
+                            id="enquiryDetail" style="height: calc(100vh - 140px);">
+                            <i class="bi bi-chat-quote fs-1 text-muted mb-3"></i>
+                            <h5>Select an enquiry to view details</h5>
+                            <p class="text-muted">You can manage leads, call clients, or mark status from here.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- USERS VIEW -->
+                <div id="users" class="view-section">
+                    <div class="container-fluid py-4" style="height: calc(100vh - 140px); overflow-y: auto; overflow-x: hidden;">
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <h5 class="mb-3">Agents</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="agentsList">
+                                            <tr>
+                                                <td colspan="3" class="text-muted text-center">Loading agents...</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="mb-3">Owners</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ownersList">
+                                            <tr>
+                                                <td colspan="3" class="text-muted text-center">Loading owners...</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONTACT MESSAGES VIEW -->
+                <div id="contact-messages" class="view-section">
+                    <div class="card-custom p-0 overflow-hidden d-flex flex-column" style="height: calc(100vh - 140px);">
+                        <div class="p-4 border-bottom d-flex justify-content-between align-items-center bg-white">
+                            <div class="d-flex gap-2 align-items-center">
+                                <h5 class="m-0 fw-bold">Contact Messages</h5>
+                                <span class="badge bg-info" id="totalMessagesCount">0 Messages</span>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <select class="form-select form-select-sm statusFilterMessages" onchange="filterContactMessages()" style="width: auto;">
+                                    <option value="All">All Status</option>
+                                    <option value="new">New</option>
+                                    <option value="read">Read</option>
+                                    <option value="replied">Replied</option>
+                                    <option value="archived">Archived</option>
+                                </select>
+                                <button class="btn btn-sm btn-primary" onclick="loadContactMessages()">
+                                    <i class="bi bi-arrow-clockwise"></i> Refresh
+                                </button>
+                            </div>
+                        </div>
+                        <div class="table-responsive flex-grow-1" style="overflow-y: auto;">
+                            <table class="table table-custom mb-0" id="contactMessagesTable">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Subject</th>
+                                        <th>Message</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="contactMessagesTableBody">
+                                    <tr>
+                                        <td colspan="9" class="text-center text-muted py-5">
+                                            <i class="bi bi-envelope fs-1 mb-3 d-block"></i>
+                                            Loading contact messages...
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="p-3 border-top bg-light text-center small text-muted">
+                            <span id="showingCountMessages">Showing all messages</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SETTINGS VIEW -->
+                <div id="settings" class="view-section">
+                    <div class="container-fluid py-4" style="height: calc(100vh - 140px); overflow-y: auto; overflow-x: hidden;">
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <h5 class="mb-3">System Status</h5>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card bg-success text-white">
+                                            <div class="card-body">
+                                                <h6 class="card-title">Database</h6>
+                                                <h4 id="dbStatus">Connected</h4>
+                                                <small>findmyroof_db</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card bg-primary text-white">
+                                            <div class="card-body">
+                                                <h6 class="card-title">API Server</h6>
+                                                <h4>Active</h4>
+                                                <small>localhost:5000</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="mb-3">Quick Statistics</h5>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card">
+                                            <div class="card-body text-center">
+                                                <h6 class="card-title text-muted">Total Properties</h6>
+                                                <h3 id="settingsProperties">-</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card">
+                                            <div class="card-body text-center">
+                                                <h6 class="card-title text-muted">Active Enquiries</h6>
+                                                <h3 id="settingsEnquiries">-</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card">
+                                            <div class="card-body text-center">
+                                                <h6 class="card-title text-muted">Registered Agents</h6>
+                                                <h3 id="settingsAgents">-</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card">
+                                            <div class="card-body text-center">
+                                                <h6 class="card-title text-muted">Total Owners</h6>
+                                                <h3 id="settingsOwners">-</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5 class="mb-3">System Information</h5>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p class="mb-2"><strong>Application:</strong> Real Estate Management
+                                                    Dashboard</p>
+                                                <p class="mb-2"><strong>Version:</strong> v1.0.0</p>
+                                                <p class="mb-2"><strong>Build Date:</strong> January 2026</p>
+                                                <p class="mb-0"><strong>Environment:</strong> Production</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p class="mb-2"><strong>Database:</strong> MySQL 8.0+</p>
+                                                <p class="mb-2"><strong>Backend:</strong> Flask (Python)</p>
+                                                <p class="mb-2"><strong>Frontend:</strong> Bootstrap 5.3.2</p>
+                                                <p class="mb-0"><strong>Last Updated:</strong> <span
+                                                        id="lastUpdate">-</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- EDIT PROPERTY MODAL -->
+    <div class="modal fade" id="editPropertyModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Property</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editPropertyForm">
+                        <input type="hidden" id="editPropertyId">
+
+                        <div class="mb-3">
+                            <label class="form-label">Property Title</label>
+                            <input type="text" class="form-control" id="editTitle" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" id="editDescription" rows="3"></textarea>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Price (₹)</label>
+                                <input type="number" class="form-control" id="editPrice" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Category</label>
+                                <select class="form-select" id="editCategory" required>
+                                    <option value="">Select Category</option>
+                                    <option value="Residential">Residential</option>
+                                    <option value="Commercial">Commercial</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Property Type</label>
+                                <input type="text" class="form-control" id="editType" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Status</label>
+                                <select class="form-select" id="editStatus" required>
+                                    <option value="Available">Available</option>
+                                    <option value="Unavailable">Unavailable</option>
+                                    <option value="Rented">Rented</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Location</label>
+                            <input type="text" class="form-control" id="editLocation">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="savePropertyChanges()">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const API_URL = 'http://localhost:5000/api';
+        let chartInstances = {};
+        let editModal = null;
+        let allPropertiesData = {
+            rent: [],
+            sell: []
+        };
+
+        // ===== AUTHENTICATION LOGIC =====
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const errorDiv = document.getElementById('loginError');
+            const loginBtn = document.getElementById('loginBtn');
+
+            loginBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Signing In...';
+            loginBtn.disabled = true;
+            errorDiv.classList.add('d-none');
+
+            fetch(`${API_URL}/admin/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email, password: password })
+            })
+                .then(response => response.json().then(data => ({ status: response.status, body: data })))
+                .then(result => {
+                    if (result.status === 200) {
+                        // Store session data in localStorage
+                        const adminData = {
+                            isLoggedIn: true,
+                            email: email,
+                            username: result.body.admin && result.body.admin.username ? result.body.admin.username : 'Admin',
+                            loginTime: new Date().getTime()
+                        };
+                        localStorage.setItem('adminSession', JSON.stringify(adminData));
+
+                        // Show dashboard
+                        showDashboard(adminData.username);
+                    } else {
+                        errorDiv.innerText = result.body.error || 'Invalid credentials';
+                        errorDiv.classList.remove('d-none');
+                        resetLoginBtn();
+                    }
+                })
+                .catch(err => {
+                    errorDiv.innerText = 'Server connection failed. Make sure Flask app.py is running on port 5000.';
+                    errorDiv.classList.remove('d-none');
+                    resetLoginBtn();
+                    console.error(err);
+                });
+        }
+
+        function showDashboard(userName) {
+            document.getElementById('login-container').style.display = 'none';
+            document.getElementById('admin-dashboard').style.display = 'flex';
+
+            document.getElementById('adminNameDisplay').innerText = userName;
+            const initials = userName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+            document.getElementById('adminProfileInitials').innerText = initials;
+
+            if (!editModal) {
+                editModal = new bootstrap.Modal(document.getElementById('editPropertyModal'));
+            }
+            loadAllData();
+        }
+
+        function checkExistingSession() {
+            const sessionData = localStorage.getItem('adminSession');
+            if (sessionData) {
+                try {
+                    const adminData = JSON.parse(sessionData);
+                    // Check if session is valid (less than 24 hours old)
+                    const currentTime = new Date().getTime();
+                    const sessionAge = currentTime - adminData.loginTime;
+                    const twentyFourHours = 24 * 60 * 60 * 1000;
+
+                    if (adminData.isLoggedIn && sessionAge < twentyFourHours) {
+                        // Valid session found, auto-login
+                        showDashboard(adminData.username);
+                        return true;
+                    } else {
+                        // Session expired, clear it
+                        localStorage.removeItem('adminSession');
+                    }
+                } catch (e) {
+                    console.error('Error parsing session data:', e);
+                    localStorage.removeItem('adminSession');
+                }
+            }
+            return false;
+        }
+
+        function resetLoginBtn() {
+            const loginBtn = document.getElementById('loginBtn');
+            loginBtn.innerHTML = 'Sign In';
+            loginBtn.disabled = false;
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // Clear session data
+                localStorage.removeItem('adminSession');
+                // Reload page to show login screen
+                window.location.reload();
+            }
+        }
+
+        // ===== PASSWORD VISIBILITY TOGGLE =====
+        document.addEventListener('DOMContentLoaded', function () {
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordField = document.getElementById('loginPassword');
+            const eyeIcon = document.getElementById('eyeIcon');
+
+            if (togglePassword) {
+                togglePassword.addEventListener('click', function () {
+                    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordField.setAttribute('type', type);
+
+                    // Toggle eye icon
+                    if (type === 'password') {
+                        eyeIcon.classList.remove('bi-eye-slash');
+                        eyeIcon.classList.add('bi-eye');
+                    } else {
+                        eyeIcon.classList.remove('bi-eye');
+                        eyeIcon.classList.add('bi-eye-slash');
+                    }
+                });
+            }
+        });
+
+        // ===== DATA LOADING FUNCTIONS =====
+        function loadAllData() {
+            loadDashboardData();
+            loadPropertiesRent();
+            loadPropertiesSell();
+            loadEnquiries();
+            loadAgentsAndOwners();
+            loadContactMessages();
+            loadSystemSettings();
+            initializeCharts();
+        }
+
+        function loadDashboardData() {
+            fetch(`${API_URL}/stats`).then(r => r.json()).then(data => {
+                document.querySelector('[data-stat="properties"]').innerText = data.properties;
+                const volumeInCr = (data.volume / 10000000).toFixed(1);
+                document.querySelector('[data-stat="volume"]').innerText = '₹' + volumeInCr + 'Cr';
+                document.getElementById('dashboardActiveEnquiries').innerText = data.enquiries;
+                document.getElementById('dashboardAgentCount').innerText = data.agents;
+
+                const sidebarBadge = document.getElementById('sidebarEnquiryCount');
+                if (sidebarBadge) sidebarBadge.innerText = data.enquiries;
+            }).catch(e => console.error('Stats error:', e));
+
+            fetch(`${API_URL}/properties`).then(r => r.json()).then(data => {
+                const rentCount = data.filter(p => p.type === 'rent').length;
+                const sellCount = data.filter(p => p.type === 'buy').length;
+                document.getElementById('rentCount').innerText = rentCount;
+                document.getElementById('sellCount').innerText = sellCount;
+            }).catch(e => console.error('Prop count error:', e));
+
+            fetch(`${API_URL}/enquiries`)
+                .then(r => r.json())
+                .then(data => {
+                    console.log('Dashboard enquiries:', data);
+                    const tbody = document.getElementById('dashboardEnquiries');
+                    const recent = data.slice(0, 5);
+
+                    if (recent.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">No enquiries yet</td></tr>';
+                        return;
+                    }
+
+                    tbody.innerHTML = recent.map(enq => {
+                        const date = new Date(enq.created_at).toLocaleDateString('en-US', {
+                            year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                        });
+                        let statusBadge = enq.status === 'Contacted' ? 'bg-warning' :
+                            (enq.status === 'Closed' ? 'bg-secondary' : 'bg-info');
+                        const propertyTitle = enq.property_title || 'Property #' + (enq.property_id || 'N/A');
+                        return `<tr>
+                            <td><small>${date}</small></td>
+                            <td><strong>${enq.name || 'Unknown'}</strong></td>
+                            <td>${propertyTitle}</td>
+                            <td><small>${enq.phone || 'N/A'}</small></td>
+                            <td><span class="badge ${statusBadge}">${enq.status || 'New'}</span></td>
+                        </tr>`;
+                    }).join('');
+                })
+                .catch(e => {
+                    console.error('Enquiries error:', e);
+                    document.getElementById('dashboardEnquiries').innerHTML =
+                        '<tr><td colspan="5" class="text-center text-danger">Error loading enquiries</td></tr>';
+                });
+
+            fetch(`${API_URL}/owners`).then(r => r.json()).then(data => {
+                const owners = data.filter(u => u.role === 'Owner');
+                document.getElementById('dashboardOwnerCount').innerText = owners.length;
+            }).catch(e => console.error('Owner error:', e));
+        }
+
+        function loadPropertiesRent() {
+            fetch(`${API_URL}/properties`).then(r => r.json())
+                .then(d => {
+                    allPropertiesData.rent = d.filter(p => p.type === 'rent');
+                    populatePropertiesTableRent(allPropertiesData.rent);
+                })
+                .catch(e => console.error(e));
+        }
+
+        function loadPropertiesSell() {
+            fetch(`${API_URL}/properties`).then(r => r.json())
+                .then(d => {
+                    allPropertiesData.sell = d.filter(p => p.type === 'buy');
+                    populatePropertiesTableSell(allPropertiesData.sell);
+                })
+                .catch(e => console.error(e));
+        }
+
+        function formatPrice(price) {
+            if (price >= 10000000) {
+                return '₹' + (price / 10000000).toFixed(2) + ' Cr';
+            } else if (price >= 100000) {
+                return '₹' + (price / 100000).toFixed(2) + ' L';
+            } else {
+                return '₹' + price.toLocaleString();
+            }
+        }
+
+        function populatePropertiesTableRent(properties) {
+            const tbody = document.getElementById('tableBodyRent');
+            // Sort properties by ID in ascending order
+            const sortedProperties = properties.sort((a, b) => a.id - b.id);
+            tbody.innerHTML = sortedProperties.map(p => {
+                const priceFormatted = formatPrice(parseFloat(p.price) || 0);
+                const badgeClass = p.category === 'Residential' ? 'badge-res' : 'badge-com';
+                const statusBadge = 'bg-success-subtle text-success border border-success'; // Default to available
+                return `<tr data-property-id="${p.id}" data-category="${p.category}" 
+                           data-status="Available">
+                    <td>#${p.id}</td>
+                    <td><div class="fw-bold">${p.name || 'Property'}</div><small class="text-muted">Property</small></td>
+                    <td><span class="badge ${badgeClass} rounded-pill px-3">${p.category || 'N/A'}</span></td>
+                    <td><span class="badge bg-light text-dark border">${p.property_type || 'N/A'}</span></td>
+                    <td class="fw-bold">${priceFormatted}</td>
+                    <td>${p.listed_by || 'N/A'}</td>
+                    <td><span class="badge ${statusBadge}">Available</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-light" onclick="openEditModal(${p.id}, 'rent')" title="Edit">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button class="btn btn-sm btn-light text-danger" onclick="deleteProperty(${p.id}, 'rent')" title="Delete">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                </tr>`;
+            }).join('');
+            document.getElementById('showingCountRent').innerText = `Showing ${properties.length} properties`;
+            filterTableRent();
+        }
+
+        function populatePropertiesTableSell(properties) {
+            const tbody = document.getElementById('tableBodySell');
+            // Sort properties by ID in ascending order
+            const sortedProperties = properties.sort((a, b) => a.id - b.id);
+            tbody.innerHTML = sortedProperties.map(p => {
+                const priceFormatted = formatPrice(parseFloat(p.price) || 0);
+                const badgeClass = p.category === 'Residential' ? 'badge-res' : 'badge-com';
+                const statusBadge = 'bg-success-subtle text-success border border-success'; // Default to available
+                return `<tr data-property-id="${p.id}" data-category="${p.category}" 
+                           data-status="Available">
+                    <td>#${p.id}</td>
+                    <td><div class="fw-bold">${p.name || 'Property'}</div><small class="text-muted">Property</small></td>
+                    <td><span class="badge ${badgeClass} rounded-pill px-3">${p.category || 'N/A'}</span></td>
+                    <td><span class="badge bg-light text-dark border">${p.property_type || 'N/A'}</span></td>
+                    <td class="fw-bold">${priceFormatted}</td>
+                    <td>${p.listed_by || 'N/A'}</td>
+                    <td><span class="badge ${statusBadge}">Available</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-light" onclick="openEditModal(${p.id}, 'sell')" title="Edit">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button class="btn btn-sm btn-light text-danger" onclick="deleteProperty(${p.id}, 'sell')" title="Delete">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                </tr>`;
+            }).join('');
+            document.getElementById('showingCountSell').innerText = `Showing ${properties.length} properties`;
+            filterTableSell();
+        }
+
+        function openEditModal(propertyId, type) {
+            const properties = type === 'rent' ? allPropertiesData.rent : allPropertiesData.sell;
+            const property = properties.find(p => p.property_id === propertyId);
+
+            if (!property) {
+                alert('Property not found!');
+                return;
+            }
+
+            document.getElementById('editPropertyId').value = property.property_id;
+            document.getElementById('editTitle').value = property.title || '';
+            document.getElementById('editDescription').value = property.description || '';
+            document.getElementById('editPrice').value = property.price || '';
+            document.getElementById('editCategory').value = property.property_category || '';
+            document.getElementById('editType').value = property.property_type || '';
+            document.getElementById('editLocation').value = property.location || '';
+
+            // FIX: Safely set status — fall back to 'Available' if the value from DB
+            // doesn't match any option (e.g. null / undefined / unexpected string)
+            const statusSelect = document.getElementById('editStatus');
+            const incoming = (property.availability_status || 'Available').trim();
+            const validOptions = Array.from(statusSelect.options).map(o => o.value);
+            statusSelect.value = validOptions.includes(incoming) ? incoming : 'Available';
+
+            document.getElementById('editPropertyForm').dataset.type = type;
+            editModal.show();
+        }
+
+        function savePropertyChanges() {
+            const propertyId = document.getElementById('editPropertyId').value;
+            const type = document.getElementById('editPropertyForm').dataset.type;
+
+            // FIX: explicitly read status and guard against empty string
+            const rawStatus = document.getElementById('editStatus').value;
+            const finalStatus = rawStatus && rawStatus.trim() !== '' ? rawStatus : 'Available';
+
+            const updatedData = {
+                title: document.getElementById('editTitle').value,
+                description: document.getElementById('editDescription').value,
+                price: parseFloat(document.getElementById('editPrice').value),
+                property_category: document.getElementById('editCategory').value,
+                property_type: document.getElementById('editType').value,
+                availability_status: finalStatus,
+                location: document.getElementById('editLocation').value
+            };
+
+            if (!updatedData.title || !updatedData.price || !updatedData.property_category) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            fetch(`${API_URL}/properties/${propertyId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedData)
+            })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.message || data.success) {
+                        alert('Property updated successfully!');
+                        editModal.hide();
+                        if (type === 'rent') {
+                            loadPropertiesRent();
+                        } else {
+                            loadPropertiesSell();
+                        }
+                        loadDashboardData();
+                    } else {
+                        alert('Error updating property: ' + (data.error || 'Unknown error'));
+                    }
+                })
+                .catch(err => {
+                    alert('Error: ' + err.message);
+                    console.error('Update error:', err);
+                });
+        }
+
+        function deleteProperty(propertyId, type) {
+            if (!confirm(`Are you sure you want to delete Property #${propertyId}? This action cannot be undone.`)) {
+                return;
+            }
+
+            fetch(`${API_URL}/properties/${propertyId}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.message || data.success) {
+                        alert('Property deleted successfully!');
+                        if (type === 'rent') {
+                            loadPropertiesRent();
+                        } else {
+                            loadPropertiesSell();
+                        }
+                        loadDashboardData();
+                    } else {
+                        alert('Error deleting property: ' + (data.error || 'Unknown error'));
+                    }
+                })
+                .catch(err => {
+                    alert('Error: ' + err.message);
+                    console.error('Delete error:', err);
+                });
+        }
+
+        function filterTableRent() {
+            const searchText = document.querySelector('.searchInputRent').value.toLowerCase();
+            const category = document.querySelector('.categoryFilterRent').value;
+            const status = document.querySelector('.statusFilterRent').value;
+
+            document.querySelectorAll('#tableBodyRent tr').forEach(row => {
+                const rowText = row.innerText.toLowerCase();
+                const rowCategory = row.getAttribute('data-category');
+                const rowStatus = row.getAttribute('data-status');
+
+                const matchesSearch = rowText.includes(searchText);
+                const matchesCategory = category === 'All' || rowCategory === category;
+                const matchesStatus = status === 'All' || rowStatus === status;
+
+                row.style.display = (matchesSearch && matchesCategory && matchesStatus) ? '' : 'none';
+            });
+        }
+
+        function filterTableSell() {
+            const searchText = document.querySelector('.searchInputSell').value.toLowerCase();
+            const category = document.querySelector('.categoryFilterSell').value;
+            const status = document.querySelector('.statusFilterSell').value;
+
+            document.querySelectorAll('#tableBodySell tr').forEach(row => {
+                const rowText = row.innerText.toLowerCase();
+                const rowCategory = row.getAttribute('data-category');
+                const rowStatus = row.getAttribute('data-status');
+
+                const matchesSearch = rowText.includes(searchText);
+                const matchesCategory = category === 'All' || rowCategory === category;
+                const matchesStatus = status === 'All' || rowStatus === status;
+
+                row.style.display = (matchesSearch && matchesCategory && matchesStatus) ? '' : 'none';
+            });
+        }
+
+        function loadEnquiries() {
+            console.log('Loading enquiries from:', `${API_URL}/enquiries`);
+
+            fetch(`${API_URL}/enquiries`)
+                .then(r => {
+                    if (!r.ok) throw new Error(`HTTP error! status: ${r.status}`);
+                    return r.json();
+                })
+                .then(data => {
+                    const list = document.getElementById('enquiryList');
+                    const detailView = document.getElementById('enquiryDetail');
+
+                    if (!data || data.length === 0) {
+                        list.innerHTML = '<p class="p-3 text-muted">No enquiries yet</p>';
+
+                        // --- FIX: Add centering back for the empty message ---
+                        detailView.classList.add('justify-content-center');
+
+                        detailView.innerHTML = `
+                    <i class="bi bi-chat-quote fs-1 text-muted mb-3"></i>
+                    <h5>No Enquiries</h5>
+                    <p class="text-muted">Enquiries will appear here when customers submit them.</p>
+                `;
+                        return;
+                    }
+
+                    list.innerHTML = data.map((e, i) => {
+                        const message = e.message || 'No message';
+                        const messagePreview = message.length > 30 ? message.substring(0, 30) + '...' : message;
+                        return `<a href="#" class="list-group-item list-group-item-action border-0 py-3 ${i === 0 ? 'active' : ''}" 
+                    onclick="selectEnquiryFromData(event, ${e.enquiry_id}, this)">
+                    <h6>${e.name || 'Unknown'}</h6>
+                    <small>${messagePreview}</small>
+                </a>`;
+                    }).join('');
+
+                    if (data.length > 0) {
+                        selectEnquiry(data[0]);
+                    }
+                })
+                .catch(e => {
+                    console.error('Error loading enquiries:', e);
+                    document.getElementById('enquiryList').innerHTML = `<div class="p-3"><p class="text-danger mb-2">Error loading enquiries</p></div>`;
+                });
+        }
+
+        function selectEnquiry(e) {
+            const d = document.getElementById('enquiryDetail');
+
+            // --- FIX START: Remove vertical centering ---
+            d.classList.remove('justify-content-center');
+            // Optional: Remove 'align-items-center' if you want it left-aligned instead of center-column
+            // d.classList.remove('align-items-center'); 
+            // --- FIX END ---
+
+            const dateStr = new Date(e.created_at).toLocaleDateString('en-US', {
+                year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+            });
+            let statusBadge = 'bg-info';
+            if (e.status === 'Contacted') statusBadge = 'bg-warning';
+            if (e.status === 'Closed') statusBadge = 'bg-danger';
+
+            const propertyTitle = e.property_title || 'N/A';
+            const propertyId = e.property_id ? `#${e.property_id}` : 'N/A';
+            const message = e.message || 'No message provided';
+            const email = e.email || 'N/A';
+            const phone = e.phone || 'N/A';
+            const name = e.name || 'Unknown';
+
+            const isGeneralEnquiry = !e.property_id || e.property_id === null;
+
+            d.innerHTML = `<div class="w-100 d-flex flex-column align-items-center">
+        <div class="d-flex justify-content-between align-items-start mb-4 w-100" style="max-width: 600px;">
+            <div>
+                <h4 class="mb-1">${name}</h4>
+                <small class="text-muted">${dateStr}</small>
+            </div>
+            <span class="badge ${statusBadge}">${e.status || 'New'}</span>
+        </div>
+        
+        <div class="card mb-3 w-100" style="max-width: 600px;">
+            <div class="card-body text-center">
+                <h6 class="card-title">Contact Information</h6>
+                <p class="mb-2"><strong>Email:</strong> ${email !== 'N/A' ? `<a href="mailto:${email}">${email}</a>` : 'N/A'}</p>
+                <p class="mb-2"><strong>Phone:</strong> ${phone !== 'N/A' ? `<a href="tel:${phone}">${phone}</a>` : 'N/A'}</p>
+                <p class="mb-0"><strong>Date:</strong> ${dateStr}</p>
+            </div>
+        </div>
+
+        <div class="card mb-3 w-100" style="max-width: 600px;">
+            <div class="card-body text-center">
+                <h6 class="card-title">Message</h6>
+                <p class="mb-0">${message}</p>
+            </div>
+        </div>
+
+        ${isGeneralEnquiry ? `
+        <div class="card mb-3 w-100" style="max-width: 600px;">
+            <div class="card-body text-center">
+                <h6 class="card-title">Enquiry Type</h6>
+                <p class="mb-0 text-muted"><i class="bi bi-chat-dots me-2"></i>General Enquiry (Not property-specific)</p>
+            </div>
+        </div>
+        ` : `
+        <div class="card mb-3 w-100" style="max-width: 600px;">
+            <div class="card-body text-center">
+                <h6 class="card-title">Property Details</h6>
+                <p class="mb-2"><strong>Property ID:</strong> ${propertyId}</p>
+                <p class="mb-0"><strong>Property:</strong> ${propertyTitle}</p>
+            </div>
+        </div>
+        `}
+
+        <div class="d-grid gap-2 w-100" style="max-width: 600px;">
+            <button class="btn btn-primary btn-sm" onclick="updateEnquiryStatus(${e.enquiry_id}, 'Contacted')">Mark as Contacted</button>
+            <button class="btn btn-danger btn-sm" onclick="updateEnquiryStatus(${e.enquiry_id}, 'Closed')">Close Enquiry</button>
+        </div>
+    </div>`;
+        }
+
+        function selectEnquiryFromData(ev, id, el) {
+            ev.preventDefault();
+            document.querySelectorAll('#enquiryList a').forEach(a => a.classList.remove('active'));
+            el.classList.add('active');
+
+            fetch(`${API_URL}/enquiries`)
+                .then(r => r.json())
+                .then(data => {
+                    const enq = data.find(e => e.enquiry_id === id);
+                    if (enq) {
+                        selectEnquiry(enq);
+                    } else {
+                        console.error('Enquiry not found');
+                    }
+                })
+                .catch(e => {
+                    console.error('Error loading enquiry:', e);
+                });
+        }
+
+        function filterEnquiries() {
+            const text = document.getElementById('enquirySearch').value.toLowerCase();
+            document.querySelectorAll('#enquiryList a').forEach(item => {
+                item.style.display = item.textContent.toLowerCase().includes(text) ? 'block' : 'none';
+            });
+        }
+
+        function updateEnquiryStatus(enquiryId, status) {
+            fetch(`${API_URL}/enquiries/${enquiryId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: status })
+            })
+                .then(r => r.json())
+                .then(d => {
+                    if (d.message) {
+                        alert('Enquiry status updated!');
+                        loadEnquiries();
+                        loadDashboardData(); // Refresh dashboard counts
+                    } else {
+                        alert('Error updating status');
+                    }
+                })
+                .catch(e => {
+                    console.error('Error:', e);
+                    alert('Failed to update enquiry status');
+                });
+        }
+
+        function loadAgentsAndOwners() {
+            fetch(`${API_URL}/owners`).then(r => r.json()).then(data => {
+                // Agents Table
+                document.getElementById('agentsList').innerHTML =
+                    data.filter(u => u.role === 'Agent').map(a =>
+                        `<tr>
+                            <td>${a.name}</td>
+                            <td><a href="mailto:${a.email}" class="text-decoration-none">${a.email}</a></td>
+                            <td><a href="tel:${a.phone}" class="text-decoration-none">${a.phone}</a></td>
+                        </tr>`
+                    ).join('') || '<tr><td colspan="3" class="text-muted text-center">No agents</td></tr>';
+
+                // Owners Table
+                document.getElementById('ownersList').innerHTML =
+                    data.filter(u => u.role === 'Owner').map(a =>
+                        `<tr>
+                            <td>${a.name}</td>
+                            <td><a href="mailto:${a.email}" class="text-decoration-none">${a.email}</a></td>
+                            <td><a href="tel:${a.phone}" class="text-decoration-none">${a.phone}</a></td>
+                        </tr>`
+                    ).join('') || '<tr><td colspan="3" class="text-muted text-center">No owners</td></tr>';
+            }).catch(e => console.error('Agents/Owners error:', e));
+        }
+
+        // ===== CONTACT MESSAGES FUNCTIONS =====
+        let allContactMessages = [];
+
+        function loadContactMessages() {
+            fetch(`${API_URL}/contact-messages`)
+                .then(r => {
+                    if (!r.ok) throw new Error(`HTTP error! status: ${r.status}`);
+                    return r.json();
+                })
+                .then(data => {
+                    console.log('Contact messages loaded:', data);
+                    allContactMessages = data;
+                    
+                    // Update badge counts
+                    const newCount = data.filter(msg => msg.status === 'new').length;
+                    const sidebarBadge = document.getElementById('sidebarContactCount');
+                    if (sidebarBadge) sidebarBadge.innerText = newCount;
+                    
+                    const totalBadge = document.getElementById('totalMessagesCount');
+                    if (totalBadge) totalBadge.innerText = `${data.length} Message${data.length !== 1 ? 's' : ''}`;
+                    
+                    populateContactMessagesTable(data);
+                })
+                .catch(e => {
+                    console.error('Error loading contact messages:', e);
+                    const tbody = document.getElementById('contactMessagesTableBody');
+                    if (tbody) {
+                        tbody.innerHTML = '<tr><td colspan="9" class="text-center text-danger py-5"><i class="bi bi-exclamation-triangle fs-1 mb-3 d-block"></i>Error loading messages. Please check if the backend API is running.</td></tr>';
+                    }
+                });
+        }
+
+        function populateContactMessagesTable(messages) {
+            const tbody = document.getElementById('contactMessagesTableBody');
+            
+            if (!messages || messages.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" class="text-center text-muted py-5"><i class="bi bi-inbox fs-1 mb-3 d-block"></i>No contact messages yet</td></tr>';
+                document.getElementById('showingCountMessages').innerText = 'No messages to display';
+                return;
+            }
+
+            // Sort by ID descending (newest first)
+            const sortedMessages = messages.sort((a, b) => b.id - a.id);
+
+            tbody.innerHTML = sortedMessages.map(msg => {
+                const date = new Date(msg.created_at).toLocaleString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                // Truncate message for display
+                const messagePreview = msg.message.length > 50 
+                    ? msg.message.substring(0, 50) + '...' 
+                    : msg.message;
+
+                // Status badges
+                const statusColors = {
+                    'new': 'bg-info text-white',
+                    'read': 'bg-warning text-dark',
+                    'replied': 'bg-success text-white',
+                    'archived': 'bg-secondary text-white'
+                };
+                const statusClass = statusColors[msg.status] || 'bg-secondary text-white';
+
+                return `<tr data-message-id="${msg.id}" data-status="${msg.status}">
+                    <td class="fw-bold">#${msg.id}</td>
+                    <td>${msg.name || 'N/A'}</td>
+                    <td><a href="mailto:${msg.email}" class="text-decoration-none">${msg.email}</a></td>
+                    <td>${msg.phone ? `<a href="tel:${msg.phone}" class="text-decoration-none">${msg.phone}</a>` : 'N/A'}</td>
+                    <td class="fw-bold">${msg.subject || 'N/A'}</td>
+                    <td><span title="${msg.message}">${messagePreview}</span></td>
+                    <td><span class="badge ${statusClass}">${msg.status.charAt(0).toUpperCase() + msg.status.slice(1)}</span></td>
+                    <td><small>${date}</small></td>
+                    <td>
+                        <div class="btn-group btn-group-sm" role="group">
+                            <button class="btn btn-outline-primary" onclick="viewContactMessage(${msg.id})" title="View Full Message">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                            <button class="btn btn-outline-success" onclick="updateMessageStatus(${msg.id}, 'replied')" title="Mark as Replied">
+                                <i class="bi bi-check2"></i>
+                            </button>
+                            <button class="btn btn-outline-danger" onclick="deleteContactMessage(${msg.id})" title="Delete">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>`;
+            }).join('');
+
+            document.getElementById('showingCountMessages').innerText = `Showing ${messages.length} message${messages.length !== 1 ? 's' : ''}`;
+            filterContactMessages();
+        }
+
+        function viewContactMessage(messageId) {
+            const message = allContactMessages.find(m => m.id === messageId);
+            if (!message) {
+                alert('Message not found!');
+                return;
+            }
+
+            const date = new Date(message.created_at).toLocaleString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            const modalContent = `
+                <div class="modal fade" id="viewMessageModal" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Contact Message #${message.id}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <strong>Name:</strong> ${message.name}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Status:</strong> 
+                                        <span class="badge bg-${message.status === 'new' ? 'info' : message.status === 'replied' ? 'success' : 'secondary'}">${message.status}</span>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <strong>Email:</strong> <a href="mailto:${message.email}">${message.email}</a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Phone:</strong> ${message.phone ? `<a href="tel:${message.phone}">${message.phone}</a>` : 'N/A'}
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <strong>Subject:</strong> ${message.subject || 'N/A'}
+                                </div>
+                                <div class="mb-3">
+                                    <strong>Date:</strong> ${date}
+                                </div>
+                                <div class="mb-3">
+                                    <strong>Message:</strong>
+                                    <div class="p-3 bg-light rounded mt-2" style="white-space: pre-wrap;">${message.message}</div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-success" onclick="updateMessageStatus(${message.id}, 'replied'); bootstrap.Modal.getInstance(document.getElementById('viewMessageModal')).hide();">
+                                    <i class="bi bi-check2"></i> Mark as Replied
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Remove existing modal if any
+            const existingModal = document.getElementById('viewMessageModal');
+            if (existingModal) existingModal.remove();
+
+            // Add modal to body
+            document.body.insertAdjacentHTML('beforeend', modalContent);
+
+            // Show modal
+            const modal = new bootstrap.Modal(document.getElementById('viewMessageModal'));
+            modal.show();
+
+            // Update status to 'read' if it's 'new'
+            if (message.status === 'new') {
+                updateMessageStatus(messageId, 'read', false);
+            }
+        }
+
+        function updateMessageStatus(messageId, newStatus, showAlert = true) {
+            // Check current status before updating
+            const message = allContactMessages.find(m => m.id === messageId);
+            if (message) {
+                // If trying to mark as replied but already replied
+                if (newStatus === 'replied' && message.status === 'replied') {
+                    alert('This message has already been replied to.');
+                    return;
+                }
+                
+                // If trying to mark as same status it already has
+                if (message.status === newStatus) {
+                    alert(`This message is already marked as ${newStatus}.`);
+                    return;
+                }
+            }
+            
+            fetch(`${API_URL}/contact-messages/${messageId}/status`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: newStatus })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.message || data.success) {
+                    if (showAlert) alert(`Message marked as ${newStatus}!`);
+                    loadContactMessages();
+                } else {
+                    alert('Error updating message status: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch(err => {
+                console.error('Error updating message status:', err);
+                alert('Error: ' + err.message);
+            });
+        }
+
+        function deleteContactMessage(messageId) {
+            if (!confirm(`Are you sure you want to delete message #${messageId}? This action cannot be undone.`)) {
+                return;
+            }
+
+            fetch(`${API_URL}/contact-messages/${messageId}`, {
+                method: 'DELETE'
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.message || data.success) {
+                    alert('Message deleted successfully!');
+                    loadContactMessages();
+                } else {
+                    alert('Error deleting message: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch(err => {
+                console.error('Error deleting message:', err);
+                alert('Error: ' + err.message);
+            });
+        }
+
+        function filterContactMessages() {
+            const statusFilter = document.querySelector('.statusFilterMessages').value;
+
+            document.querySelectorAll('#contactMessagesTableBody tr').forEach(row => {
+                const rowStatus = row.getAttribute('data-status');
+                const matchesStatus = statusFilter === 'All' || rowStatus === statusFilter;
+                row.style.display = matchesStatus ? '' : 'none';
+            });
+
+            // Update count
+            const visibleRows = document.querySelectorAll('#contactMessagesTableBody tr:not([style*="display: none"])').length;
+            document.getElementById('showingCountMessages').innerText = `Showing ${visibleRows} message${visibleRows !== 1 ? 's' : ''}`;
+        }
+
+        function loadSystemSettings() {
+            fetch(`${API_URL}/stats`).then(r => r.json()).then(data => {
+                document.getElementById('settingsProperties').innerText = data.properties;
+                document.getElementById('settingsEnquiries').innerText = data.enquiries;
+                document.getElementById('settingsAgents').innerText = data.agents;
+            }).catch(e => console.error('Stats error:', e));
+
+            fetch(`${API_URL}/owners`).then(r => r.json()).then(data => {
+                const owners = data.filter(u => u.role === 'Owner');
+                document.getElementById('settingsOwners').innerText = owners.length;
+            }).catch(e => console.error('Owners error:', e));
+
+            document.getElementById('lastUpdate').innerText = new Date().toLocaleString();
+        }
+
+        // ===== CHART PLUGIN: Rounded tops on bars =====
+        const roundedBarPlugin = {
+            id: 'roundedBars',
+            beforeDraw(chart) {
+                // nothing needed here
+            },
+            afterDraw(chart) {
+                // We override via element draw — handled in dataset drawing below
+            }
+        };
+
+        // Custom plugin to draw rounded-top bars
+        const roundTopPlugin = {
+            id: 'roundTopBars',
+            beforeDatasetDraw(chart, { index }) {
+                const ctx = chart.ctx;
+                const meta = chart.getDatasetMeta(index);
+                const radius = 6; // corner radius for top-left & top-right
+
+                meta.data.forEach((bar) => {
+                    const { x, y, width, height } = bar;
+                    if (height <= 0) return;
+
+                    ctx.save();
+                    ctx.beginPath();
+
+                    const left = x - width / 2;
+                    const right = x + width / 2;
+                    const top = y;
+                    const bottom = y + height;
+                    const r = Math.min(radius, width / 2, height);
+
+                    // Draw rounded-top rectangle path
+                    ctx.moveTo(left + r, top);
+                    ctx.lineTo(right - r, top);
+                    ctx.quadraticCurveTo(right, top, right, top + r);
+                    ctx.lineTo(right, bottom);
+                    ctx.lineTo(left, bottom);
+                    ctx.lineTo(left, top + r);
+                    ctx.quadraticCurveTo(left, top, left + r, top);
+                    ctx.closePath();
+                    ctx.clip();
+
+                    // Nothing else — clip region is set; the default bar draw will fill inside it
+                });
+            }
+        };
+
+        function renderChart(canvasId, type, data, options) {
+            const ctx = document.getElementById(canvasId);
+            if (!ctx) return;
+
+            // Destroy existing if present to prevent glitching
+            if (chartInstances[canvasId]) {
+                chartInstances[canvasId].destroy();
+            }
+
+            chartInstances[canvasId] = new Chart(ctx, {
+                type: type,
+                data: data,
+                options: options
+            });
+        }
+
+        function initializeCharts() {
+            fetch(`${API_URL}/chart-data`)
+                .then(r => r.json())
+                .then(data => {
+
+                    // Common chart options for consistency
+                    const commonOptions = {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { grid: { display: false } },
+                            y: { beginAtZero: true, grid: { color: '#F1F5F9' } }
+                        }
+                    };
+
+                    // ===============================================
+                    // 1. DASHBOARD CHART (Restored)
+                    // ===============================================
+                    
+                    // We reuse the 'property_types' data from the API for the dashboard mini-chart
+                    renderChart('miniPieChart', 'doughnut', {
+                        labels: data.property_types.map(d => d.property_category),
+                        datasets: [{
+                            data: data.property_types.map(d => d.count),
+                            backgroundColor: ['#4F46E5', '#F59E0B', '#10B981'], 
+                            borderWidth: 0
+                        }]
+                    }, {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '75%', // Makes it a thin ring
+                        plugins: { 
+                            legend: { 
+                                position: 'bottom', 
+                                labels: { usePointStyle: true, boxWidth: 8, padding: 20 } 
+                            } 
+                        }
+                    });
+
+                    // ===============================================
+                    // 2. ANALYTICS PAGE CHARTS
+                    // ===============================================
+
+                    // A. Area Popularity (Horizontal Bar)
+                    renderChart('areaPopularityChart', 'bar', {
+                        labels: data.area_popularity.map(d => d.area),
+                        datasets: [{
+                            label: 'Properties Listed',
+                            data: data.area_popularity.map(d => d.count),
+                            backgroundColor: '#4F46E5',
+                            borderRadius: 4,
+                            barPercentage: 0.6
+                        }]
+                    }, { ...commonOptions, indexAxis: 'y' });
+
+                    // B. Property Types (Full Pie for Analytics)
+                    renderChart('propertyTypePieChart', 'doughnut', {
+                        labels: data.property_types.map(d => d.property_category),
+                        datasets: [{
+                            data: data.property_types.map(d => d.count),
+                            backgroundColor: ['#10B981', '#F59E0B', '#6366F1'],
+                            borderWidth: 0
+                        }]
+                    }, {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom' } }
+                    });
+
+                    // C. Agent Performance (Horizontal Bar)
+                    renderChart('agentPerformanceChart', 'bar', {
+                        labels: data.agent_performance.map(d => d.name),
+                        datasets: [{
+                            label: 'Properties Listed',
+                            data: data.agent_performance.map(d => d.count),
+                            backgroundColor: '#06B6D4',
+                            borderRadius: 4,
+                            barPercentage: 0.6
+                        }]
+                    }, { ...commonOptions, indexAxis: 'y' });
+
+                    // D. Expensive Areas (Vertical Bar)
+                    renderChart('expensiveAreasChart', 'bar', {
+                        labels: data.expensive_areas.map(d => d.area),
+                        datasets: [{
+                            label: 'Avg Price (₹)',
+                            data: data.expensive_areas.map(d => d.avg_price),
+                            backgroundColor: '#EC4899',
+                            borderRadius: 4,
+                            barPercentage: 0.6
+                        }]
+                    }, commonOptions);
+
+                })
+                .catch(e => console.error('Error loading charts:', e));
+        }
+
+        function switchView(id, el) {
+            document.querySelectorAll('.view-section').forEach(d => d.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            if (el && el.classList) {
+                el.classList.add('active');
+            }
+
+            const titles = {
+                'dashboard': 'Dashboard Overview',
+                'analytics': 'Performance Analytics',
+                'properties-rent': 'Properties on Rent',
+                'properties-sell': 'Properties on Sell',
+                'enquiries': 'Customer Enquiries',
+                'users': 'Agents & Owners',
+                'contact-messages': 'Contact Messages',
+                'settings': 'System Settings'
+            };
+            document.getElementById('page-title').innerText = titles[id] || 'Dashboard';
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('show');
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Check for existing session on page load
+            checkExistingSession();
+        });
+    </script>
+</body>
+
+</html>

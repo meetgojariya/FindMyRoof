@@ -1,0 +1,2516 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindMyRoof | Properties</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="icon" href="Photos/logo3.png">
+    <style>
+        body {
+            margin: 0;
+            background: #f8f9fa;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: #0f172a;
+        }
+
+        .page-shell {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding-top: 80px;
+        }
+
+        .navbar.custom-nav {
+            background: linear-gradient(90deg, #0d6efd 0%, #0b5ed7 100%);
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+            padding-top: 10px;
+            padding-bottom: 10px;
+            width: 100%;
+        }
+
+        .nav-inner {
+            width: 100%;
+            max-width: 1180px; 
+            margin: 0 auto;
+            padding: 0 24px; 
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            color: #fff;
+        }
+
+        .brand-wrap {
+            flex-shrink: 0;
+        }
+
+        .navbar-brand {
+            padding: 0;
+            line-height: 1;
+            color: #212529;
+            text-decoration: none;
+        }
+
+        .navbar-brand:hover {
+            color: #212529;
+        }
+
+        .navbar-brand img {
+            height: 30px;
+            width: 35px;
+        }
+
+        .nav-search {
+            flex: 1;
+            max-width: 600px;
+            display: flex;
+            justify-content: center; 
+        }
+
+        .search-box {
+            display: flex;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.16);
+            border-radius: 10px;
+            padding: 4px;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            padding: 8px 14px;
+            color: #fff;
+            flex-grow: 1;
+            outline: none;
+        }
+
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .search-btn {
+            border: none;
+            background: #fff;
+            color: #0d6efd;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 0 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .search-btn:hover {
+            background: #f3f4f6;
+        }
+
+        .navbar-collapse {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex: 1;
+        }
+
+        .nav-right {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+        }
+
+        .nav-link-home {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .nav-link-home:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-link-home i {
+            font-size: 1.1rem;
+        }
+
+        .hero {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 18px;
+            box-shadow: 0 14px 38px rgba(15, 23, 42, 0.08);
+            border: 1px solid #e5e7eb;
+        }
+
+        .hero-badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .hero-pill {
+            border-radius: 999px;
+            padding: 7px 12px;
+            background: #e7f1ff;
+            border: 1px solid #cfe2ff;
+            color: #0d6efd;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .hero-stat {
+            background: #f8fafc;
+            border: 1px dashed #e5e7eb;
+            color: #334155;
+            padding: 10px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+        }
+
+        .breadcrumb-line {
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .filter-rail {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 8px 10px;
+            box-shadow: none;
+            overflow: visible;
+        }
+
+        .filter-row {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 6px;
+            align-items: center;
+            overflow-x: auto;
+            overflow-y: visible;
+            white-space: nowrap;
+        }
+
+        .filter-row::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .filter-row::-webkit-scrollbar-thumb {
+            background: #e5e7eb;
+            border-radius: 999px;
+        }
+
+        .filter-rail .form-select {
+            min-width: 120px;
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            font-size: 13px;
+            padding: 6px 28px 6px 10px;
+            background-color: #fff;
+        }
+
+        .filter-chip {
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            background: #fff;
+            padding: 6px 12px;
+            font-size: 13px;
+            color: #374151;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .filter-chip .bi {
+            font-size: 14px;
+        }
+
+        .filter-status {
+            margin-top: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        .meta-bar {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 10px 14px;
+            box-shadow: 0 10px 26px rgba(15, 23, 42, 0.06);
+        }
+
+        .meta-bar strong {
+            color: #0f172a;
+        }
+
+        .property-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            background: #fff;
+            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .property-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 38px rgba(15, 23, 42, 0.12);
+        }
+
+        .property-card .row.g-0 {
+            height: 100%;
+        }
+
+        .property-card .row.g-0>div {
+            height: 100%;
+        }
+
+        .cover-wrap {
+            position: relative;
+            height: 100%;
+            min-height: 210px;
+        }
+
+        .property-cover {
+            min-height: 210px;
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+            display: block;
+        }
+
+        .cover-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #10b981;
+            color: #fff;
+            font-weight: 700;
+            padding: 6px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+        }
+
+        .pill {
+            border-radius: 999px;
+            padding: 6px 10px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .pill-soft {
+            background: #e7f1ff;
+            color: #0d6efd;
+        }
+
+        .pill-muted {
+            background: #f3f4f6;
+            color: #4b5563;
+        }
+
+        .pill-success {
+            background: #ecfdf3;
+            color: #15803d;
+        }
+
+        .pill-info {
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+
+        .meta-row {
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .price {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #111827;
+        }
+
+        .budget-wrap {
+            position: relative;
+            min-width: 160px;
+            flex: 1 1 160px;
+        }
+
+        .budget-slider {
+            position: fixed;
+            min-width: 260px;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+            z-index: 999;
+        }
+
+        .budget-label {
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .budget-toggle {
+            width: 100%;
+        }
+
+        .budget-range-wrap {
+            position: relative;
+            padding: 20px 0 10px;
+        }
+
+        /* Dual-range slider container for budget filter with min and max handles */
+        .dual-range-container {
+            position: relative;
+            width: 100%;
+            height: 6px;
+        }
+
+        /* Base styling for range input - removes default browser appearance for custom styling */
+        .form-range {
+            position: absolute;
+            width: 100%;
+            height: 6px;
+            background: transparent;
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            /* Remove default slider styling in WebKit browsers */
+            pointer-events: none;
+            /* Disable events on track, enable only on thumb */
+        }
+
+        .dual-range-container::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 6px;
+            background: #e5e7eb;
+            border-radius: 3px;
+            z-index: 1;
+        }
+
+        /* Custom thumb styling for WebKit browsers (Chrome, Safari, Edge) */
+        .form-range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #0d6efd;
+            cursor: pointer;
+            border: 3px solid #fff;
+            box-shadow: 0 2px 6px rgba(13, 110, 253, 0.3);
+            pointer-events: auto;
+            /* Enable dragging on thumb */
+            position: relative;
+            z-index: 3;
+            /* Ensure thumb appears above track */
+        }
+
+        .form-range::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #0d6efd;
+            cursor: pointer;
+            border: 3px solid #fff;
+            box-shadow: 0 2px 6px rgba(13, 110, 253, 0.3);
+            pointer-events: auto;
+            z-index: 3;
+        }
+
+        .range-max::-webkit-slider-thumb {
+            background: #0b5ed7;
+        }
+
+        .range-max::-moz-range-thumb {
+            background: #0b5ed7;
+        }
+
+        .budget-markers {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 10px;
+            color: #6b7280;
+            padding: 0 2px;
+        }
+
+        .budget-marker {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .budget-marker::before {
+            content: '';
+            width: 2px;
+            height: 6px;
+            background: #d1d5db;
+            margin-bottom: 4px;
+        }
+
+        .filter-dropdown {
+            position: fixed;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+            z-index: 999;
+            min-width: 200px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .filter-checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .filter-checkbox-item:hover {
+            background: #f3f4f6;
+        }
+
+        .filter-checkbox-item input[type="checkbox"] {
+            cursor: pointer;
+        }
+
+        /* More Filters Modal */
+        .more-filters-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 90%;
+            max-width: 700px;
+            max-height: 85vh;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(15, 23, 42, 0.3);
+            z-index: 1050;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .more-filters-modal.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .more-filters-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1040;
+            display: none;
+        }
+
+        .more-filters-overlay.show {
+            display: block;
+        }
+
+        .modal-header-custom {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: #fff;
+            z-index: 10;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .modal-body-custom {
+            padding: 24px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .filter-section {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .filter-section.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .filter-section-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: #374151;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .filter-option-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .filter-pill-option {
+            padding: 8px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #fff;
+        }
+
+        .filter-pill-option:hover {
+            border-color: #0d6efd;
+            background: #e7f1ff;
+        }
+
+        .filter-pill-option.active {
+            background: #0d6efd;
+            color: #fff;
+            border-color: #0d6efd;
+        }
+
+        .area-range-slider {
+            margin: 20px 0;
+        }
+
+        .reset-filters-btn {
+            color: #0d6efd;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: underline;
+            border: none;
+            background: none;
+            padding: 0;
+        }
+
+        .reset-filters-btn:hover {
+            color: #0a58ca;
+        }
+
+        .btn-close-custom {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #6b7280;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .btn-close-custom:hover {
+            color: #111827;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #d1d5db;
+            transition: .3s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        .toggle-switch input:checked+.toggle-slider {
+            background-color: #0d6efd;
+        }
+
+        .toggle-switch input:checked+.toggle-slider:before {
+            transform: translateX(20px);
+        }
+
+        .filter-toggle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .more-filters-modal::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .more-filters-modal::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .more-filters-modal::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 4px;
+        }
+
+        .more-filters-modal::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
+
+        .modal-footer-custom {
+            padding: 16px 24px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            position: sticky;
+            bottom: 0;
+            background: #fff;
+            z-index: 10;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .btn-apply-filters {
+            background: linear-gradient(90deg, #0d6efd 0%, #0b5ed7 100%);
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-apply-filters:hover {
+            background: linear-gradient(90deg, #0b5ed7 0%, #0a58ca 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+        }
+
+        .btn-contact {
+            background: linear-gradient(90deg, #0d6efd 0%, #0b5ed7 100%);
+            color: #fff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .btn-contact:hover {
+            background: linear-gradient(90deg, #0b5ed7 0%, #0a58ca 100%);
+            color: #fff;
+        }
+
+        /* Heart Button Styles */
+        .heart-save-btn {
+            transition: all 0.2s ease;
+        }
+
+        .heart-save-btn:hover {
+            transform: scale(1.1);
+            border-color: #dc3545 !important;
+        }
+
+        .heart-save-btn i.bi-heart-fill,
+        .heart-save-btn i.text-danger {
+            color: #dc3545 !important;
+        }
+
+        .heart-save-btn:hover i {
+            color: #dc3545;
+        }
+
+        .pagination-bar {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap; /* Ensure buttons wrap on mobile */
+        }
+
+        .page-btn {
+            border: 1px solid #d1d5db;
+            background: #fff;
+            border-radius: 8px;
+            padding: 6px 12px;
+        }
+
+        .page-btn.active {
+            background: #0d6efd;
+            color: #fff;
+            border-color: #0d6efd;
+        }
+
+        /* Disabled state for Pagination Arrows */
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: #f8f9fa;
+            color: #ccc;
+        }
+
+        footer {
+            background: #212529;
+            color: #fff;
+            margin-top: 32px;
+            padding: 36px 0 28px;
+        }
+
+        .footer-shell {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 18px;
+        }
+
+        .footer-link {
+            color: #bdbdbd;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .footer-link:hover {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .footer-title {
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        /* Detail Modal Specific Styles */
+        .modal-cover {
+            height: 300px;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .agent-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .agent-avatar {
+            width: 50px;
+            height: 50px;
+            background: #cfe2ff;
+            color: #0d6efd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .detail-spec {
+            text-align: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+        }
+
+        .detail-spec small {
+            display: block;
+            color: #6c757d;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .detail-spec strong {
+            display: block;
+            color: #212529;
+            font-size: 1rem;
+        }
+
+        /* Responsive Media Queries for Navbar & Searchbar */
+        @media (max-width: 992px) {
+            .nav-inner {
+                padding: 0 24px;
+            }
+        }
+
+        .navbar-toggler {
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.25rem 0.5rem;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        @media (max-width: 991px) {
+            .navbar-collapse {
+                display: block !important;
+                background: linear-gradient(90deg, #0d6efd 0%, #0b5ed7 100%);
+                padding: 1rem;
+                border-radius: 8px;
+                margin-top: 10px;
+            }
+
+            .nav-search {
+                width: 100%;
+                max-width: none;
+                margin-bottom: 1rem;
+            }
+
+            .nav-right {
+                width: 100%;
+                text-align: center;
+            }
+
+            .nav-link-home {
+                display: block;
+                padding: 0.5rem;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 6px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-shell {
+                padding-top: 130px;
+            }
+
+            .nav-inner {
+                padding: 0 16px;
+                flex-wrap: wrap;
+            }
+
+            .brand-wrap .btn {
+                padding: 4px 10px;
+            }
+
+            .navbar-brand {
+                font-size: 14px;
+            }
+
+            .navbar-brand img {
+                height: 24px;
+                width: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top custom-nav">
+        <div class="nav-inner">
+            <div class="brand-wrap">
+                <button class="btn btn-light">
+                    <a href="index.html" class="navbar-brand fw-bold">
+                        <img src="Photos/logo3.png" alt="logo"> FindMyRoof
+                    </a>
+                </button>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <div class="nav-search">
+                    <div class="search-box">
+                        <input type="search" id="searchInput" class="form-control form-control-sm"
+                            placeholder="Search properties, locations or projects">
+                        <button class="search-btn" id="searchBtn">Search</button>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <a href="index.html" class="nav-link-home">
+                        <i class="bi bi-house-door-fill"></i> Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="page-shell px-3 px-sm-4 my-4">
+        <div class="breadcrumb-line"><a href="index.html" style="color: inherit; text-decoration: none;">Home</a> /
+            <span id="breadcrumbLabel">Properties</span></div>
+        <div class="hero mb-3">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 hero-copy">
+                <div>
+                    <p id="heroTag" class="text-uppercase small mb-2"></p>
+                    <h1 class="h4 mb-2" id="heroTitle"></h1>
+                    <p class="mb-0" id="heroDesc"></p>
+                    <div class="hero-stats mt-2" id="heroStats"></div>
+                </div>
+                <div class="text-end">
+                    <div class="hero-badges justify-content-end" id="heroBadges"></div>
+                    <div class="mt-2 text-muted small">Curated by FindMyRoof</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-rail mb-3">
+            <div class="filter-row">
+                <div class="budget-wrap">
+                    <button class="form-select text-start" id="propertyTypeToggle" type="button">Property Types</button>
+                    <div class="filter-dropdown d-none" id="propertyTypeDropdown"></div>
+                </div>
+                <div class="budget-wrap">
+                    <button class="form-select text-start" id="bhkToggle" type="button">BHK Type</button>
+                    <div class="filter-dropdown d-none" id="bhkDropdown"></div>
+                </div>
+                <div class="budget-wrap">
+                    <button class="form-select text-start budget-toggle" id="budgetToggle" type="button"
+                        aria-label="Budget">
+                        Any Budget
+                    </button>
+                    <div class="budget-slider d-none" id="budgetSlider" aria-label="Budget">
+                        <div class="budget-label d-flex justify-content-between">
+                            <span class="text-muted">Select Budget Range</span>
+                            <span id="budgetValue" class="fw-semibold text-primary">₹0 - ₹5 Cr+</span>
+                        </div>
+                        <div class="budget-range-wrap">
+                            <div class="dual-range-container">
+                                <input type="range" class="form-range range-min" id="budgetRangeMin" min="0"
+                                    max="50000000" step="100000" value="0">
+                                <input type="range" class="form-range range-max" id="budgetRangeMax" min="0"
+                                    max="50000000" step="100000" value="50000000">
+                            </div>
+                            <div class="budget-markers">
+                                <div class="budget-marker"><span>0</span></div>
+                                <div class="budget-marker"><span>1 Cr</span></div>
+                                <div class="budget-marker"><span>2 Cr</span></div>
+                                <div class="budget-marker"><span>3 Cr</span></div>
+                                <div class="budget-marker"><span>4 Cr</span></div>
+                                <div class="budget-marker"><span>5 Cr+</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="budget-wrap">
+                    <button class="form-select text-start" id="saleToggle" type="button">Sale Type</button>
+                    <div class="filter-dropdown d-none" id="saleDropdown"></div>
+                </div>
+                <select class="form-select" id="constructionSelect" aria-label="Construction Status">
+                    <option value="">Construction Status</option>
+                    <option value="ready">Ready to Move</option>
+                    <option value="under">Under Construction</option>
+                </select>
+                <button class="filter-chip" id="moreFiltersBtn" type="button">More Filters <i
+                        class="bi bi-chevron-down"></i></button>
+                <button class="reset-filters-btn" id="resetFiltersBtn" type="button">Reset filters</button>
+            </div>
+            <div class="filter-status">
+                <i class="bi bi-lightning-charge text-warning"></i>
+                <small id="infoLine">Loading listings...</small>
+            </div>
+        </div>
+
+        <div class="meta-bar d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+            <div class="text-muted small" id="metaSummary">Showing properties</div>
+            <div class="d-flex align-items-center gap-2">
+                <span class="text-muted small">Sort by</span>
+                <select class="form-select form-select-sm" id="sortSelect" style="min-width: 170px;">
+                    <option value="relevance">Relevance</option>
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="results" class="row gy-3"></div>
+        <div id="emptyState" class="text-center text-muted my-4 d-none">No properties found for this selection.</div>
+        <div id="pagination" class="my-3 pagination-bar"></div>
+    </div>
+
+    <div class="more-filters-overlay" id="moreFiltersOverlay"></div>
+    <div class="more-filters-modal" id="moreFiltersModal">
+        <div class="modal-header-custom">
+            <h5 class="mb-0 fw-bold">More Filters</h5>
+            <button class="btn-close-custom" id="closeMoreFilters">&times;</button>
+        </div>
+        <div class="modal-body-custom">
+            <div class="filter-section">
+                <div class="filter-section-title">Listed By</div>
+                <div class="filter-option-group">
+                    <button class="filter-pill-option" data-filter="listedBy" data-value="agent">Agent</button>
+                    <button class="filter-pill-option" data-filter="listedBy" data-value="owner">Owner</button>
+                    <button class="filter-pill-option" data-filter="listedBy" data-value="developer">Developer</button>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <div class="filter-section-title">Age of Property</div>
+                <div class="filter-option-group">
+                    <button class="filter-pill-option" data-filter="propertyAge" data-value="0-1">0-1 Year</button>
+                    <button class="filter-pill-option" data-filter="propertyAge" data-value="1-5">1-5 Years</button>
+                    <button class="filter-pill-option" data-filter="propertyAge" data-value="5-10">5-10 Years</button>
+                    <button class="filter-pill-option" data-filter="propertyAge" data-value="10+">10+ Years</button>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <div class="filter-section-title">Facing</div>
+                <div class="filter-option-group">
+                    <button class="filter-pill-option" data-filter="facing" data-value="north">North</button>
+                    <button class="filter-pill-option" data-filter="facing" data-value="south">South</button>
+                    <button class="filter-pill-option" data-filter="facing" data-value="east">East</button>
+                    <button class="filter-pill-option" data-filter="facing" data-value="west">West</button>
+                    <button class="filter-pill-option" data-filter="facing" data-value="north-east">North-East</button>
+                    <button class="filter-pill-option" data-filter="facing" data-value="north-west">North-West</button>
+                    <button class="filter-pill-option" data-filter="facing" data-value="south-east">South-East</button>
+                    <button class="filter-pill-option" data-filter="facing" data-value="south-west">South-West</button>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <div class="filter-section-title">Furnishing Status</div>
+                <div class="filter-option-group">
+                    <button class="filter-pill-option" data-filter="furnishing"
+                        data-value="unfurnished">Unfurnished</button>
+                    <button class="filter-pill-option" data-filter="furnishing"
+                        data-value="semi-furnished">Semi-Furnished</button>
+                    <button class="filter-pill-option" data-filter="furnishing"
+                        data-value="fully-furnished">Fully-Furnished</button>
+                </div>
+            </div>
+
+            <div class="filter-section full-width">
+                <div class="filter-section-title">Built-up Area in sq.ft.</div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="small text-muted">0</span>
+                    <span class="small fw-semibold" id="areaRangeDisplay">0 - 5000+</span>
+                    <span class="small text-muted">5000+</span>
+                </div>
+                <div class="area-range-slider">
+                    <div class="dual-range-container">
+                        <input type="range" class="form-range range-min" id="areaRangeMin" min="0" max="5000" step="100"
+                            value="0">
+                        <input type="range" class="form-range range-max" id="areaRangeMax" min="0" max="5000" step="100"
+                            value="5000">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer-custom">
+            <button class="btn-apply-filters" id="applyMoreFilters">Apply Filters</button>
+        </div>
+    </div>
+
+    <div class="modal fade" id="propertyDetailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <div class="position-relative">
+                    <img src="" id="modalImg" class="modal-cover" alt="Property Image">
+                    <button type="button"
+                        class="btn-close position-absolute top-0 end-0 m-3 bg-white p-2 rounded-circle opacity-100"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
+                    <span class="badge bg-primary position-absolute top-0 start-0 m-3 fs-6" id="modalBadge">For
+                        Sale</span>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h4 class="fw-bold mb-1" id="modalTitle">Property Title</h4>
+                            <p class="text-muted mb-0"><i class="bi bi-geo-alt-fill text-danger"></i> <span
+                                    id="modalLocation">Location</span></p>
+                        </div>
+                        <div class="text-end">
+                            <div class="fs-3 fw-bold text-primary" id="modalPrice">₹0</div>
+                            <small class="text-muted" id="modalPriceUnit">onwards</small>
+                        </div>
+                    </div>
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-6 col-md-3">
+                            <div class="detail-spec">
+                                <small>BHK</small>
+                                <strong id="modalBhk">-</strong>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="detail-spec">
+                                <small>Area</small>
+                                <strong id="modalArea">-</strong>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="detail-spec">
+                                <small>Furnishing</small>
+                                <strong id="modalFurnishing">-</strong>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="detail-spec">
+                                <small>Facing</small>
+                                <strong id="modalFacing">-</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-6 col-md-3">
+                            <div class="detail-spec">
+                                <small>Sale Type</small>
+                                <strong id="modalSaleType">-</strong>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="detail-spec">
+                                <small>Age</small>
+                                <strong id="modalAge">-</strong>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="detail-spec">
+                                <small>Pincode</small>
+                                <strong id="modalPincode">-</strong>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="detail-spec">
+                                <small>Locality</small>
+                                <strong id="modalSpecificLocality">-</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold mb-1">Address</h6>
+                    <p class="text-muted small mb-3" id="modalAddress">-</p>
+
+                    <h6 class="fw-bold mb-1">Amenities</h6>
+                    <div id="modalAmenities" class="d-flex flex-wrap gap-2 mb-4"></div>
+
+                    <h5 class="fw-bold mb-2">Description</h5>
+                    <p class="text-muted mb-4" id="modalDesc">No description available.</p>
+
+                    <h5 class="fw-bold mb-3">Owner / Agent Details</h5>
+                    <div class="agent-box d-flex flex-column flex-sm-row align-items-center gap-3">
+                        <div class="agent-avatar" id="agentAvatar">A</div>
+                        <div class="flex-grow-1 text-center text-sm-start">
+                            <h6 class="fw-bold mb-1" id="agentName">Agent Name</h6>
+                            <div class="text-muted small mb-1 text-capitalize" id="agentRole">Property Agent</div>
+                            <div class="d-flex gap-3 justify-content-center justify-content-sm-start mt-2">
+                                <a href="#" class="text-decoration-none text-dark" id="agentPhoneLink">
+                                    <i class="bi bi-telephone-fill text-success me-1"></i> <span id="agentPhone">+91
+                                        98765 43210</span>
+                                </a>
+                                <a href="#" class="text-decoration-none text-dark" id="agentEmailLink">
+                                    <i class="bi bi-envelope-fill text-primary me-1"></i> <span
+                                        id="agentEmail">email@example.com</span>
+                                </a>
+                            </div>
+                        </div>
+                        <a href="#" class="btn btn-contact px-4" id="modalContactBtn" target="_blank">Contact Now <i
+                                class="bi bi-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-light pt-5 pb-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <h5 class="fw-bold"><img height="50px" src="Photos/logo3.png" alt=""> FindMyRoof</h5>
+                    <p class="small">A smart real estate platform to buy, rent, and list properties with verified
+                        details across India.</p>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-semibold">Quick Links</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2">
+                        <li><a href="index.html" class="footer-link">Home</a></li>
+                        <li><a href="price_estimator.html" class="footer-link">Price Estimator</a></li>
+                        <li><a href="about.html" class="footer-link">About Us</a></li>
+                        <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+                        <li><a href="post_property.html" class="footer-link">Post Property</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-semibold">Property Types</h6>
+                    <ul class="list-unstyled d-flex flex-column gap-2">
+                        <li><a href="properties.html?property_type=Flat" class="footer-link">Flats & Apartments</a></li>
+                        <li><a href="properties.html?property_type=Villa" class="footer-link">Villas</a></li>
+                        <li><a href="properties.html?property_type=Plot" class="footer-link">Plots & Land</a></li>
+                        <li><a href="properties.html?category=Commercial" class="footer-link">Commercial Properties</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-semibold">Contact</h6>
+                    <p class="small mb-1">📧 <a href="mailto:findmyroof1@gmail.com" class="footer-link">findmyroof1@gmail.com</a></p>
+                    <p class="small mb-1">📞 +91 98765 43210</p>
+                    <p class="small">📍 Ahmedabad, India</p>
+                </div>
+            </div>
+            <hr class="border-secondary opacity-25">
+            <div class="text-center text-secondary small">© 2026 FindMyRoof. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        // ==================== CONFIGURATION & CONSTANTS ====================
+        const apiBase = window.API_BASE || 'http://localhost:5000';
+        const MAX_BUDGET = 50000000; // 5 Crore maximum budget
+        const toNum = (v) => Number(String(v || '').replace(/[^0-9.]/g, '')) || 0; // Convert string to number
+        let allProperties = []; // Store fetched properties globally for modal access
+
+        // Helper function to get logged in user
+        function getLoggedInUser() {
+            try {
+                const userData = localStorage.getItem('user');
+                return userData ? JSON.parse(userData) : null;
+            } catch (e) {
+                console.error('Error getting user data:', e);
+                return null;
+            }
+        }
+
+        // ==================== UTILITY FUNCTIONS ====================
+        /**
+         * Parse URL query parameters for pre-filtering properties
+         * Used when navigating from main page with specific property type or listing type
+         */
+        function parseQuery() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                listing: (params.get('listing') || '').toLowerCase(), // buy/rent
+                propertyType: (params.get('property_type') || '').toLowerCase(),
+                category: (params.get('category') || '').toLowerCase(), // residential/commercial
+                label: params.get('label') || '',
+                searchQuery: params.get('search') || '' // Capture search query from URL
+            };
+        }
+
+        function setHero(meta) {
+            document.getElementById('heroTag').textContent = meta.tag;
+            document.getElementById('heroTitle').textContent = meta.title;
+            document.getElementById('heroDesc').textContent = meta.desc;
+            const heroBadges = document.getElementById('heroBadges');
+            const heroStats = document.getElementById('heroStats');
+            heroBadges.innerHTML = (meta.badges || []).map(b => `<span class="hero-pill">${b}</span>`).join('');
+            heroStats.innerHTML = (meta.stats || []).map(s => `<div class="hero-stat">${s}</div>`).join('');
+        }
+
+        function formatPrice(val, isRent) {
+            if (!val) return '';
+            const num = toNum(val);
+            if (!num) return val;
+            const isCr = num >= 1e7;
+            const isLakh = num >= 1e5 && num < 1e7;
+            let formatted = '';
+            if (isCr) formatted = `₹${(num / 1e7).toFixed(2)} Cr`;
+            else if (isLakh) formatted = `₹${(num / 1e5).toFixed(2)} L`;
+            else formatted = `₹${num.toLocaleString('en-IN')}`;
+            return isRent ? `${formatted} / mo` : formatted;
+        }
+
+        // Function to generate random contact info if API doesn't provide it
+        function getOwnerDetails(p) {
+            // Determine random names if missing
+            const names = ["Rahul Sharma", "Priya Patel", "Amit Verma", "Sneha Gupta", "Vikram Singh"];
+            const randomName = names[Math.floor(Math.random() * names.length)];
+            const randomPhone = "+91 " + Math.floor(9000000000 + Math.random() * 900000000);
+
+            return {
+                name: p.owner_name || randomName,
+                role: p.listed_by || "Owner",
+                phone: p.owner_phone || randomPhone,
+                email: p.owner_email || `${randomName.split(' ')[0].toLowerCase()}@gmail.com`
+            };
+        }
+
+        // Function to generate WhatsApp link
+        function getWhatsAppLink(phone, propertyName, location) {
+            // Remove non-digit characters for the URL (except + if not using wa.me/code)
+            const cleanPhone = phone.replace(/[^0-9]/g, '');
+            const text = `Hi, I'm interested in ${propertyName} at ${location} listed on FindMyRoof. Please share more details.`;
+            const encodedText = encodeURIComponent(text);
+            return `https://wa.me/${cleanPhone}?text=${encodedText}`;
+        }
+
+        // Function to open the detailed modal
+        window.openPropertyDetail = function (id) {
+            const p = allProperties.find(item => item.id === id);
+            if (!p) return;
+
+            const isRent = (p.type || '').toLowerCase() === 'rent';
+            const price = formatPrice(p.price, isRent);
+            const owner = getOwnerDetails(p);
+
+            // Populate Modal Fields
+            document.getElementById('modalImg').src = p.image || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="400"%3E%3Crect fill="%23ddd" width="800" height="400"/%3E%3Ctext fill="%23999" font-family="sans-serif" font-size="24" x="50%25" y="50%25" text-anchor="middle" dominant-baseline="middle"%3ENo Image Available%3C/text%3E%3C/svg%3E';
+            document.getElementById('modalBadge').textContent = isRent ? 'For Rent' : 'For Sale';
+            document.getElementById('modalBadge').className = isRent ? 'badge bg-info position-absolute top-0 start-0 m-3 fs-6' : 'badge bg-primary position-absolute top-0 start-0 m-3 fs-6';
+
+            document.getElementById('modalTitle').textContent = p.name;
+            document.getElementById('modalLocation').textContent = p.location;
+            document.getElementById('modalPrice').textContent = price;
+            document.getElementById('modalPriceUnit').textContent = isRent ? '/ month' : 'onwards';
+
+            document.getElementById('modalBhk').textContent = p.bhk || 'N/A';
+            document.getElementById('modalArea').textContent = p.area || 'N/A';
+            document.getElementById('modalFurnishing').textContent = p.furnish || 'N/A';
+            document.getElementById('modalFacing').textContent = (p.facing ? p.facing.charAt(0).toUpperCase() + p.facing.slice(1) : 'N/A');
+            document.getElementById('modalDesc').textContent = p.description || 'No detailed description available for this property.';
+
+            // New Fields
+            document.getElementById('modalSaleType').textContent = p.sale_type ? p.sale_type.charAt(0).toUpperCase() + p.sale_type.slice(1) : 'N/A';
+            document.getElementById('modalAge').textContent = p.property_age || 'N/A';
+            document.getElementById('modalPincode').textContent = p.pincode || 'N/A';
+            document.getElementById('modalSpecificLocality').textContent = p.locality || p.location || 'N/A';
+            document.getElementById('modalAddress').textContent = p.address || p.location || 'N/A';
+
+            // Amenities
+            const amenitiesContainer = document.getElementById('modalAmenities');
+            if (p.amenities && p.amenities.length > 0) {
+                // Determine if amenities is string or array
+                let amList = Array.isArray(p.amenities) ? p.amenities : (typeof p.amenities === 'string' ? p.amenities.split(',') : []);
+                
+                if(amList.length > 0) {
+                     amenitiesContainer.innerHTML = amList.map(a => `<span class="badge bg-light text-dark border">${a.trim()}</span>`).join('');
+                } else {
+                     amenitiesContainer.innerHTML = '<span class="text-muted small">No specific amenities listed.</span>';
+                }
+            } else {
+                amenitiesContainer.innerHTML = '<span class="text-muted small">No specific amenities listed.</span>';
+            }
+
+            // Populate Owner/Agent Details
+            document.getElementById('agentAvatar').textContent = owner.name.charAt(0);
+            document.getElementById('agentName').textContent = owner.name;
+            document.getElementById('agentRole').textContent = owner.role;
+            document.getElementById('agentPhone').textContent = owner.phone;
+            document.getElementById('agentPhoneLink').href = `tel:${owner.phone}`;
+            document.getElementById('agentEmail').textContent = owner.email;
+            document.getElementById('agentEmailLink').href = `mailto:${owner.email}`;
+
+            // Update Contact Now button in Modal to open WhatsApp
+            const whatsAppLink = getWhatsAppLink(owner.phone, p.name, p.location);
+            const modalContactBtn = document.getElementById('modalContactBtn');
+            modalContactBtn.href = whatsAppLink;
+            modalContactBtn.onclick = function() {
+                addToContacted(p.id);
+            };
+
+            // Add to recently viewed when modal opens
+            addToRecentlyViewed(p.id);
+
+            // Show Modal
+            const modal = new bootstrap.Modal(document.getElementById('propertyDetailModal'));
+            modal.show();
+        }
+
+        function cardTemplate(p) {
+            const listing = (p.type || '').toLowerCase();
+            const isRent = listing === 'rent';
+            const price = formatPrice(p.price, isRent);
+            const area = p.area || '';
+            const bhk = p.bhk || '';
+            const badges = [];
+            if (p.property_type) badges.push(p.property_type);
+            if (isRent) badges.push('Flexible stays');
+            badges.push('Verified');
+            const coverTag = p.property_type || 'VR Ready';
+
+            // Check if property is saved
+            const savedProperties = JSON.parse(localStorage.getItem('savedProperties') || '[]');
+            const isSaved = savedProperties.some(sp => sp.id == p.id);
+            const heartClass = isSaved ? 'bi-heart-fill text-danger' : 'bi-heart';
+
+            // Get owner details and generate WhatsApp link for the Card button
+            const owner = getOwnerDetails(p);
+            const whatsAppLink = getWhatsAppLink(owner.phone, p.name || 'Property', p.location || 'Location');
+
+            return `
+    <div class="col-12" onclick="openPropertyDetail(${p.id})">
+        <div class="property-card h-100">
+            <div class="row g-0">
+                <div class="col-md-5">
+                    <div class="cover-wrap">
+                        <img class="w-100 property-cover" src="${p.image || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="480" height="320"%3E%3Crect fill="%23ddd" width="480" height="320"/%3E%3Ctext fill="%23999" font-family="sans-serif" font-size="18" x="50%25" y="50%25" text-anchor="middle" dominant-baseline="middle"%3ENo Image%3C/text%3E%3C/svg%3E'}" alt="${p.name || 'Property'}">
+                        <div class="cover-badge">${coverTag}</div>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="p-3 d-flex flex-column h-100 gap-2">
+                        <div class="d-flex align-items-center gap-2 flex-wrap mb-1">
+                            ${badges.map(b => `<span class="pill pill-muted">${b}</span>`).join('')}
+                            <span class="pill pill-soft">${listing === 'rent' ? 'For Rent' : 'For Sale'}</span>
+                        </div>
+                        <h5 class="mb-1">${p.name || 'Property'}</h5>
+                        <p class="text-muted mb-1">${p.location || ''}</p>
+                        <div class="d-flex flex-wrap gap-3 meta-row mb-2">
+                            ${bhk ? `<span>${bhk}</span>` : ''}
+                            ${area ? `<span>${area}</span>` : ''}
+                            ${p.avg_price ? `<span>Avg: ${p.avg_price}</span>` : ''}
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mt-auto pt-1">
+                            <div>
+                                <div class="price">${price}</div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <button class="btn btn-outline-secondary heart-save-btn" title="${isSaved ? 'Remove from saved' : 'Save property'}" 
+                                        onclick="event.stopPropagation(); toggleSaveProperty(${p.id}, this);">
+                                    <i class="bi ${heartClass}"></i>
+                                </button>
+                                <a href="${whatsAppLink}" class="btn btn-contact" target="_blank" onclick="event.stopPropagation(); addToContacted(${p.id});">Contact</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>`;
+        }
+
+        function sortItems(items, sortValue) {
+            if (sortValue === 'price-asc') return items.slice().sort((a, b) => toNum(a.price) - toNum(b.price));
+            if (sortValue === 'price-desc') return items.slice().sort((a, b) => toNum(b.price) - toNum(a.price));
+            return items;
+        }
+
+        function parseBhkValue(bhkStr) {
+            if (!bhkStr) return null;
+            const match = String(bhkStr).match(/(\d+)/);
+            return match ? Number(match[1]) : null;
+        }
+
+        /**
+         * Check if property price falls within selected budget range
+         * @param {string|number} priceVal - Property price
+         * @param {number} minBudget - Minimum budget from slider
+         * @param {number} maxBudget - Maximum budget from slider
+         * @returns {boolean} True if price is within range
+         */
+        function budgetMatches(priceVal, minBudget, maxBudget) {
+            const price = toNum(priceVal);
+            const min = minBudget || 0;
+            const max = maxBudget >= MAX_BUDGET ? Infinity : maxBudget;
+            return price >= min && price <= max;
+        }
+
+        /**
+         * Check if property BHK matches selected filter values
+         * Handles special case '4plus' for 4 BHK and above
+         */
+        function bhkMatches(bhkStr, filterVals) {
+            if (!filterVals || filterVals.length === 0) return true;
+            const bhkNum = parseBhkValue(bhkStr);
+            if (!bhkNum) return false;
+            return filterVals.some(val => {
+                if (val === '4plus') return bhkNum >= 4;
+                return bhkNum === Number(val);
+            });
+        }
+
+        /**
+         * Main filtering function - applies all selected filters to property list
+         * Filters include: listing type (buy/rent), property type, BHK, budget range, sale type, and More Filters
+         * @param {Array} items - Array of property objects
+         * @param {Object} meta - Filter metadata with selected values
+         * @returns {Array} Filtered properties matching all criteria
+         */
+        function filterData(items, meta) {
+            return items.filter(p => {
+                // Text Search Filter (Only applies if button clicked)
+                if (meta.searchQuery) {
+                    const q = meta.searchQuery.toLowerCase();
+                    const textMatch = (p.name || '').toLowerCase().includes(q) ||
+                                      (p.location || '').toLowerCase().includes(q) ||
+                                      (p.property_type || '').toLowerCase().includes(q);
+                    if (!textMatch) return false;
+                }
+
+                const listingOk = meta.listing ? ((p.type || '').toLowerCase() === meta.listing) : true;
+                const typeOk = meta.propertyTypes.length === 0 || meta.propertyTypes.some(t => (p.property_type || '').toLowerCase() === t);
+                const categoryOk = meta.category ? ((p.category || '').toLowerCase() === meta.category) : true;
+                const bhkOk = bhkMatches(p.bhk, meta.bhkValues);
+                const budgetOk = budgetMatches(p.price, meta.budgetMin, meta.budgetMax);
+                const saleOk = meta.saleTypes.length === 0 || meta.saleTypes.some(s => (p.sale_type || '').toLowerCase() === s);
+
+                // More Filters
+                const listedByOk = meta.listedBy.length === 0 || meta.listedBy.some(l => (p.listed_by || '').toLowerCase() === l);
+                const ageOk = meta.propertyAge.length === 0 || meta.propertyAge.includes(p.property_age || '');
+                const facingOk = meta.facing.length === 0 || meta.facing.some(f => (p.facing || '').toLowerCase() === f);
+                const furnishingOk = meta.furnishing.length === 0 || meta.furnishing.some(f => (p.furnishing || '').toLowerCase().replace('-', '-') === f);
+
+                // Area filter - check if filtering is active (not at default values)
+                const areaFilterActive = meta.areaMin > 0 || meta.areaMax < 5000;
+                let areaOk = true;
+                if (areaFilterActive) {
+                    const area = toNum(p.area);
+                    areaOk = area >= meta.areaMin && area <= meta.areaMax;
+                }
+
+                return listingOk && typeOk && categoryOk && bhkOk && budgetOk && saleOk && listedByOk && ageOk && facingOk && furnishingOk && areaOk;
+            });
+        }
+
+        async function fetchProperties() {
+            try {
+                const resp = await fetch(`${apiBase}/api/properties`);
+                if (!resp.ok) throw new Error('fetch failed');
+                const data = await resp.json();
+                return Array.isArray(data) ? data : [];
+            } catch (err) {
+                console.error('Failed to load properties from API', err);
+                return [];
+            }
+        }
+
+        (async () => {
+            const queryParams = parseQuery();
+            const meta = {
+                ...queryParams,
+                searchQuery: queryParams.searchQuery || '', // Capture from URL
+                propertyTypes: queryParams.propertyType ? [queryParams.propertyType] : [],
+                bhkValues: [],
+                budgetMin: 0,
+                budgetMax: MAX_BUDGET,
+                saleTypes: [],
+                listedBy: [],
+                propertyAge: [],
+                facing: [],
+                furnishing: [],
+                areaMin: 0,
+                areaMax: 5000
+            };
+            const hero = {
+                tag: meta.listing === 'rent' ? 'For Rent' : 'For Sale',
+                title: meta.label || 'Curated listings',
+                desc: meta.listing === 'rent' ? 'Browse rentals with verified landlords and quick paperwork.' : 'Explore homes and spaces to own with transparent details.',
+                badges: [meta.listing === 'rent' ? 'Flexible stays' : 'Zero brokerage', meta.propertyType ? meta.propertyType : 'Verified'],
+                stats: ['24/7 support', 'Instant visits', 'Trusted owners']
+            };
+            setHero(hero);
+
+            const breadcrumbLabel = document.getElementById('breadcrumbLabel');
+            breadcrumbLabel.textContent = hero.title;
+
+            const infoLine = document.getElementById('infoLine');
+            const resultsEl = document.getElementById('results');
+            const emptyEl = document.getElementById('emptyState');
+            const sortSelect = document.getElementById('sortSelect');
+            const propertyTypeToggle = document.getElementById('propertyTypeToggle');
+            const propertyTypeDropdown = document.getElementById('propertyTypeDropdown');
+            const bhkToggle = document.getElementById('bhkToggle');
+            const bhkDropdown = document.getElementById('bhkDropdown');
+            const budgetToggle = document.getElementById('budgetToggle');
+            const budgetSlider = document.getElementById('budgetSlider');
+            const budgetValue = document.getElementById('budgetValue');
+            const saleToggle = document.getElementById('saleToggle');
+            const saleDropdown = document.getElementById('saleDropdown');
+            const paginationEl = document.getElementById('pagination');
+            const metaSummary = document.getElementById('metaSummary');
+            const searchInput = document.getElementById('searchInput');
+            const searchBtn = document.getElementById('searchBtn');
+
+            // Pre-fill search input if present in URL
+            if(meta.searchQuery) {
+                searchInput.value = meta.searchQuery;
+            }
+
+
+            function formatBudgetValue(value) {
+                const num = Number(value) || 0;
+                if (num >= MAX_BUDGET) return '₹5 Cr+';
+                if (num >= 1e7) return `₹${(num / 1e7).toFixed(1)} Cr`;
+                if (num >= 1e5) return `₹${(num / 1e5).toFixed(0)} L`;
+                if (num === 0) return '₹0';
+                return `₹${(num / 1e5).toFixed(0)} L`;
+            }
+
+            function updateBudgetDisplay(minValue, maxValue) {
+                if (!budgetValue) return;
+                const minLabel = formatBudgetValue(minValue);
+                const maxLabel = formatBudgetValue(maxValue);
+                const rangeText = `${minLabel} - ${maxLabel}`;
+                budgetValue.textContent = rangeText;
+                if (budgetToggle) {
+                    if (minValue === 0 && maxValue >= MAX_BUDGET) {
+                        budgetToggle.textContent = 'Any Budget';
+                    } else {
+                        budgetToggle.textContent = rangeText;
+                    }
+                }
+            }
+
+            const PAGE_SIZE = 10;
+            let currentPage = 1;
+
+            allProperties = await fetchProperties(); // Store globally
+            const all = allProperties;
+            const uniqueTypes = Array.from(new Set(all.map(p => p.property_type).filter(Boolean)));
+            const bhkOptions = ['1', '2', '3', '4plus'];
+            const saleOptions = ['new', 'resale'];
+
+            // Populate Property Type Dropdown
+            propertyTypeDropdown.innerHTML = uniqueTypes.map(t => {
+                const val = String(t).toLowerCase();
+                const isChecked = meta.propertyTypes.includes(val);
+                return `<label class="filter-checkbox-item">
+            <input type="checkbox" value="${val}" class="property-type-checkbox" ${isChecked ? 'checked' : ''}>
+            <span>${t}</span>
+        </label>`;
+            }).join('');
+
+            // Populate BHK Dropdown
+            bhkDropdown.innerHTML = bhkOptions.map(b => {
+                const label = b === '4plus' ? '4 BHK +' : `${b} BHK`;
+                return `<label class="filter-checkbox-item">
+            <input type="checkbox" value="${b}" class="bhk-checkbox">
+            <span>${label}</span>
+        </label>`;
+            }).join('');
+
+            // Populate Sale Type Dropdown
+            saleDropdown.innerHTML = saleOptions.map(s => {
+                const label = s.charAt(0).toUpperCase() + s.slice(1);
+                return `<label class="filter-checkbox-item">
+            <input type="checkbox" value="${s}" class="sale-checkbox">
+            <span>${label}</span>
+        </label>`;
+            }).join('');
+
+            let filtered = filterData(all, meta);
+
+            function paginate(list) {
+                const start = (currentPage - 1) * PAGE_SIZE;
+                return list.slice(start, start + PAGE_SIZE);
+            }
+
+            function renderPagination(total) {
+                const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+                paginationEl.innerHTML = '';
+                if (pages <= 1) return;
+
+                // Previous Button
+                const prevBtn = document.createElement('button');
+                prevBtn.className = 'page-btn';
+                prevBtn.innerHTML = '<i class="bi bi-chevron-left"></i>';
+                prevBtn.disabled = currentPage === 1;
+                prevBtn.onclick = () => {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        render(filtered);
+                    }
+                };
+                paginationEl.appendChild(prevBtn);
+
+                // Numbered Buttons
+                for (let i = 1; i <= pages; i++) {
+                    const btn = document.createElement('button');
+                    btn.className = 'page-btn' + (i === currentPage ? ' active' : '');
+                    btn.textContent = i;
+                    btn.addEventListener('click', () => {
+                        currentPage = i;
+                        render(filtered);
+                    });
+                    paginationEl.appendChild(btn);
+                }
+
+                // Next Button
+                const nextBtn = document.createElement('button');
+                nextBtn.className = 'page-btn';
+                nextBtn.innerHTML = '<i class="bi bi-chevron-right"></i>';
+                nextBtn.disabled = currentPage === pages;
+                nextBtn.onclick = () => {
+                    if (currentPage < pages) {
+                        currentPage++;
+                        render(filtered);
+                    }
+                };
+                paginationEl.appendChild(nextBtn);
+            }
+
+            function render(list) {
+                const pageItems = paginate(list);
+                resultsEl.innerHTML = pageItems.map(cardTemplate).join('');
+                const has = list.length > 0;
+                emptyEl.classList.toggle('d-none', has);
+                const start = has ? (currentPage - 1) * PAGE_SIZE + 1 : 0;
+                const end = has ? Math.min(list.length, start + pageItems.length - 1) : 0;
+                infoLine.textContent = has ? `Showing ${start}-${end} of ${list.length} properties` : 'No properties found';
+                metaSummary.textContent = has ? `Showing ${start}-${end} of ${list.length} listings • Updated just now` : 'No listings available';
+                renderPagination(list.length);
+            }
+
+            // ==================== SEARCH FUNCTIONALITY ====================
+            function performSearch() {
+                meta.searchQuery = searchInput.value.trim();
+                filtered = filterData(all, meta);
+                filtered = sortItems(filtered, sortSelect.value);
+                currentPage = 1;
+                render(filtered);
+            }
+
+            // Click on Search Button
+            searchBtn.addEventListener('click', performSearch);
+
+            // Press Enter in Search Input
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+
+
+            // Helper function to position dropdowns
+            function positionDropdown(toggle, dropdown) {
+                const rect = toggle.getBoundingClientRect();
+                const top = rect.bottom + 6;
+                dropdown.style.left = `${rect.left}px`;
+                dropdown.style.top = `${top}px`;
+                dropdown.style.minWidth = `${Math.max(200, rect.width)}px`;
+            }
+
+            // Update button labels
+            function updateButtonLabels() {
+                const typeCount = meta.propertyTypes.length;
+                if (typeCount === 0) {
+                    propertyTypeToggle.innerHTML = 'Property Types';
+                } else {
+                    const typeLabels = meta.propertyTypes.map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ');
+                    /* CHANGED: Icon color to Blue */
+                    propertyTypeToggle.innerHTML = `<i class="bi bi-check-circle-fill" style="color: #0d6efd; margin-right: 4px;"></i>${typeLabels}`;
+                }
+
+                const bhkCount = meta.bhkValues.length;
+                if (bhkCount === 0) {
+                    bhkToggle.innerHTML = 'BHK Type';
+                } else {
+                    const bhkLabels = meta.bhkValues.map(v => v === '4plus' ? '4+' : v).join(', ');
+                    /* CHANGED: Icon color to Blue */
+                    bhkToggle.innerHTML = `<i class="bi bi-check-circle-fill" style="color: #0d6efd; margin-right: 4px;"></i>${bhkLabels} BHK`;
+                }
+
+                const saleCount = meta.saleTypes.length;
+                if (saleCount === 0) {
+                    saleToggle.innerHTML = 'Sale Type';
+                } else {
+                    const saleLabels = meta.saleTypes.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ');
+                    /* CHANGED: Icon color to Blue */
+                    saleToggle.innerHTML = `<i class="bi bi-check-circle-fill" style="color: #0d6efd; margin-right: 4px;"></i>${saleLabels}`;
+                }
+            }
+
+            // Initialize button labels on load
+            updateButtonLabels();
+
+            render(filtered);
+
+            // Auto-open property if ID is in URL (from profile page or direct link)
+            const urlParams = new URLSearchParams(window.location.search);
+            const propertyIdToOpen = urlParams.get('id');
+            if (propertyIdToOpen) {
+                // Give a small delay to ensure properties are rendered
+                setTimeout(() => {
+                    const propertyId = parseInt(propertyIdToOpen);
+                    if (!isNaN(propertyId) && allProperties.some(p => p.id === propertyId)) {
+                        openPropertyDetail(propertyId);
+                    }
+                }, 500);
+            }
+
+            // ==================== MORE FILTERS MODAL ====================
+            const moreFiltersBtn = document.getElementById('moreFiltersBtn');
+            const moreFiltersModal = document.getElementById('moreFiltersModal');
+            const moreFiltersOverlay = document.getElementById('moreFiltersOverlay');
+            const closeMoreFilters = document.getElementById('closeMoreFilters');
+            const resetFiltersBtn = document.getElementById('resetFiltersBtn');
+
+            // Open More Filters Modal
+            if (moreFiltersBtn) {
+                moreFiltersBtn.addEventListener('click', () => {
+                    moreFiltersModal.classList.add('show');
+                    moreFiltersOverlay.classList.add('show');
+                    document.body.style.overflow = 'hidden';
+                });
+            }
+
+            // Close More Filters Modal
+            const closeModal = () => {
+                moreFiltersModal.classList.remove('show');
+                moreFiltersOverlay.classList.remove('show');
+                document.body.style.overflow = 'auto';
+            };
+
+            if (closeMoreFilters) {
+                closeMoreFilters.addEventListener('click', closeModal);
+            }
+
+            if (moreFiltersOverlay) {
+                moreFiltersOverlay.addEventListener('click', closeModal);
+            }
+
+            // Temporary state for More Filters (not applied until Apply button clicked)
+            const tempMoreFilters = {
+                listedBy: [],
+                propertyAge: [],
+                facing: [],
+                furnishing: [],
+                areaMin: 0,
+                areaMax: 5000
+            };
+
+            // Handle pill filter options (multi-select) - only update UI state, don't filter yet
+            document.querySelectorAll('.filter-pill-option').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    this.classList.toggle('active');
+                    // Update temporary state only
+                    const filterType = this.dataset.filter;
+                    const filterValue = this.dataset.value;
+
+                    if (!tempMoreFilters[filterType]) {
+                        tempMoreFilters[filterType] = [];
+                    }
+
+                    if (this.classList.contains('active')) {
+                        if (!tempMoreFilters[filterType].includes(filterValue)) {
+                            tempMoreFilters[filterType].push(filterValue);
+                        }
+                    } else {
+                        tempMoreFilters[filterType] = tempMoreFilters[filterType].filter(v => v !== filterValue);
+                    }
+                });
+            });
+
+            // Apply More Filters Button
+            const applyMoreFilters = document.getElementById('applyMoreFilters');
+            if (applyMoreFilters) {
+                applyMoreFilters.addEventListener('click', () => {
+                    // Update area range from sliders
+                    if (areaRangeMin && areaRangeMax) {
+                        tempMoreFilters.areaMin = Number(areaRangeMin.value);
+                        tempMoreFilters.areaMax = Number(areaRangeMax.value);
+                    }
+
+                    // Apply temporary filter state to meta object
+                    meta.listedBy = [...tempMoreFilters.listedBy];
+                    meta.propertyAge = [...tempMoreFilters.propertyAge];
+                    meta.facing = [...tempMoreFilters.facing];
+                    meta.furnishing = [...tempMoreFilters.furnishing];
+                    meta.areaMin = tempMoreFilters.areaMin;
+                    meta.areaMax = tempMoreFilters.areaMax;
+
+                    // Re-filter properties
+                    filtered = filterData(all, meta);
+                    filtered = sortItems(filtered, sortSelect.value);
+                    currentPage = 1;
+                    render(filtered);
+
+                    // Close modal
+                    closeModal();
+                });
+            }
+
+            // Area Range Slider
+            const areaRangeMin = document.getElementById('areaRangeMin');
+            const areaRangeMax = document.getElementById('areaRangeMax');
+            const areaRangeDisplay = document.getElementById('areaRangeDisplay');
+
+            if (areaRangeMin && areaRangeMax) {
+                const updateAreaDisplay = () => {
+                    const minVal = Number(areaRangeMin.value);
+                    const maxVal = Number(areaRangeMax.value);
+                    const maxLabel = maxVal >= 5000 ? '5000+' : maxVal;
+                    areaRangeDisplay.textContent = `${minVal} - ${maxLabel}`;
+                };
+
+                areaRangeMin.addEventListener('input', () => {
+                    if (Number(areaRangeMin.value) > Number(areaRangeMax.value)) {
+                        areaRangeMin.value = areaRangeMax.value;
+                    }
+                    tempMoreFilters.areaMin = Number(areaRangeMin.value);
+                    updateAreaDisplay();
+                });
+
+                areaRangeMax.addEventListener('input', () => {
+                    if (Number(areaRangeMax.value) < Number(areaRangeMin.value)) {
+                        areaRangeMax.value = areaRangeMin.value;
+                    }
+                    tempMoreFilters.areaMax = Number(areaRangeMax.value);
+                    updateAreaDisplay();
+                });
+            }
+
+            // ==================== RESET FILTERS ====================
+            if (resetFiltersBtn) {
+                resetFiltersBtn.addEventListener('click', () => {
+                    // Reset all meta filters except property types
+                    // meta.propertyTypes = []; // Keep property type filter
+                    meta.bhkValues = [];
+                    meta.budgetMin = 0;
+                    meta.budgetMax = MAX_BUDGET;
+                    meta.saleTypes = [];
+                    meta.searchQuery = ''; // Reset search query
+                    searchInput.value = '';
+
+                    // Reset budget sliders
+                    if (budgetRangeMin && budgetRangeMax) {
+                        budgetRangeMin.value = '0';
+                        budgetRangeMax.value = String(MAX_BUDGET);
+                        updateBudgetDisplay(0, MAX_BUDGET);
+                    }
+
+                    // Reset checkboxes except property type
+                    document.querySelectorAll('.bhk-checkbox, .sale-checkbox').forEach(cb => {
+                        cb.checked = false;
+                    });
+
+                    // Reset construction select
+                    const constructionSelect = document.getElementById('constructionSelect');
+                    if (constructionSelect) {
+                        constructionSelect.value = '';
+                    }
+
+                    // Reset More Filters options
+                    document.querySelectorAll('.filter-pill-option').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+
+                    // Reset More Filters in meta and temp state
+                    meta.listedBy = [];
+                    meta.propertyAge = [];
+                    meta.facing = [];
+                    meta.furnishing = [];
+                    meta.areaMin = 0;
+                    meta.areaMax = 5000;
+                    tempMoreFilters.listedBy = [];
+                    tempMoreFilters.propertyAge = [];
+                    tempMoreFilters.facing = [];
+                    tempMoreFilters.furnishing = [];
+                    tempMoreFilters.areaMin = 0;
+                    tempMoreFilters.areaMax = 5000;
+
+                    // Reset area range
+                    if (areaRangeMin && areaRangeMax) {
+                        areaRangeMin.value = '0';
+                        areaRangeMax.value = '5000';
+                        if (areaRangeDisplay) {
+                            areaRangeDisplay.textContent = '0 - 5000+';
+                        }
+                    }
+
+                    // Update button labels
+                    updateButtonLabels();
+
+                    // Re-filter and render
+                    filtered = filterData(all, meta);
+                    filtered = sortItems(filtered, sortSelect.value);
+                    currentPage = 1;
+                    render(filtered);
+                });
+            }
+
+            render(filtered);
+
+            // ==================== CHECKBOX-BASED MULTI-SELECT FILTERS ====================
+            // Property Type Filter (Flat, Villa, Plot, Office, etc.)
+            if (propertyTypeToggle && propertyTypeDropdown) {
+                propertyTypeToggle.addEventListener('click', () => {
+                    const willShow = propertyTypeDropdown.classList.contains('d-none');
+                    propertyTypeDropdown.classList.toggle('d-none', !willShow);
+                    if (willShow) {
+                        positionDropdown(propertyTypeToggle, propertyTypeDropdown);
+                    }
+                });
+
+                propertyTypeDropdown.addEventListener('change', (e) => {
+                    if (e.target.classList.contains('property-type-checkbox')) {
+                        const val = e.target.value;
+                        if (e.target.checked) {
+                            if (!meta.propertyTypes.includes(val)) {
+                                meta.propertyTypes.push(val);
+                            }
+                        } else {
+                            meta.propertyTypes = meta.propertyTypes.filter(t => t !== val);
+                        }
+                        updateButtonLabels();
+                        filtered = filterData(all, meta);
+                        filtered = sortItems(filtered, sortSelect.value);
+                        currentPage = 1;
+                        render(filtered);
+                    }
+                });
+            }
+
+            // BHK Filter
+            if (bhkToggle && bhkDropdown) {
+                bhkToggle.addEventListener('click', () => {
+                    const willShow = bhkDropdown.classList.contains('d-none');
+                    bhkDropdown.classList.toggle('d-none', !willShow);
+                    if (willShow) {
+                        positionDropdown(bhkToggle, bhkDropdown);
+                    }
+                });
+
+                bhkDropdown.addEventListener('change', (e) => {
+                    if (e.target.classList.contains('bhk-checkbox')) {
+                        const val = e.target.value;
+                        if (e.target.checked) {
+                            if (!meta.bhkValues.includes(val)) {
+                                meta.bhkValues.push(val);
+                            }
+                        } else {
+                            meta.bhkValues = meta.bhkValues.filter(b => b !== val);
+                        }
+                        updateButtonLabels();
+                        filtered = filterData(all, meta);
+                        filtered = sortItems(filtered, sortSelect.value);
+                        currentPage = 1;
+                        render(filtered);
+                    }
+                });
+            }
+
+            // Sale Type Filter
+            if (saleToggle && saleDropdown) {
+                saleToggle.addEventListener('click', () => {
+                    const willShow = saleDropdown.classList.contains('d-none');
+                    saleDropdown.classList.toggle('d-none', !willShow);
+                    if (willShow) {
+                        positionDropdown(saleToggle, saleDropdown);
+                    }
+                });
+
+                saleDropdown.addEventListener('change', (e) => {
+                    if (e.target.classList.contains('sale-checkbox')) {
+                        const val = e.target.value;
+                        if (e.target.checked) {
+                            if (!meta.saleTypes.includes(val)) {
+                                meta.saleTypes.push(val);
+                            }
+                        } else {
+                            meta.saleTypes = meta.saleTypes.filter(s => s !== val);
+                        }
+                        updateButtonLabels();
+                        filtered = filterData(all, meta);
+                        filtered = sortItems(filtered, sortSelect.value);
+                        currentPage = 1;
+                        render(filtered);
+                    }
+                });
+            }
+
+            // Close dropdowns on outside click
+            document.addEventListener('click', (e) => {
+                if (propertyTypeToggle && !propertyTypeToggle.contains(e.target) && !propertyTypeDropdown.contains(e.target)) {
+                    propertyTypeDropdown.classList.add('d-none');
+                }
+                if (bhkToggle && !bhkToggle.contains(e.target) && !bhkDropdown.contains(e.target)) {
+                    bhkDropdown.classList.add('d-none');
+                }
+                if (saleToggle && !saleToggle.contains(e.target) && !saleDropdown.contains(e.target)) {
+                    saleDropdown.classList.add('d-none');
+                }
+            });
+
+            // Reposition on scroll/resize
+            window.addEventListener('resize', () => {
+                if (!propertyTypeDropdown.classList.contains('d-none')) {
+                    positionDropdown(propertyTypeToggle, propertyTypeDropdown);
+                }
+                if (!bhkDropdown.classList.contains('d-none')) {
+                    positionDropdown(bhkToggle, bhkDropdown);
+                }
+                if (!saleDropdown.classList.contains('d-none')) {
+                    positionDropdown(saleToggle, saleDropdown);
+                }
+            });
+
+            // Construction Status Filter
+            const constructionSelect = document.getElementById('constructionSelect');
+            if (constructionSelect) {
+                constructionSelect.addEventListener('change', () => {
+                    filtered = filterData(all, meta);
+                    filtered = sortItems(filtered, sortSelect.value);
+                    currentPage = 1;
+                    render(filtered);
+                });
+            }
+
+            sortSelect.addEventListener('change', () => {
+                filtered = sortItems(filtered, sortSelect.value);
+                currentPage = 1;
+                render(filtered);
+            });
+
+            // ==================== DUAL-RANGE BUDGET SLIDER ====================
+            const budgetRangeMin = document.getElementById('budgetRangeMin');
+            const budgetRangeMax = document.getElementById('budgetRangeMax');
+
+            if (budgetRangeMin && budgetRangeMax) {
+                // Initialize slider values from meta object
+                budgetRangeMin.value = String(meta.budgetMin);
+                budgetRangeMax.value = String(meta.budgetMax);
+                updateBudgetDisplay(meta.budgetMin, meta.budgetMax);
+
+                // Minimum budget slider handler with cross-validation to prevent min > max
+                budgetRangeMin.addEventListener('input', () => {
+                    let minVal = Number(budgetRangeMin.value);
+                    let maxVal = Number(budgetRangeMax.value);
+
+                    if (minVal > maxVal) {
+                        budgetRangeMin.value = String(maxVal);
+                        minVal = maxVal;
+                    }
+
+                    meta.budgetMin = minVal;
+                    updateBudgetDisplay(meta.budgetMin, meta.budgetMax);
+                    filtered = filterData(all, meta);
+                    filtered = sortItems(filtered, sortSelect.value);
+                    currentPage = 1;
+                    render(filtered);
+                });
+
+                budgetRangeMax.addEventListener('input', () => {
+                    let minVal = Number(budgetRangeMin.value);
+                    let maxVal = Number(budgetRangeMax.value);
+
+                    if (maxVal < minVal) {
+                        budgetRangeMax.value = String(minVal);
+                        maxVal = minVal;
+                    }
+
+                    meta.budgetMax = maxVal;
+                    updateBudgetDisplay(meta.budgetMin, meta.budgetMax);
+                    filtered = filterData(all, meta);
+                    filtered = sortItems(filtered, sortSelect.value);
+                    currentPage = 1;
+                    render(filtered);
+                });
+            }
+
+            if (budgetToggle && budgetSlider) {
+                const positionBudgetSlider = () => {
+                    const rect = budgetToggle.getBoundingClientRect();
+                    const top = rect.bottom + 6;
+                    budgetSlider.style.left = `${rect.left}px`;
+                    budgetSlider.style.top = `${top}px`;
+                    budgetSlider.style.width = `${Math.max(240, rect.width)}px`;
+                };
+
+                const closeBudgetSlider = (event) => {
+                    if (!budgetSlider.classList.contains('d-none')) {
+                        if (!budgetSlider.contains(event.target) && !budgetToggle.contains(event.target)) {
+                            budgetSlider.classList.add('d-none');
+                        }
+                    }
+                };
+
+                budgetToggle.addEventListener('click', () => {
+                    const willShow = budgetSlider.classList.contains('d-none');
+                    budgetSlider.classList.toggle('d-none', !willShow);
+                    if (willShow) {
+                        requestAnimationFrame(positionBudgetSlider);
+                    }
+                });
+
+                window.addEventListener('resize', () => {
+                    if (!budgetSlider.classList.contains('d-none')) {
+                        positionBudgetSlider();
+                    }
+                });
+                window.addEventListener('scroll', () => {
+                    if (!budgetSlider.classList.contains('d-none')) {
+                        positionBudgetSlider();
+                    }
+                }, true);
+                document.addEventListener('click', closeBudgetSlider);
+            }
+        })();
+
+        // ========== SAVE PROPERTY FUNCTIONALITY ==========
+        function toggleSaveProperty(propertyId, buttonElement) {
+            const savedProperties = JSON.parse(localStorage.getItem('savedProperties') || '[]');
+            
+            // Find property in global allProperties array
+            const property = allProperties.find(p => p.id == propertyId);
+            
+            if (!property) {
+                console.error('Property not found:', propertyId);
+                return;
+            }
+
+            const existingIndex = savedProperties.findIndex(p => p.id == propertyId);
+            const heartIcon = buttonElement.querySelector('i');
+            const isRemoving = existingIndex >= 0;
+
+            if (isRemoving) {
+                // Remove from saved
+                savedProperties.splice(existingIndex, 1);
+                heartIcon.className = 'bi bi-heart';
+                buttonElement.title = 'Save property';
+                console.log('Property removed from saved');
+            } else {
+                // Add to saved
+                const propertyToSave = {
+                    id: propertyId,
+                    title: property.name || 'Property',
+                    location: property.location || '',
+                    price: property.price || 0,
+                    type: property.property_type || 'Property',
+                    area: property.area || 'N/A',
+                    bhk: property.bhk || '',
+                    furnish: property.furnish || property.furnishing || '',
+                    furnishing: property.furnishing || property.furnish || '',
+                    description: property.description || '',
+                    image: property.image || '',
+                    activityDate: new Date().toISOString()
+                };
+                savedProperties.unshift(propertyToSave);
+                heartIcon.className = 'bi bi-heart-fill text-danger';
+                buttonElement.title = 'Remove from saved';
+                console.log('Property added to saved');
+            }
+
+            localStorage.setItem('savedProperties', JSON.stringify(savedProperties));
+            console.log('Total saved properties:', savedProperties.length);
+            
+            // Trigger custom event for same-window updates
+            window.dispatchEvent(new CustomEvent('activityCountsUpdated'));
+
+            // Sync with backend if user is logged in
+            const user = getLoggedInUser();
+            if (user && user.user_id) {
+                if (isRemoving) {
+                    // Remove from backend
+                    fetch(`${apiBase}/api/users/${user.user_id}/saved-properties/${propertyId}`, {
+                        method: 'DELETE'
+                    }).catch(err => console.error('Error removing from backend:', err));
+                } else {
+                    // Add to backend
+                    fetch(`${apiBase}/api/users/${user.user_id}/saved-properties`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ property_id: propertyId })
+                    }).catch(err => console.error('Error saving to backend:', err));
+                }
+            }
+        }
+
+        // ========== CONTACTED PROPERTY FUNCTIONALITY ==========
+        function addToContacted(propertyId) {
+            const contactedProperties = JSON.parse(localStorage.getItem('contactedProperties') || '[]');
+            
+            // Find property in global allProperties array
+            const property = allProperties.find(p => p.id == propertyId);
+            
+            if (!property) {
+                console.error('Property not found:', propertyId);
+                return;
+            }
+
+            // Check if already contacted
+            const existingIndex = contactedProperties.findIndex(p => p.id == propertyId);
+            
+            if (existingIndex >= 0) {
+                // Update the contacted date
+                contactedProperties[existingIndex].activityDate = new Date().toISOString();
+                console.log('Property contact updated');
+            } else {
+                // Add to contacted
+                const propertyToAdd = {
+                    id: propertyId,
+                    title: property.name || 'Property',
+                    location: property.location || '',
+                    price: property.price || 0,
+                    type: property.property_type || 'Property',
+                    area: property.area || 'N/A',
+                    bhk: property.bhk || '',
+                    furnish: property.furnish || property.furnishing || '',
+                    furnishing: property.furnishing || property.furnish || '',
+                    description: property.description || '',
+                    image: property.image || '',
+                    activityDate: new Date().toISOString()
+                };
+                contactedProperties.unshift(propertyToAdd);
+                console.log('Property added to contacted');
+            }
+
+            localStorage.setItem('contactedProperties', JSON.stringify(contactedProperties));
+            console.log('Total contacted properties:', contactedProperties.length);
+            
+            // Trigger custom event for same-window updates
+            window.dispatchEvent(new CustomEvent('activityCountsUpdated'));
+
+            // Sync with backend if user is logged in
+            const user = getLoggedInUser();
+            if (user && user.user_id) {
+                fetch(`${apiBase}/api/users/${user.user_id}/contacted-properties`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ property_id: propertyId })
+                }).catch(err => console.error('Error saving contacted to backend:', err));
+            }
+            
+            // Show a brief toast notification
+            showToast('Opening WhatsApp... Property added to contacted list!');
+        }
+
+        // Simple toast notification function
+        function showToast(message) {
+            // Create toast element if it doesn't exist
+            let toast = document.getElementById('customToast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'customToast';
+                toast.style.cssText = `
+                    position: fixed;
+                    bottom: 20px;
+                    right: 20px;
+                    background: #28a745;
+                    color: white;
+                    padding: 12px 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                    z-index: 9999;
+                    font-size: 14px;
+                    opacity: 0;
+                    transition: opacity 0.3s ease;
+                `;
+                document.body.appendChild(toast);
+            }
+            
+            toast.textContent = message;
+            toast.style.opacity = '1';
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                toast.style.opacity = '0';
+            }, 3000);
+        }
+
+        // ========== RECENTLY VIEWED PROPERTY FUNCTIONALITY ==========
+        function addToRecentlyViewed(propertyId) {
+            const recentlyViewed = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
+            
+            // Find property in global allProperties array
+            const property = allProperties.find(p => p.id == propertyId);
+            
+            if (!property) {
+                console.error('Property not found:', propertyId);
+                return;
+            }
+
+            // Debug: Log property data
+            console.log('Property being saved:', property);
+            console.log('Property BHK:', property.bhk);
+            console.log('Property furnish:', property.furnish);
+            console.log('Property furnishing:', property.furnishing);
+
+            // Check if already in recently viewed
+            const existingIndex = recentlyViewed.findIndex(p => p.id == propertyId);
+            
+            if (existingIndex >= 0) {
+                // Remove from current position and add to beginning (most recent)
+                recentlyViewed.splice(existingIndex, 1);
+            }
+            
+            // Add to beginning of array (most recent first)
+            const propertyToAdd = {
+                id: propertyId,
+                title: property.name || 'Property',
+                location: property.location || '',
+                price: property.price || 0,
+                type: property.property_type || 'Property',
+                area: property.area || 'N/A',
+                bhk: property.bhk || '',
+                furnish: property.furnish || property.furnishing || '',
+                furnishing: property.furnishing || property.furnish || '',
+                description: property.description || '',
+                image: property.image || '',
+                activityDate: new Date().toISOString()
+            };
+            
+            console.log('Property data being saved to localStorage:', propertyToAdd);
+            
+            recentlyViewed.unshift(propertyToAdd);
+            
+            // Keep only last 50 viewed properties
+            if (recentlyViewed.length > 50) {
+                recentlyViewed.pop();
+            }
+
+            localStorage.setItem('recentlyViewed', JSON.stringify(recentlyViewed));
+            console.log('Property added to recently viewed');
+            console.log('Total recently viewed properties:', recentlyViewed.length);
+            
+            // Trigger custom event for same-window updates
+            window.dispatchEvent(new CustomEvent('activityCountsUpdated'));
+
+            // Sync with backend if user is logged in
+            const user = getLoggedInUser();
+            if (user && user.user_id) {
+                fetch(`${apiBase}/api/users/${user.user_id}/recently-viewed`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ property_id: propertyId })
+                }).catch(err => console.error('Error saving view to backend:', err));
+            }
+        }
+    </script>
+</body>
+
+</html>
