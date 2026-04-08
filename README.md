@@ -159,21 +159,6 @@ SECRET_KEY=your_secret_key
 - `GET /api/admin/dashboard` - Admin dashboard data
 - `DELETE /api/properties/:id` - Delete property
 
-## Deployment
-
-### Deploy to PythonAnywhere
-
-Refer to [DEPLOYMENT.md](DEPLOYMENT.md) for detailed PythonAnywhere deployment instructions.
-
-Quick summary:
-1. Create PythonAnywhere account at [pythonanywhere.com](https://www.pythonanywhere.com)
-2. Upload code via Git or file upload
-3. Set up MySQL database
-4. Configure `.env` file
-5. Set up WSGI configuration
-6. Update API URLs in frontend
-7. Reload web app
-
 ## Usage
 
 ### For Users
@@ -239,7 +224,6 @@ This project is private. All rights reserved.
 For questions or support, please reach out to the development team:
 - Meet Gojariya: meetgojariya214@gmail.com
 - Krish Tarpara: tarparakrish0903@gmail.com
-- Meet Senjaliya: meetsenjaliya@gmail.com
 
 ## Project Status
 
