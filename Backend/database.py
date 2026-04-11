@@ -199,12 +199,8 @@ def hash_admin_passwords():
         
         connection.close()
         print("\n✅ All done! Admin passwords are now securely hashed.")
-        print("\n📌 Admin Credentials (use these to login):")
-        print("-" * 50)
-        for admin in ADMINS_DATA:
-            print(f"Email: {admin['email']}")
-            print(f"Password: {admin['password']}")
-            print()
+        print("\n📌 Admin credentials were synced from environment variables.")
+        print("   Keep the admin passwords only in your local .env file.")
         
     except Error as err:
         print(f"❌ Database Error: {err}")

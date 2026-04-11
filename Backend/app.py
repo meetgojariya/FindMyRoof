@@ -1582,8 +1582,5 @@ if __name__ == '__main__':
         init_database()
         port = int(os.environ.get('PORT', 5000))
         print("🚀 Flask Server is running on http://localhost:" + str(port))
-        print("📊 Admin credentials:")
-        for admin in ADMINS_DATA:
-            print(f"   Email: {admin['email']} | Password: {admin['password']}")
         print("\n💡 Tip: Run 'python app.py help' to see utility commands")
         app.run(debug=True, host='0.0.0.0', port=port)
