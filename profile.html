@@ -946,7 +946,7 @@
     </div>
 
     <script>
-        const API_BASE = "http://localhost:5000";
+        const API_BASE = window.API_BASE || 'http://localhost:5000';
 
         // Check if user is logged in
         function checkAuth() {

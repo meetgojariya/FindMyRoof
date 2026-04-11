@@ -33,8 +33,6 @@ def send_email(to_email: str, subject: str, body: str):
 
         print(f"Attempting to send email to: {to_email}")
         print(f"Subject: {subject}")
-        print(f"Using email: {EMAIL_ADDRESS}")
-        print(f"Password length: {len(EMAIL_PASSWORD)} characters")
         print(f"SMTP Server: {SMTP_SERVER}:{SMTP_PORT}")
         
         with smtplib.SMTP(SMTP_SERVER, int(SMTP_PORT), timeout=30) as server:
@@ -48,8 +46,6 @@ def send_email(to_email: str, subject: str, body: str):
         
     except smtplib.SMTPAuthenticationError as e:
         print(f"✗ SMTP Authentication Error: {e}")
-        print(f"Email used: {EMAIL_ADDRESS}")
-        print(f"Password: {'*' * len(EMAIL_PASSWORD)} ({len(EMAIL_PASSWORD)} chars)")
         print("Check if Gmail App Password is correct and 2FA is enabled")
         raise
     except smtplib.SMTPException as e:

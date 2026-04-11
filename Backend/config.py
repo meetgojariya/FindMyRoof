@@ -18,7 +18,8 @@ DB_CONFIG = {
 }
 
 # ==================== EMAIL CONFIGURATION ====================
-EMAIL_ADDRESS = os.getenv('EMAIL_ADDRESS', 'findmyroof1@gmail.com')
+# Never hardcode real email credentials in source; load from environment.
+EMAIL_ADDRESS = os.getenv('EMAIL_ADDRESS', '')
 EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD', '')
 SMTP_SERVER = os.getenv('SMTP_SERVER', 'smtp.gmail.com')
 SMTP_PORT = int(os.getenv('SMTP_PORT', '587'))

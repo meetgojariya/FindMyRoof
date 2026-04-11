@@ -48,21 +48,31 @@ def fetch_properties_from_db():
             COALESCE(pl.area, pl.city, '') AS location,
             COALESCE(pl.pincode, '') AS pincode,
             COALESCE(o.role, '') AS listed_by,
-            GROUP_CONCAT(DISTINCT a.amenity_name SEPARATOR ', ') AS amenities
+            COALESCE(am.amenities, '') AS amenities
         FROM properties p
-        LEFT JOIN property_images pi
-            ON pi.property_id = p.property_id AND pi.is_primary = 1
-        LEFT JOIN property_location pl
-            ON pl.property_id = p.property_id
-        LEFT JOIN property_owner po
-            ON po.property_id = p.property_id
-        LEFT JOIN owners o
-            ON o.owner_id = po.owner_id
-        LEFT JOIN property_amenities pa
-            ON pa.property_id = p.property_id
-        LEFT JOIN amenities a
-            ON a.amenity_id = pa.amenity_id
-        GROUP BY p.property_id
+        LEFT JOIN (
+            SELECT property_id, MAX(image_url) AS image_url
+            FROM property_images
+            WHERE is_primary = 1
+            GROUP BY property_id
+        ) pi ON pi.property_id = p.property_id
+        LEFT JOIN (
+            SELECT property_id, MAX(area) AS area, MAX(city) AS city, MAX(pincode) AS pincode
+            FROM property_location
+            GROUP BY property_id
+        ) pl ON pl.property_id = p.property_id
+        LEFT JOIN (
+            SELECT po.property_id, MAX(o.role) AS role
+            FROM property_owner po
+            LEFT JOIN owners o ON o.owner_id = po.owner_id
+            GROUP BY po.property_id
+        ) o ON o.property_id = p.property_id
+        LEFT JOIN (
+            SELECT pa.property_id, GROUP_CONCAT(DISTINCT a.amenity_name ORDER BY a.amenity_name SEPARATOR ', ') AS amenities
+            FROM property_amenities pa
+            LEFT JOIN amenities a ON a.amenity_id = pa.amenity_id
+            GROUP BY pa.property_id
+        ) am ON am.property_id = p.property_id
         ORDER BY p.created_at DESC
         """
         cursor.execute(query)

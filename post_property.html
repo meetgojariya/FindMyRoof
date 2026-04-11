@@ -1882,7 +1882,8 @@
       if (btn) btn.innerText = 'Posting...';
 
       // Send POST request to Flask backend
-      fetch('http://localhost:5000/api/properties', {
+      const apiBase = window.API_BASE || 'http://localhost:5000';
+      fetch(`${apiBase}/api/properties`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

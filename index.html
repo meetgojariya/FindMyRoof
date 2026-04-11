@@ -13,7 +13,7 @@
     <link rel="icon" href="Photos/logo3.png">
 
     <script>
-        window.API_BASE = "http://localhost:5000";
+        window.API_BASE = window.API_BASE || 'http://localhost:5000';
     </script>
 
     <style>
@@ -1266,7 +1266,7 @@
 
         // Fetch and sync user's activity data from backend
         function fetchUserActivityFromBackend(userId) {
-            const apiBase = window.API_BASE || 'http://localhost:5000';
+            const apiBase = window.API_BASE;
             
             // Fetch saved properties
             fetch(`${apiBase}/api/users/${userId}/saved-properties`)
